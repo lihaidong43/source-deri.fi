@@ -1,5 +1,9 @@
-export default function BetIt(){
+import Header from "../components/Header/Header";
+
+export default function BetIt({lang}){
   return (
-    <div></div>
+    <div>
+      <Header lang={lang}></Header>
+    </div>
   )
 }
