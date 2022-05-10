@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import Icon from "../Icon/Icon"
 import { formatAddress } from "../../utils/utils"
-import './message.less'
+import './message.scss'
 
 const Wraper = styled.div`
   display : flex;
