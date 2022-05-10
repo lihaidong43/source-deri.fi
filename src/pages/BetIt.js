@@ -16,6 +16,10 @@ export default function BetIt({lang}){
             {lang['title-two']}
           </div>
         </div>
+        <div className='total-pnl'>
+          <span>{lang['total-pnl']}:</span>
+          <div className='pnl-num'>$100</div>
+        </div>
       </div>
     </div>
   )

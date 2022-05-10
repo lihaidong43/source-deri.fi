@@ -3,5 +3,6 @@
   "title-one": "BET ON YOUR FAVORITE COINS",
   "title-two":"Deri bet is the simplified interface to DERI protocol for users to get exposures to their favorite coins ",
   "bet" : "bet",
-  "it" : "it"
+  "it" : "it",
+  "total-pnl":"Your total unrealized PnL"
 }

@@ -1,28 +1,56 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .betit {
   height: 1200px;
-  .bg-img-color{
+
+  .bg-img-color {
     width: 100vw;
     height: 100vh;
     position: fixed;
     top: 0;
     z-index: -1;
-    background:url('../assets/img/bg-icon-left.png'), url('../assets/img/bg-icon-right-top.png'), url('../assets/img/bg-icon-right-buttom.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
+    background: url('../assets/img/three-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
     background-repeat: no-repeat;
-    background-position: left 26%,right top,right,bottom;
-    object-fit: cover;
+    background-size: 100% 100%;
   }
-  .main-body{
+
+  .main-body {
     width: 100%;
     padding: 0 110px;
-    .title-des{
+
+    .title-des {
       color: #FFFFFF;
       margin-top: 69px;
-      font-size: 22;
+      font-size: 22px;
       width: 639px;
       text-align: left;
-      .title-text{
+
+      .title-text {
         font-size: 30px;
         font-weight: 700;
+      }
+    }
+
+    .total-pnl {
+      width: 632px;
+      height: 104px;
+      margin-top: 46px;
+      background: rgba(255, 175, 13, 0.5);
+      border: 2px solid #FFFFFF;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 26px;
+      padding: 0 50px;
+      color: #FFFFFF;
+      font-weight: 600px;
+      .pnl-num{
+        font-size: 34px;
+        font-weight: 700px;
       }
     }
   }
