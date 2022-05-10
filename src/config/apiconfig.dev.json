@@ -1,0 +1,34 @@
+{
+  "symbols": [
+    {
+      "chainId": "97",
+      "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+      "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
+      "symbol": "BTCUSD",
+      "category": "futures",
+      "unit": "BTC",
+      "hasPowerSymbol": true,
+      "rank": 1
+    },
+    {
+      "chainId": "97",
+      "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+      "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
+      "symbol": "ETHUSD",
+      "category": "futures",
+      "unit": "ETH",
+      "hasPowerSymbol": true,
+      "rank": 2
+    },
+    {
+      "chainId": "97",
+      "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+      "symbolId": "0x1bc6d6279e196b1fa7b94a792d57a47433858940c1b3500f2a5e69640cd12ef4",
+      "symbol": "BNBUSD",
+      "category": "futures",
+      "unit": "BNB",
+      "hasPowerSymbol": false,
+      "rank": 3
+    }
+  ]
+}
