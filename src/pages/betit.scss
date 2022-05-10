@@ -1,3 +1,29 @@
 .betit {
-  background-color: antiquewhite;
+  height: 1200px;
+  .bg-img-color{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    background:url('../assets/img/bg-icon-left.png'), url('../assets/img/bg-icon-right-top.png'), url('../assets/img/bg-icon-right-buttom.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
+    background-repeat: no-repeat;
+    background-position: left 26%,right top,right,bottom;
+    object-fit: cover;
+  }
+  .main-body{
+    width: 100%;
+    padding: 0 110px;
+    .title-des{
+      color: #FFFFFF;
+      margin-top: 69px;
+      font-size: 22;
+      width: 639px;
+      text-align: left;
+      .title-text{
+        font-size: 30px;
+        font-weight: 700;
+      }
+    }
+  }
 }
