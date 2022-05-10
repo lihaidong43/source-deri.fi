@@ -1,6 +1,8 @@
 import Header from "../components/Header/Header";
 import './betit.scss'
+import useSymbols from '../hooks/useSymbols';
 export default function BetIt({lang}){
+  const symbols = useSymbols();
   return (
     <div className="betit">
       <div className='bg-img-color'>

@@ -55,7 +55,7 @@ export default function Header ({lang}) {
   })
   const handler = useCallback(() => {
     const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-    if (st > 0){
+    if (st > 82 ){
       setIsFixed(true)
       setBtnMainColor('#FF7913')
     } else {
