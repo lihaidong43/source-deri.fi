@@ -5,7 +5,7 @@ import BetIt from '../../pages/BetIt';
 import { useCallback, useEffect } from 'react';
 import classNames from "classnames";
 import { useState } from 'react';
-import { isElementInViewport } from '../../utils/utils';
+import NetworkSelector from "../NetworkSelector/NetworkSelector";
 
 const Wrapper = styled.div`
   &.header {
@@ -20,13 +20,16 @@ const Wrapper = styled.div`
 
     .f-name {
       font-weight: 800;
-      color : #FF7913;
+      color : #FFAB00; 
       margin-right : 4px;
     }
     .l-name {
       font-weight: 800;
       color : #FFF;
       margin-right :140px;
+    }
+    .right {
+      display : flex;
     }
   }
   &.header.fixed {
@@ -38,6 +41,9 @@ const Wrapper = styled.div`
     justify-content: space-between;
     background : #FFAB00;
     z-index : 10;
+    .f-name {
+      color : #FF7913;
+    }
   }
 `
 
@@ -70,7 +76,7 @@ export default function Header ({lang}) {
       <div className="left">
         <span className="f-name">{lang['bet'].toUpperCase()}</span><span className="l-name">{lang['it']}</span></div>
       <div className="right">
-        {/* <NetworkSelector/> */}
+        <NetworkSelector/>
         <WalletConnector lang={lang} bgColor={btnMainColor}/>
       </div>
     </Wrapper>

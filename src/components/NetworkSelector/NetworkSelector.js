@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import bscLogoIcon from '../../assets/img/bsc-logo.svg'
-import arrowDownIcon from '../../assets/img/arrow-down.svg'
 import Tooltip from '../Tooltip/Tooltip';
 import { getNetworkList, getDefaultNw } from '../../utils/utils';
-import { DeriEnv } from '../../lib/web3js';
+// import { DeriEnv } from '../../lib/web3js';
 import { inject, observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import { NETWORK_MAP } from '../../utils/Constants';
 import { useWallet } from 'use-wallet';
-import useConfig from '../../hooks/useConfig';
+// import useConfig from '../../hooks/useConfig';
 const Wrapper = styled.div`
   display : flex;
   align-items : center;
   color : #93A1B8;
   margin : 0 16px;
+  padding : 0 16px;
   cursor : pointer;
+  color : #fff;
+  font-size : 16px;
+  font-weight : 600;
+  min-width : 144px;
+  height : 48px;
+  border : 1px solid #fff;
+  border-radius: 15px;
   .name {
     margin-left : 4px
   }
@@ -48,9 +54,9 @@ const Wrapper = styled.div`
 `  
 function NetworkSelector({wallet,showWalletModal}){
   const [networkList, setNetworkList] = useState([])
-  const config = useConfig()
+  // const config = useConfig()
   const [nowIcon,setNowIcon] = useState('BNB')
-  const [curNetwork, setCurNetwork] = useState({});
+  const [curNetwork, setCurNetwork] = useState({name : 'BSC'});
   const [isShow, setIsShow] = useState(false)
   const walletContext = useWallet();
   const calculatePosition = (position,
@@ -68,30 +74,30 @@ function NetworkSelector({wallet,showWalletModal}){
     }
 
   const onSelect = async (network) => {
-    if(walletContext.isConnected()){
-      wallet.switchNetwork(network)
-    } else {
-      showWalletModal()
-      // wallet.switchNetwork(network);
-    }
+    // if(walletContext.isConnected()){
+    //   wallet.switchNetwork(network)
+    // } else {
+    //   showWalletModal()
+    //   // wallet.switchNetwork(network);
+    // }
   }
 
-  useEffect(() => {
-    const networkList = getNetworkList(DeriEnv.get())
-    const defaultNw = getDefaultNw(DeriEnv.get());
-    if(walletContext.isConnected()){
-      let icon = networkList.filter(p => (+p.id) === (+walletContext.chainId))
-      if(icon.length){
-        icon = icon[0].icon
-        setNowIcon(icon)
-      }
-      if(walletContext.chainId && config[walletContext.chainId]){
-        setCurNetwork(config[walletContext.chainId])
-      }
-    }
-    wallet.setDefaultNw(defaultNw)
-    setNetworkList(networkList)
-  }, [wallet,walletContext])
+  // useEffect(() => {
+  //   const networkList = getNetworkList(DeriEnv.get())
+  //   const defaultNw = getDefaultNw(DeriEnv.get());
+  //   if(walletContext.isConnected()){
+  //     let icon = networkList.filter(p => (+p.id) === (+walletContext.chainId))
+  //     if(icon.length){
+  //       icon = icon[0].icon
+  //       setNowIcon(icon)
+  //     }
+  //     if(walletContext.chainId && config[walletContext.chainId]){
+  //       setCurNetwork(config[walletContext.chainId])
+  //     }
+  //   }
+  //   wallet.setDefaultNw(defaultNw)
+  //   setNetworkList(networkList)
+  // }, [wallet,walletContext])
 
 
   return (
@@ -101,7 +107,7 @@ function NetworkSelector({wallet,showWalletModal}){
         <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
         <Icon token={isShow ? 'arrow-up' : 'arrow-down'}/>
       </div>
-      <Tooltip  id='network-select' width = {180} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
+      <Tooltip  id='network-select' width = {144} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
         {networkList.map((network,index) => (
           <div onClick = {()=> onSelect(network)} key={index} className={`item ${wallet.detail.code && network.code === wallet.detail.code ? 'selected' : ''}`} >
             <Icon token={network.icon} width='24' height='24'/><span>{network.name}</span>
@@ -111,4 +117,4 @@ function NetworkSelector({wallet,showWalletModal}){
     </Wrapper>
   )
 }
-export default inject('wallet')(observer(NetworkSelector))
+export default NetworkSelector;
