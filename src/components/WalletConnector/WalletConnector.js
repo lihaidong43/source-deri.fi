@@ -10,7 +10,7 @@ export default function WalletConnector({lang}){
   },[wallet])
   return(
     <div>
-      <Button label={wallet.isConnected() ? formatAddress(wallet.account) : lang['connect-wallet']} onClick={connect}></Button> 
+      <Button bgColor='#FF7913' fontSize={16} fontColor='#FFF' borderSize='0' width={200} height={48}  outline={false} radius={15} label={wallet.isConnected() ? formatAddress(wallet.account) : lang['connect-wallet']} onClick={connect}></Button> 
     </div>
   )
 }

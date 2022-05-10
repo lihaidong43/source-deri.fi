@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.scss';
 import App from './App';
 import {UseWalletProvider} from 'use-wallet'
 import { Provider } from 'mobx-react';

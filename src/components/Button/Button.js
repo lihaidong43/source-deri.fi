@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     display : flex;
     align-items : center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: ${props => props.radius}px;
     background-color : ${props => props.backgroundColor};
     font-size : ${props => props.fontSize}px;
     font-weight : ${props => props.fontWeight};
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
       cursor : not-allowed;
     }
   `  
-export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgColor,selectedBorderColor,position ,defaultBorderColor = '#203B60',borderSize = 1,disabled = false , outline = false,isSelected = false,outlineColor = 'rgba(205, 122, 55, 0.5)',icon ,onClick,width = 158,fontSize = 14,fontWeight = '600',height = 48,className,styles = {}}){
+export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgColor,selectedBorderColor,position ,defaultBorderColor = '#203B60',borderSize = 1,disabled = false , outline = false,isSelected = false,outlineColor = 'rgba(205, 122, 55, 0.5)',icon ,onClick,width = 158,fontSize = 14,fontWeight = '600',height = 48,className,styles = {},radius = 4}){
   const [pending, setPending] = useState(false)
   let backgroundColor ;
   if(bgColor) {
@@ -73,6 +73,7 @@ export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgCol
             position={position}
             defaultBorderColor={defaultBorderColor}
             borderSize={borderSize}
+            radius={radius}
             height={height} className={clazz} style={{...styles}} onClick={click}>
       {icon && <Icon token={icon}/>}{pending && <Spinner/>}{label}
     </Wrapper>
