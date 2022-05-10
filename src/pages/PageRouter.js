@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route,Navigate } from 'react-router-dom'
 import LoadableComponent from '../utils/LoadableComponent';
 import { inject, observer } from 'mobx-react';
 
@@ -15,7 +15,7 @@ function PageRouter({intl}){
   return (
     <Routes>
       <Route exact path='/betit' element={<BetIt lang={dict['betit']} />}></Route>
-      {/* <Route exact path='/' render={() => <Route to='/betit'/>} /> */}
+      <Route exact path='/' element={<Navigate to='/betit'/>} />
     </Routes>
   )
 }
