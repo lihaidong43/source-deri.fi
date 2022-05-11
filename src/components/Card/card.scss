@@ -1,3 +1,5 @@
+$className: "BTC", "ETH", "BNB","DOGE";
+$Color: #F49B33, #7A57DD, #F3BA2D,#C1A633;  
 .card-box{
   width: 376px;
   height: 616px;
@@ -15,9 +17,6 @@
       margin-left: 12px;
       font-weight: 700;
       font-size: 24px;
-    }
-    .BTC{
-      color: #F49B33;
     }
   }
   .symbol-price{
@@ -38,9 +37,15 @@
   }
 
 }
-.BTC{
-  &:hover{
-    border: 1px solid #F49B33;
+@for $i from 1 through length($className) {
+  .#{nth($className, $i)} {
+    .icon-name{
+      color: nth($Color, $i);
+    }
+    &:hover {
+      border: 1px solid nth($Color, $i);
+    }
+    
   }
 }
   
