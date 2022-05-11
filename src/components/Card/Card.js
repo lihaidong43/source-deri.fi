@@ -1,8 +1,14 @@
+import { useState, useEffect } from "react";
 import classNames from 'classnames'
 import Button from '../Button/Button'
 import Icon from '../Icon/Icon'
 import './card.scss'
+import Input from './Input'
 export default function Card({ info, lang }) {
+  const [amount,setAmount] = useState()
+  const onChange =(value)=>{
+    setAmount(value)
+  }
   return (
     <div className={classNames('card-box', info.symbol)}>
       <div className='icon-name'>
@@ -26,12 +32,12 @@ export default function Card({ info, lang }) {
         </div>
       </div>
       <div className='input-box'>
-
+      <Input value={amount} onChange={onChange} lang={lang} />
       </div>
       <div className='btn-box'>
-        <Button label={lang['up']} className="btn" icon='up' width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
-        <Button label={lang['down']} className="btn" icon='down' width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
-        <Button label={lang['boosted-up']} className="btn" icon='boosted-up' width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />
+        <Button label={lang['up']} disabled={true} className="btn up-btn"  width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
+        <Button label={lang['down']}  className="btn down-btn"  width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
+        <Button label={lang['boosted-up']} disabled={true} className="btn boosted-btn"  width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />
       </div>
 
     </div>
