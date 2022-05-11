@@ -1,5 +1,6 @@
 [
   {
+    "name": "bsctestnet_inno",
     "chainId": "97",
     "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
     "version": "v3_lite",
@@ -152,6 +153,7 @@
     ]
   },
   {
+    "name": "arbitrumtestnet_main",
     "chainId": "421611",
     "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
     "version": "v3",
