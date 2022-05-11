@@ -4,5 +4,12 @@
   "title-two":"Deri bet is the simplified interface to DERI protocol for users to get exposures to their favorite coins ",
   "bet" : "bet",
   "it" : "it",
-  "total-pnl":"Your total unrealized PnL"
+  "current-price":"Current Price",
+  "leverage":"Leverage",
+  "leverage-tip":"Boosted up explanation. Deri bet is the simplified interface to DERI protocol ",
+  "total-pnl":"Your total unrealized PnL",
+  "up":"UP",
+  "down":"DOWN",
+  "boosted-up":"BOOSTED UP"
+
 }

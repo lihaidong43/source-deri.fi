@@ -25,6 +25,7 @@ const Wrapper = styled.div`
     &:hover {
       border : 1px solid ${props => props.hoverBorderColor};
       cursor: pointer;
+      background-color: ${props=>props.hoverBgColor};
       color : #fff;
     }
     &.selected {
@@ -39,7 +40,7 @@ const Wrapper = styled.div`
       cursor : not-allowed;
     }
   `  
-export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgColor,selectedBorderColor,position ,defaultBorderColor = '#203B60',borderSize = 1,disabled = false , outline = false,isSelected = false,outlineColor = 'rgba(205, 122, 55, 0.5)',icon ,onClick,width = 158,fontSize = 14,fontWeight = '600',height = 48,className,styles = {},radius = 4}){
+export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgColor,hoverBgColor,selectedBorderColor,position ,defaultBorderColor = '#203B60',borderSize = 1,disabled = false , outline = false,isSelected = false,outlineColor = 'rgba(205, 122, 55, 0.5)',icon ,onClick,width = 158,fontSize = 14,fontWeight = '600',height = 48,className,styles = {},radius = 4}){
   const [pending, setPending] = useState(false)
   let backgroundColor ;
   if(bgColor) {
@@ -66,6 +67,7 @@ export default function Button({label,fontColor = '#E0ECFF',type = PRIMARY,bgCol
     <Wrapper hoverBorderColor={hoverBorderColor} 
             selectedBorderColor={selectedBorderColor}
             backgroundColor={backgroundColor} 
+            hoverBgColor={hoverBgColor}
             fontColor={fontColor} 
             fontSize={fontSize} 
             fontWeight={fontWeight} 

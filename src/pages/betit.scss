@@ -4,8 +4,6 @@
 }
 
 .betit {
-  height: 1200px;
-
   .bg-img-color {
     width: 100vw;
     height: 100vh;
@@ -16,41 +14,89 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
+  .hide-three{
+    background: url('../assets/img/two-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 
   .main-body {
     width: 100%;
-    padding: 0 110px;
 
-    .title-des {
-      color: #FFFFFF;
-      margin-top: 69px;
-      font-size: 22px;
-      width: 639px;
-      text-align: left;
+    .title-box {
+      width: 1221px;
+      margin: 0 auto;
 
-      .title-text {
-        font-size: 30px;
-        font-weight: 700;
+      .title-des {
+        color: #FFFFFF;
+        margin-top: 69px;
+        font-size: 22;
+        width: 639px;
+        text-align: left;
+
+        .title-text {
+          font-size: 30px;
+          font-weight: 700;
+        }
       }
     }
 
-    .total-pnl {
-      width: 632px;
-      height: 104px;
-      margin-top: 46px;
-      background: rgba(255, 175, 13, 0.5);
-      border: 2px solid #FFFFFF;
-      border-radius: 20px;
+    .total-pnl-box {
+      width: 1221px;
+      margin: 0 auto;
+      .total-pnl {
+        width: 632px;
+        height: 104px;
+        margin-top: 46px;
+        background: rgba(255, 175, 13, 0.5);
+        border: 2px solid #FFFFFF;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 26px;
+        padding: 0 50px;
+        color: #FFFFFF;
+        font-weight: 600px;
+
+        .pnl-num {
+          font-size: 34px;
+          font-weight: 700px;
+        }
+      }
+    }
+
+
+    .card-list {
+      width: 1221px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      font-size: 26px;
-      padding: 0 50px;
-      color: #FFFFFF;
-      font-weight: 600px;
-      .pnl-num{
-        font-size: 34px;
-        font-weight: 700px;
+      margin: 0 auto;
+    }
+  }
+
+}
+
+@media only screen and (min-width : 760px) and (max-width:1440px) {
+  .betit {
+    .bg-img-color {
+      background: url('../assets/img/two-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .main-body {
+      .card-list,.total-pnl-box,.title-box {
+        width: 696px;
+      }
+      .total-pnl-box{
+        .total-pnl {
+          width: 696px;
+          justify-content: center;
+          .pnl-num {
+            margin-left: 24px;
+          }
+        }
       }
     }
   }
