@@ -50,3 +50,7 @@ export function isStartScroll(offset = 82) {
   const st = window.pageYOffset || document.documentElement.scrollTop; 
   return st > offset ? true : false
 }
+
+export function eqInNumber(str1,str2){
+  return (+str1) === (+str2)
+}

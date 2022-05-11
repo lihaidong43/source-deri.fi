@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   border : 1px solid #fff;
   border-radius: 15px;
   .name {
-    margin-left : 4px
+    margin : 0 4px;
   }
   .cur-network {
     display : flex;
@@ -121,7 +121,7 @@ function NetworkSelector({wallet,showWalletModal}){
       <div className='cur-network' data-tip data-for='network-select' data-event-off='' data-event='click'>
         <Icon token={nowIcon} width='20'/>
         <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
-        <Icon token={isShow ? 'arrow-up' : 'arrow-down'}/>
+        <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
       </div>
       <Tooltip  id='network-select' width = {144} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
         {networkList.map((network,index) => (
