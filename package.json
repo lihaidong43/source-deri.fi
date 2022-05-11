@@ -48,6 +48,7 @@
     "postcss-loader": "^6.2.1",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.0.1",
+    "promise.any": "^2.0.4",
     "prompts": "^2.4.2",
     "react": "^18.1.0",
     "react-alert": "^7.0.3",
@@ -163,6 +164,7 @@
     ]
   },
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^2.0.8",
     "buffer": "^6.0.3",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1"
