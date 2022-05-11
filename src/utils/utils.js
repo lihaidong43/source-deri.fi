@@ -35,3 +35,13 @@ export function countDecimal(n){
 export function formatAddress(address){
   return address && `${address.substr(0,6)}...${address.substr(-4)}`
 }
+
+export function isElementInViewport (el) {
+  var rect = el ? el.getBoundingClientRect() : {}
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+  );
+}

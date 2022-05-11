@@ -23,5 +23,5 @@ export default function Icon({width,height,token,secondary,className,onClick,sty
       
     }
   }
-  return img ? <Wrapper src={img.default} width={width} height={height} style={{...style}} className={className} onClick={onClick} {...rest}/> : <Empty width={width} height={height} className={className}  ></Empty>
+  return img ? <Wrapper src={img} width={width} height={height} style={{...style}} className={className} onClick={onClick} {...rest}/> : <Empty width={width} height={height} className={className}  ></Empty>
 }

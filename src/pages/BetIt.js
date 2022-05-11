@@ -1,29 +1,9 @@
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
 import './betit.scss'
-export default function BetIt({ lang }) {
-  const list = [
-    {
-      symbol:"BTC",
-      Leverage:"12.5x",
-      price:30000,
-    },
-    {
-      symbol:"ETH",
-      Leverage:"12.5x",
-      price:2600,
-    },
-    {
-      symbol:"BNB",
-      Leverage:"12.5x",
-      price:300,
-    },
-    {
-      symbol:"DOGE",
-      Leverage:"12.5x",
-      price:0.5,
-    },
-  ]
+import useSymbols from '../hooks/useSymbols';
+export default function BetIt({lang}){
+  const symbols = useSymbols();
   return (
     <div className="betit">
       <div className='bg-img-color'>
@@ -50,7 +30,7 @@ export default function BetIt({ lang }) {
         </div>
 
         <div className='card-list'>
-          {list.map((item, index) => {
+          {symbols.map((item, index) => {
             return (
               <Card info={item} lang={lang} />
             )
