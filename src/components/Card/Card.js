@@ -21,7 +21,7 @@ export default function Card({ info, lang }) {
           {info.Leverage}
         </div>
         <div className='leverage-title'>
-          {lang['leverage']}
+          {lang['leverage']}  <Icon token="leverage" />
         </div>
       </div>
 

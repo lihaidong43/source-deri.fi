@@ -28,6 +28,11 @@ $Color: #F49B33, #7A57DD, #F3BA2D,#C1A633;
   .price-title,.leverage-title{
     font-size: 12px;
     color: #C8CDD5;
+    display: flex;
+    align-items: center;
+    img{
+      margin-left: 4px;
+    }
   }
   .symbol-leverage{
     font-size: 26px;
