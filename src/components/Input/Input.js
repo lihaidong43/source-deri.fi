@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { bg } from '../../lib/web3js';
-import UnderlineText from '../UnderlineText/UnderlineText';
+// import { bg } from '../../lib/web3js';
+// import UnderlineText from '../UnderlineText/UnderlineText';
 
 const Wrapper = styled.div`
 display : flex;
@@ -68,7 +68,7 @@ export default function Input({value,unit,unitTip,max,step,onChange,styles = {},
   return (
     <Wrapper  unitPadding={unitPadding} inputWidth={inputWidth} inputHeight={inputHeight} className={className} style={{...styles}}>
       <input placeholder={placeholder} type='number'  onBlur={onBlur} onFocus={onFocus} disabled = {disabled} value={value} step = {step} ref={inputRef} onChange={change} readOnly={readOnly}/>
-      <div className='unit'>{unitTip ? <UnderlineText tip={unitTip} text={unit}/> : unit}</div>
+      {/* <div className='unit'>{unitTip ? <UnderlineText tip={unitTip} text={unit}/> : unit}</div> */}
     </Wrapper>    
   )
 }
