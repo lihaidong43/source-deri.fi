@@ -10,7 +10,7 @@ const Wraper = styled.div`
   height: 71px;
   font-size : 14px;
   color : #E0ECFF;
-  background: #203B60;
+  background: #FFFFFF;
   box-sizing: border-box;
   box-shadow: 0px 11px 19px rgba(10, 23, 43, 0.25);
   border-radius: 8px;
