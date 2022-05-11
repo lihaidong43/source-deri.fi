@@ -6,6 +6,7 @@ import { useCallback, useEffect } from 'react';
 import classNames from "classnames";
 import { useState } from 'react';
 import NetworkSelector from "../NetworkSelector/NetworkSelector";
+import { isScroll, isStartScroll } from "../../utils/utils";
 
 const Wrapper = styled.div`
   &.header {
@@ -54,8 +55,7 @@ export default function Header ({lang}) {
     fixed : isFixed
   })
   const handler = useCallback(() => {
-    const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-    if (st > 82 ){
+    if (isStartScroll()){
       setIsFixed(true)
       setBtnMainColor('#FF7913')
     } else {

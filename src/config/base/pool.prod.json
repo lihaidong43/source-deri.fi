@@ -1,0 +1,324 @@
+[
+  {
+    "chainId": "56",
+    "pool": "0x243681B8Cd79E3823fF574e07B2378B8Ab292c1E",
+    "version": "v3",
+    "versionId": "v3",
+    "bTokens": [
+      {
+        "bTokenSymbol": "BUSD",
+        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+      },
+      {
+        "bTokenSymbol": "BNB",
+        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+      },
+      {
+        "bTokenSymbol": "BTCB",
+        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+      },
+      {
+        "bTokenSymbol": "ETH",
+        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+      },
+      {
+        "bTokenSymbol": "USDT",
+        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955"
+      },
+      {
+        "bTokenSymbol": "USDC",
+        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+      },
+      {
+        "bTokenSymbol": "CAKE",
+        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+      },
+      {
+        "bTokenSymbol": "XVS",
+        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63"
+      },
+      {
+        "bTokenSymbol": "ADA",
+        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47"
+      },
+      {
+        "bTokenSymbol": "XRP",
+        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE"
+      },
+      {
+        "bTokenSymbol": "DOT",
+        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402"
+      },
+      {
+        "bTokenSymbol": "MATIC",
+        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD"
+      },
+      {
+        "bTokenSymbol": "LINK",
+        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD"
+      },
+      {
+        "bTokenSymbol": "LTC",
+        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94"
+      },
+      {
+        "bTokenSymbol": "DAI",
+        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+      },
+      {
+        "bTokenSymbol": "TRX",
+        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B"
+      },
+      {
+        "bTokenSymbol": "TUSD",
+        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784"
+      },
+      {
+        "bTokenSymbol": "SXP",
+        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A"
+      }
+    ],
+    "symbols": [
+      {
+        "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
+        "symbol": "BTCUSD",
+        "category": "futures",
+        "unit": "BTC",
+        "powerSymbol": {
+          "chainId": "56",
+          "pool": "0xD2D950e338478eF7FeB092F840920B3482FcaC40",
+          "symbolId": "0x65e24fbf23a06751b86161d24e5f25b579daa4c55aa798f102a40243baf81293",
+          "symbol": "BTC^2"
+        }
+      },
+      {
+        "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
+        "symbol": "ETHUSD",
+        "category": "futures",
+        "unit": "ETH",
+        "powerSymbol": {
+          "chainId": "56",
+          "pool": "0xD2D950e338478eF7FeB092F840920B3482FcaC40",
+          "symbolId": "0x5616d0a0d05adc200b8ea37c1801762baca26da49260fa2a9ca11179cb6b7017",
+          "symbol": "ETH^2"
+        }
+      }
+    ]
+  },
+  {
+    "chainId": "56",
+    "pool": "0xD2D950e338478eF7FeB092F840920B3482FcaC40",
+    "version": "v3_lite",
+    "versionId": "v3",
+    "bTokens": [
+      {
+        "bTokenSymbol": "BUSD",
+        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+      },
+      {
+        "bTokenSymbol": "BNB",
+        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+      },
+      {
+        "bTokenSymbol": "BTCB",
+        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+      },
+      {
+        "bTokenSymbol": "ETH",
+        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+      },
+      {
+        "bTokenSymbol": "USDT",
+        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955"
+      },
+      {
+        "bTokenSymbol": "USDC",
+        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+      },
+      {
+        "bTokenSymbol": "CAKE",
+        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+      },
+      {
+        "bTokenSymbol": "XVS",
+        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63"
+      },
+      {
+        "bTokenSymbol": "ADA",
+        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47"
+      },
+      {
+        "bTokenSymbol": "XRP",
+        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE"
+      },
+      {
+        "bTokenSymbol": "DOT",
+        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402"
+      },
+      {
+        "bTokenSymbol": "MATIC",
+        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD"
+      },
+      {
+        "bTokenSymbol": "LINK",
+        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD"
+      },
+      {
+        "bTokenSymbol": "LTC",
+        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94"
+      },
+      {
+        "bTokenSymbol": "DAI",
+        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+      },
+      {
+        "bTokenSymbol": "TRX",
+        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B"
+      },
+      {
+        "bTokenSymbol": "TUSD",
+        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784"
+      },
+      {
+        "bTokenSymbol": "SXP",
+        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A"
+      }
+    ],
+    "symbols": [
+      {
+        "symbolId": "0x0c5eba1afaea317bd3994c932ff8027d56c2c03920e4acc162a96de171d0a7ce",
+        "symbol": "SHIBUSDT",
+        "category": "futures",
+        "unit": "SHIB"
+      },
+      {
+        "symbolId": "0xccd5f35e7e7d8cd3ac846557a1f342a999573c9c4b43722a060cdcecdceeec8f",
+        "symbol": "AXSUSDT",
+        "category": "futures",
+        "unit": "AXS"
+      },
+      {
+        "symbolId": "0x1bc6d6279e196b1fa7b94a792d57a47433858940c1b3500f2a5e69640cd12ef4",
+        "symbol": "BNBUSD",
+        "category": "futures",
+        "unit": "BNB"
+      },
+      {
+        "symbolId": "0xb58a39b2eb9bff0bbc99d0b00709fd7ef3158c5958116c70fb1e39117651d78e",
+        "symbol": "BABYDOGEUSDT",
+        "category": "futures",
+        "unit": "BABYDOGE"
+      },
+      {
+        "symbolId": "0x086f4fc4719d5d463b29165e2ed20251ff7d4fe8e19ea51745354a111543b85a",
+        "symbol": "X2Y2USDT",
+        "category": "futures",
+        "unit": "X2Y2"
+      },
+      {
+        "symbolId": "0xf50f4566b7f185ebe3aa8cbe86193b28bffea10bfd9f3724127248ac8c046fbf",
+        "symbol": "APEUSDT",
+        "category": "futures",
+        "unit": "APE"
+      },
+      {
+        "symbolId": "0xc199c9161c951cb238f18c0165a14c039761d4aa6981272c853cb49970610816",
+        "symbol": "GMTUSDT",
+        "category": "futures",
+        "unit": "GMT"
+      },
+      {
+        "symbolId": "0x214dda553a3e2a23944080bfcad3566db70ebe7a599389f0f9cf73f0cf03e933",
+        "symbol": "DOGEUSDT",
+        "category": "futures",
+        "unit": "DOGE"
+      },
+      {
+        "symbolId": "0x3db5e9fb22b6f66ce6550ab2b9d3872f875f575780c6abb9c95f9ce03845a83e",
+        "symbol": "SOLUSDT",
+        "category": "futures",
+        "unit": "SOL"
+      },
+      {
+        "symbolId": "0x2604a2e1118dfde07476dfca68d4ac348004ccc2f71f10bfb22363cc0a1eeab3",
+        "symbol": "LUNAUSDT",
+        "category": "futures",
+        "unit": "LUNA"
+      },
+      {
+        "symbolId": "0xb091137ce24b6cc1a176ff1c47ee784a62b93fe8cca125b8975b84c9b3c407ea",
+        "symbol": "DOTUSDT",
+        "category": "futures",
+        "unit": "DOT"
+      },
+      {
+        "symbolId": "0x3dafbe9f51a5b08f9ecc683b232c3055a6b651e25a50eaa56d6c54b7c949ac71",
+        "symbol": "AVAXUSDT",
+        "category": "futures",
+        "unit": "AVAX"
+      },
+      {
+        "symbolId": "0x2352987cbc46e349be26f5a6cd8c391839c1e6e3ddb0c97a712fb4269e42db1b",
+        "symbol": "FITFIUSDT",
+        "category": "futures",
+        "unit": "FITFI"
+      }
+    ]
+  },
+  {
+    "chainId": "42161",
+    "pool": "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8",
+    "version": "v3",
+    "versionId": "v3",
+    "bTokens": [
+      {
+        "bTokenSymbol": "USDC",
+        "bTokenAddress": "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+        "bTokenDecimals": "6"
+      },
+      {
+        "bTokenSymbol": "ETH",
+        "bTokenAddress": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+      },
+      {
+        "bTokenSymbol": "WBTC",
+        "bTokenAddress": "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
+        "bTokenDecimals": "8"
+      },
+      {
+        "bTokenSymbol": "DAI",
+        "bTokenAddress": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"
+      },
+      {
+        "bTokenSymbol": "LINK",
+        "bTokenAddress": "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4"
+      }
+    ],
+    "symbols": [
+      {
+        "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
+        "symbol": "BTCUSD",
+        "category": "futures",
+        "unit": "BTC",
+        "powerSymbol": {
+          "chainId": "42161",
+          "pool": "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8",
+          "symbolId": "0x65e24fbf23a06751b86161d24e5f25b579daa4c55aa798f102a40243baf81293",
+          "symbol": "BTC^2"
+        }
+      },
+      {
+        "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
+        "symbol": "ETHUSD",
+        "category": "futures",
+        "unit": "ETH",
+        "powerSymbol": {
+          "chainId": "42161",
+          "pool": "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8",
+          "symbolId": "0x5616d0a0d05adc200b8ea37c1801762baca26da49260fa2a9ca11179cb6b7017",
+          "symbol": "ETH^2"
+        }
+      }
+    ]
+  }
+]

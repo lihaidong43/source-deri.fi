@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     // border : 1px solid ${props => props.backgroundColor};
     height : ${props => props.height}px;
     img{
-      // margin-right:10px;
+      margin-right:10px;
     }
     &:hover {
       border : 1px solid ${props => props.hoverBorderColor};

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,useCallback} from 'react'
 import styled from 'styled-components';
 import Tooltip from '../Tooltip/Tooltip';
-import { getNetworkList, getDefaultNw } from '../../utils/utils';
+import { getNetworkList, getDefaultNw, isStartScroll } from '../../utils/utils';
 // import { DeriEnv } from '../../lib/web3js';
 import { inject, observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   border : 1px solid #fff;
   border-radius: 15px;
   .name {
-    margin-left : 4px
+    margin : 0 4px;
   }
   .cur-network {
     display : flex;
@@ -82,6 +82,14 @@ function NetworkSelector({wallet,showWalletModal}){
     // }
   }
 
+  const handler = useCallback(() => {
+    if(isStartScroll()) {
+      setNowIcon(`${nowIcon}-LIGHT`)
+    } else {
+      setNowIcon(nowIcon.split('-')[0])
+    }
+  })
+
   // useEffect(() => {
   //   const networkList = getNetworkList(DeriEnv.get())
   //   const defaultNw = getDefaultNw(DeriEnv.get());
@@ -100,12 +108,20 @@ function NetworkSelector({wallet,showWalletModal}){
   // }, [wallet,walletContext])
 
 
+  useEffect(() => {
+    document.addEventListener('scroll', handler, false);
+    return () => {
+      document.removeEventListener('scroll',handler)
+    }
+  }, []);
+
+
   return (
     <Wrapper className='network-select'>
       <div className='cur-network' data-tip data-for='network-select' data-event-off='' data-event='click'>
         <Icon token={nowIcon} width='20'/>
         <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
-        <Icon token={isShow ? 'arrow-up' : 'arrow-down'}/>
+        <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
       </div>
       <Tooltip  id='network-select' width = {144} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
         {networkList.map((network,index) => (

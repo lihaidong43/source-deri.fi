@@ -1,0 +1,68 @@
+[
+  {
+    "chainId": "97",
+    "name" : "BSC-TESTNET",
+    "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+    "symbols": [
+      {
+        "symbol": "SHIBUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "AXSUSDT",
+        "order" : 2
+      },
+      {
+        "symbol": "ALICEUSDT",
+        "order" : 3
+      },
+      {
+        "symbol": "APEUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "GMTUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "SOLUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "LUNAUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "DOTUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "order" : 1
+      },
+      {
+        "symbol": "FITFIUSDT",
+        "order" : 1
+      }
+    ]
+  },
+  {
+    "chainId": "421611",
+    "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
+    "name" : "ARBI-TESTNET",
+    "symbols": [
+      {
+        "symbol": "BTCUSD",
+        "order" : 1
+      },
+      {
+        "symbol": "ETHUSD",
+        "order" : 1
+      }
+    ]
+  }
+]
