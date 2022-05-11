@@ -1,14 +1,16 @@
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
 import './betit.scss'
-import useSymbols from '../hooks/useSymbols';
+
 import { useState, useEffect,useCallback } from "react";
+import { isStartScroll } from "../utils/utils";
+import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
   const [isFixed, setIsFixed] = useState(false)
-  const symbols = useSymbols();
+  const [symbols,bTokens] = usePool();
+
   const handler = useCallback(() => {
-    const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-    if (st > 82) {
+    if (isStartScroll()) {
       setIsFixed(true)
     } else {
       setIsFixed(false)

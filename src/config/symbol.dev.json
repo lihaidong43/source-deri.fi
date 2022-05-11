@@ -1,8 +1,8 @@
 [
   {
     "chainId": "97",
-    "name" : "BSC-TESTNET",
-    "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+    "name": "bsctestnet_inno",
+    "default" : true,
     "symbols": [
       {
         "symbol": "SHIBUSDT",
@@ -52,8 +52,7 @@
   },
   {
     "chainId": "421611",
-    "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
-    "name" : "ARBI-TESTNET",
+    "name": "arbitrumtestnet_main",
     "symbols": [
       {
         "symbol": "BTCUSD",
