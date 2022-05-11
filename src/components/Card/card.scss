@@ -46,6 +46,33 @@ $Color: #F49B33, #7A57DD, #F3BA2D,#C1A633;
     margin: 0 auto;
     margin-top: 2px;
   }
+  .btn-box{
+    .btn{
+      margin-top: 19px;
+      background-repeat: no-repeat;
+    }
+    .up-btn{
+      background-image: url('../../assets/img/up.svg');
+      background-position: 125px;
+      &:hover{
+        background-image: url('../../assets/img/up-hover.svg');
+      }
+    }
+    .down-btn{
+      background-image: url('../../assets/img/down.svg');
+      background-position: 110px;
+      &:hover{
+        background-image: url('../../assets/img/down-hover.svg');
+      }
+    }
+    .boosted-btn{
+      background-image: url('../../assets/img/boosted-up.svg');
+      background-position: 90px;
+      &:hover{
+        background-image: url('../../assets/img/boosted-up-hover.svg');
+      }
+    }
+  }
 
 }
 @for $i from 1 through length($className) {
@@ -68,10 +95,15 @@ $Color: #F49B33, #7A57DD, #F3BA2D,#C1A633;
     .btn-box{
       .btn{
         width: 288px;
-        margin-top: 19px;
-        img{
-          margin-right: 5px;
-        }
+      }
+      .up-btn{
+        background-position: 120px;
+      }
+      .down-btn{
+        background-position: 105px;
+      }
+      .boosted-btn{
+        background-position: 85px;
       }
     }
   }
