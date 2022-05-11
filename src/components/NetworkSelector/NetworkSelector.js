@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,useCallback} from 'react'
 import styled from 'styled-components';
 import Tooltip from '../Tooltip/Tooltip';
-import { getNetworkList, getDefaultNw } from '../../utils/utils';
+import { getNetworkList, getDefaultNw, isStartScroll } from '../../utils/utils';
 // import { DeriEnv } from '../../lib/web3js';
 import { inject, observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
@@ -82,6 +82,14 @@ function NetworkSelector({wallet,showWalletModal}){
     // }
   }
 
+  const handler = useCallback(() => {
+    if(isStartScroll()) {
+      setNowIcon(`${nowIcon}-LIGHT`)
+    } else {
+      setNowIcon(nowIcon.split('-')[0])
+    }
+  })
+
   // useEffect(() => {
   //   const networkList = getNetworkList(DeriEnv.get())
   //   const defaultNw = getDefaultNw(DeriEnv.get());
@@ -98,6 +106,14 @@ function NetworkSelector({wallet,showWalletModal}){
   //   wallet.setDefaultNw(defaultNw)
   //   setNetworkList(networkList)
   // }, [wallet,walletContext])
+
+
+  useEffect(() => {
+    document.addEventListener('scroll', handler, false);
+    return () => {
+      document.removeEventListener('scroll',handler)
+    }
+  }, []);
 
 
   return (

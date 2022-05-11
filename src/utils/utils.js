@@ -45,3 +45,8 @@ export function isElementInViewport (el) {
       rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
   );
 }
+
+export function isStartScroll(offset = 82) {
+  const st = window.pageYOffset || document.documentElement.scrollTop; 
+  return st > offset ? true : false
+}
