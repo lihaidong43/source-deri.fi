@@ -1,11 +1,12 @@
 $className: "BTC",
 "ETH",
 "BNB",
-"DOGE";
+"DOGE","LUNA","DOT","SOL";
 $Color: #F49B33,
 #7A57DD,
 #F3BA2D,
-#C1A633;
+#C1A633,#172852,#E6007A,#865FEE;
+$BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/BNB.png","../../assets/img/DOGE.png","../../assets/img/LUNA.png","../../assets/img/DOT.png","../../assets/img/SOL.png";
 
 .card-box {
   width: 376px;
@@ -117,6 +118,9 @@ $Color: #F49B33,
 
 @for $i from 1 through length($className) {
   .#{nth($className, $i)} {
+    background-image: url(nth($BgImg,$i));
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     .icon-name {
       color: nth($Color, $i);
     }

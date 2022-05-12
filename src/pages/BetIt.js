@@ -7,7 +7,7 @@ import { isStartScroll } from "../utils/utils";
 import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
   const [isFixed, setIsFixed] = useState(false)
-  const [symbols,bTokens] = usePool();
+  // const [symbols,bTokens] = usePool();
 
   const handler = useCallback(() => {
     if (isStartScroll()) {
@@ -41,6 +41,21 @@ export default function BetIt({ lang }) {
     },
     {
       symbol: "DOGE",
+      Leverage: "12.5x",
+      price: 0.5,
+    },
+    {
+      symbol: "LUNA",
+      Leverage: "12.5x",
+      price: 0.5,
+    },
+    {
+      symbol: "DOT",
+      Leverage: "12.5x",
+      price: 0.5,
+    },
+    {
+      symbol: "SOL",
       Leverage: "12.5x",
       price: 0.5,
     },

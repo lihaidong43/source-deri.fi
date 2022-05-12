@@ -11,5 +11,6 @@
   "up":"UP",
   "down":"DOWN",
   "boosted-up":"BOOSTED UP",
-  "balance":"BALANCE"
+  "balance":"BALANCE",
+  "select-coin":"Select coin"
 }
