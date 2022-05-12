@@ -55,3 +55,12 @@ export const NETWORK_MAP = {
 }
 
 export const COOKIE_DERI_DOMAIN='.deri.fi'
+
+export const  MODAL_OPTIONS = {
+  key  : 'confirmation',
+  fading: true,
+  style: {
+    background: "rgba(0, 0, 0, 0.4)" ,
+    zIndex : 1
+  }
+};

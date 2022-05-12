@@ -7,7 +7,7 @@ import { Provider } from 'mobx-react';
 import {positions, Provider as AlertProvider } from 'react-alert'
 import MessageTemplate from './components/Message/MessageTemplate';
 import { USE_WALLET_OPTIONS } from './utils/Constants';
-import {BrowserRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 import Intl from './model/Intl';
 
 
@@ -15,7 +15,7 @@ import Intl from './model/Intl';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <UseWalletProvider {...USE_WALLET_OPTIONS}>
         <Provider intl={Intl}>
           <AlertProvider position ={positions.TOP_RIGHT}  timeout ={5000}  offset ='30px'  template={MessageTemplate}>
@@ -23,7 +23,7 @@ root.render(
           </AlertProvider>
         </Provider>
       </UseWalletProvider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 
