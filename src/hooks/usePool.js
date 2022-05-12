@@ -56,7 +56,9 @@ export default function usePool(){
   useEffect(() => {
     if(wallet.isConnected()) {
       const c  = configs.find(c => eqInNumber(c.chainId,wallet.chainId));
-      setConfig(c)
+      if(c){
+        setConfig(c)
+      }
     } else if(wallet.status === 'disconnected'){
       const c  = configs.find(c => c.default);
       setConfig(c);

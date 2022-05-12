@@ -9,25 +9,42 @@ import { NETWORK_MAP } from '../../utils/Constants';
 import { useWallet } from 'use-wallet';
 // import useConfig from '../../hooks/useConfig';
 const Wrapper = styled.div`
-  display : flex;
-  align-items : center;
-  color : #93A1B8;
-  margin : 0 16px;
-  padding : 0 16px;
   cursor : pointer;
   color : #fff;
   font-size : 16px;
   font-weight : 600;
-  min-width : 144px;
+  min-width : 176px;
   height : 48px;
-  border : 1px solid #fff;
-  border-radius: 15px;
+  margin-right : 24px;
+  position : relative;
+  display : flex;
+  justify-content : center;
   .name {
     margin : 0 4px;
   }
-  .cur-network {
+  .nw-wrapper {
+    border : 2px solid #fff;
+    border-radius: 15px;
+    background : ${props => props.bgColor};
+    position : absolute;
+    top : 0px;
     display : flex;
-    align-items : center;
+    flex-direction : column;
+    item-align : center;
+    min-height: 48px;
+    width: 100%;
+    padding: 0 16px;
+    z-index :1;
+    .cur-network {
+      display : flex;
+      align-items : center;
+      height : 48px;
+    }
+    .nw-item {
+      display : flex;
+      height : 48px;
+      align-items: center;
+    }
   }
   #network-select {
     .item {
@@ -52,26 +69,14 @@ const Wrapper = styled.div`
     }
   }
 `  
-function NetworkSelector({wallet,showWalletModal}){
+function NetworkSelector({}){
   const [networkList, setNetworkList] = useState([])
+  const [bgColor, setBgColor] = useState('rgba(255, 255, 255, 0.2)');
   // const config = useConfig()
   const [nowIcon,setNowIcon] = useState('BNB')
   const [curNetwork, setCurNetwork] = useState({name : 'BSC'});
   const [isShow, setIsShow] = useState(false)
   const walletContext = useWallet();
-  const calculatePosition = (position,
-    currentEvent,
-    currentTarget,
-    refNode,
-    place,
-    desiredPlace,
-    effect,
-    offset) => {
-      const rect = currentTarget.getBoundingClientRect();
-      const top = rect.top + rect.height + 8;
-      const left = (rect.left - refNode.offsetWidth + rect.width)
-      return {top:top + offset.top,left : rect.left}
-    }
 
   const onSelect = async (network) => {
     // if(walletContext.isConnected()){
@@ -85,8 +90,10 @@ function NetworkSelector({wallet,showWalletModal}){
   const handler = useCallback(() => {
     if(isStartScroll()) {
       setNowIcon(`${nowIcon}-LIGHT`)
+      setBgColor('#FFAF0D')
     } else {
-      setNowIcon(nowIcon.split('-')[0])
+      setNowIcon(nowIcon.split('-')[0]);
+      setBgColor('')
     }
   })
 
@@ -117,19 +124,25 @@ function NetworkSelector({wallet,showWalletModal}){
 
 
   return (
-    <Wrapper className='network-select'>
-      <div className='cur-network' data-tip data-for='network-select' data-event-off='' data-event='click'>
-        <Icon token={nowIcon} width='20'/>
-        <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
-        <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
+    <Wrapper className='network-select' bgColor={bgColor}>
+      <div className='nw-wrapper'>
+        <div className='cur-network' data-tip data-for='network-select' data-event-off='' data-event='click'>
+          <Icon token={nowIcon} width='20'/>
+          <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
+          <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
+        </div>
+        <div className='nw-item'>
+          <Icon token='arbitrum' width='20'/>
+          <div className='name'>Arbitrum</div>
+        </div>
       </div>
-      <Tooltip  id='network-select' width = {144} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
+      {/* <Tooltip  id='network-select' width = {144} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
         {networkList.map((network,index) => (
           <div onClick = {()=> onSelect(network)} key={index} className={`item ${wallet.detail.code && network.code === wallet.detail.code ? 'selected' : ''}`} >
             <Icon token={network.icon} width='24' height='24'/><span>{network.name}</span>
           </div>)
       )}
-      </Tooltip>
+      </Tooltip> */}
     </Wrapper>
   )
 }

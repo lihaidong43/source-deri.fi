@@ -20,7 +20,7 @@ export default function WalletConnector({lang,bgColor = '#FFAB00'}){
   
   return(
     <div >
-      <Button  bgColor={bntColor} icon={wallet.isConnected() && 'injected'} defaultBorderColor='#fff' fontSize={16} fontColor='#FFF' width={200} height={48}  outline={false} radius={15} label={wallet.isConnected() ? formatAddress(wallet.account) : lang['connect-wallet']} onClick={connect}></Button> 
+      <Button  bgColor={bntColor} icon={wallet.isConnected() && 'injected'} borderSize='2' defaultBorderColor='#fff' fontSize={16} fontColor='#FFF' width={200} height={48}  outline={false} radius={15} label={wallet.isConnected() ? formatAddress(wallet.account) : lang['connect-wallet']} onClick={connect}></Button> 
     </div>
   )
 }
