@@ -1,25 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWallet } from "use-wallet";
 import merge from 'deepmerge'
-import { eqInNumber } from '../utils/utils';
+import { eqInNumber, All, getEnv,importAll } from '../utils/utils';
 
+const poolConfig = importAll(require.context('../config/base/',true,/pool.*.json/));
+const poolExtConfig = importAll(require.context('../config/',true,/symbol.*.json/));
 
-const poolConfig = {}
-const poolExtConfig = {}
-function importAll(r,config){
-  return r.keys().forEach(key => {
-    const path = key.split('.')
-    const env = path[2]
-    if(!config[env]) {
-      config[env] = {}
-    }
-    config[env] = r(key)
-  });
-}
-importAll(require.context('../config/base/',true,/pool.*.json/),poolConfig);
-importAll(require.context('../config/',true,/symbol.*.json/),poolExtConfig);
-
-const env = process.env.NODE_ENV === 'production' ? 'prod' : 'dev'
+const env = getEnv();
 
 const symbolMerge = (target,source) => {
   return target.map(item => {
@@ -50,20 +37,21 @@ const arrayMerge = (target,source,options) => {
 export default function usePool(){
   const wallet = useWallet();
   const [config, setConfig] = useState({});
-  let configs = merge(poolConfig[env],poolExtConfig[env],{arrayMerge : arrayMerge})
+  const configsRef = useRef();
+  configsRef.current = merge(poolConfig[env],poolExtConfig[env],{arrayMerge : arrayMerge})
 
 
   useEffect(() => {
     if(wallet.isConnected()) {
-      const c  = configs.find(c => eqInNumber(c.chainId,wallet.chainId));
+      const c  = configsRef.current.find(c => eqInNumber(c.chainId,wallet.chainId));
       if(c){
         setConfig(c)
       }
     } else if(wallet.status === 'disconnected'){
-      const c  = configs.find(c => c.default);
+      const c  = configsRef.current.find(c => c.default);
       setConfig(c);
     }
-  }, [wallet.status]);
+  }, [wallet]);
 
   return [config.bTokens,config.symbols];
 }
