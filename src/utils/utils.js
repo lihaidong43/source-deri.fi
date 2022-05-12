@@ -54,3 +54,44 @@ export function isStartScroll(offset = 82) {
 export function eqInNumber(str1,str2){
   return (+str1) === (+str2)
 }
+
+export function importAll(r,config = {}){
+  r.keys().forEach(key => {
+    const path = key.split('.')
+    const env = path[2]
+    if(!config[env]) {
+      config[env] = {}
+    }
+    config[env] = r(key)
+  });
+  return config;
+}
+
+export function getEnv(){
+  return process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
+}
+
+export async function  switchNetwork(chain,successCb,errorCb) {
+  const chainId = `0x${(parseInt(chain.chainId)).toString(16)}`
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    })
+    successCb && successCb()
+  } catch (error) {
+    if (error.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{ chainId, ...chain.metamask }],
+        });
+      } catch (addError) {
+        console.error('err', addError)
+      }
+    } else if(error.code === 4001){
+      errorCb && errorCb(40001)
+    } 
+  }
+
+}

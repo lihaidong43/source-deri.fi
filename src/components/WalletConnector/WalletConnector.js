@@ -16,7 +16,7 @@ export default function WalletConnector({lang,bgColor = '#FFAB00'}){
     } else {
       setBntColor(bgColor)
     }
-  }, [bgColor]);
+  }, [bgColor,wallet]);
   
   return(
     <div >
