@@ -7,7 +7,7 @@ import { isStartScroll } from "../utils/utils";
 import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
   const [isFixed, setIsFixed] = useState(false)
-  // const [symbols,bTokens] = usePool();
+  const [bTokens,symbols] = usePool();
 
   const handler = useCallback(() => {
     if (isStartScroll()) {

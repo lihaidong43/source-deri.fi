@@ -76,7 +76,7 @@ export default function Header ({lang}) {
       <div className="left">
         <span className="f-name">{lang['bet'].toUpperCase()}</span><span className="l-name">{lang['it']}</span></div>
       <div className="right">
-        <NetworkSelector/>
+        <NetworkSelector bgColor={btnMainColor}/>
         <WalletConnector lang={lang} bgColor={btnMainColor}/>
       </div>
     </Wrapper>
