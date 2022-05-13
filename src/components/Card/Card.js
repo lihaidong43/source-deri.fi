@@ -31,11 +31,13 @@ export default function Card({ info, lang, bTokens }) {
   const betDown = async () => {
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'short' }
     let res = await ApiProxy.request("openBet", params)
+    console.log("down",res)
   }
 
   const betUp = async () => {
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'long'}
     let res = await ApiProxy.request("openBet", params)
+    console.log("up",res)
   }
 
   const betClose = async () => {
@@ -47,6 +49,7 @@ export default function Card({ info, lang, bTokens }) {
   const boostedUp = async()=>{
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
     let res = await ApiProxy.request("openBet", params)
+    console.log("boostedUp",res)
   }
 
   useEffect(() => {
