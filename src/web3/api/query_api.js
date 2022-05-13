@@ -1,9 +1,23 @@
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
 import { queryApi } from "../utils/api";
-import { bg } from "../utils/bignumber";
+import { fromWei } from "../utils/bignumber";
 import { checkAddress } from "../utils/chain";
-import { getBrokerAddress, getBToken, getSymbol } from "../utils/config";
+import { getBrokerAddress, getBToken, getSymbol, getSymbolList } from "../utils/config";
 import { checkToken, nativeCoinSymbols, stringToId } from "../utils/symbol";
+import { getWeb3 } from "../utils/web3";
+
+export const getWalletBalance = queryApi(async ({ chainId, bTokenSymbol, accountAddress }) => {
+  accountAddress = checkAddress(accountAddress)
+  bTokenSymbol = checkToken(bTokenSymbol)
+  if (nativeCoinSymbols(chainId).includes(bTokenSymbol)) {
+    const web3 = await getWeb3(chainId)
+    return fromWei(await web3.eth.getBalance(accountAddress))
+  } else {
+    const bToken = getBToken(chainId, bTokenSymbol)
+    const erc20 = ERC20Factory(chainId, bToken.bTokenAddress)
+    return await erc20.balanceOf(accountAddress)
+  }
+}, '')
 
 export const isUnlocked = queryApi(async ({ chainId, bTokenSymbol, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
@@ -69,9 +83,14 @@ export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols })
     }
     return acc
   }, [])
-  const totalPnl = res.reduce((acc, s) => acc.plus(s.pnl), bg(0)).toString()
-  return {
-    totalPnl,
-    bets: res
-  }
-}, {})
+  return res
+}, [])
+
+export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
+  accountAddress = checkAddress(accountAddress)
+  const symbols = getSymbolList(chainId)
+  // get pool addresses
+  // update pnl for each symbol
+  // const totalPnl = res.reduce((acc, s) => acc.plus(s.pnl), bg(0)).toString()
+  return '0'
+}, '')

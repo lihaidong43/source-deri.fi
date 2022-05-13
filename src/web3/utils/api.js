@@ -40,7 +40,7 @@ export const queryApi = (fn, defaultValue) => {
       const newArgs = checkCommonArgs(args)
       // method call
       const data = await fn(newArgs)
-      debug() && console.log('queryApi data:', res)
+      debug() && console.log('queryApi data:', data)
       // checkOutput here
       res = toResponse(data)
     } catch (err) {

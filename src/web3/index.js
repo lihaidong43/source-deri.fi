@@ -7,6 +7,8 @@ export {
   isUnlocked,
   getBetInfo,
   getBetsInfo,
+  getWalletBalance,
+  getBetsPnl,
 } from './api/query_api'
 
 export {
