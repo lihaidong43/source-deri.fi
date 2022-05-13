@@ -90,18 +90,21 @@
         "symbolId": "0x214dda553a3e2a23944080bfcad3566db70ebe7a599389f0f9cf73f0cf03e933",
         "symbol": "DOGEUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "DOGE"
       },
       {
         "symbolId": "0x3db5e9fb22b6f66ce6550ab2b9d3872f875f575780c6abb9c95f9ce03845a83e",
         "symbol": "SOLUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "SOL"
       },
       {
         "symbolId": "0xb091137ce24b6cc1a176ff1c47ee784a62b93fe8cca125b8975b84c9b3c407ea",
         "symbol": "DOTUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "DOT"
       }
     ]
@@ -147,6 +150,7 @@
         "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
         "symbol": "BTCUSD",
         "category": "futures",
+        "leverage": "12.5",
         "unit": "BTC",
         "powerSymbol": {
           "chainId": "421611",
@@ -159,6 +163,7 @@
         "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
         "symbol": "ETHUSD",
         "category": "futures",
+        "leverage": "12.5",
         "unit": "ETH",
         "powerSymbol": {
           "chainId": "421611",
