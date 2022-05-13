@@ -18,15 +18,28 @@ export class ContractBase {
 
     if (!this.web3) {
       // console.log('isNodeEnv', this.isNodeEnv, this.web3)
-      if (this.isNodeEnv) {
-        this.web3 = await getWeb3WithSigner(this.chainId);
-      } else {
-        this.web3 = await getWeb3(this.chainId);
+      let retry = 2
+      while (retry > 0) {
+        try {
+          if (this.isNodeEnv) {
+            this.web3 = await getWeb3WithSigner(this.chainId);
+          } else {
+            this.web3 = await getWeb3(this.chainId);
+          }
+          break;
+        } catch (err) {
+          debug() && console.log(err)
+          retry = retry - 1
+        }
       }
-      this.contract = new this.web3.eth.Contract(
-        this.contractAbi,
-        this.contractAddress
-      );
+      if (!this.web3 && retry === 0) {
+        throw new Error(`Contract init(): cannot get web3 provider with chainId(${this.chainId})`)
+      } else {
+        this.contract = new this.web3.eth.Contract(
+          this.contractAbi,
+          this.contractAddress
+        );
+      }
     }
   }
 

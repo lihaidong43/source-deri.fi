@@ -47,16 +47,22 @@ describe('query api', () => {
   //   expect(res.response.data).toEqual([])
   // }, TIMEOUT)
 
-  // it('getWalletBalance CAKE', async () => {
-  //   const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
-  //   expect(res.success).toEqual(true)
-  //   expect(res.response.data).toEqual([])
-  // }, TIMEOUT)
-
-  it('getTotalPnl', async () => {
-    const res = await getBetsPnl({ chainId, accountAddress })
+  it('getWalletBalance CAKE bsc', async () => {
+    const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
     expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual('0')
+    expect(res.response.data).toEqual([])
   }, TIMEOUT)
+
+  it('getWalletBalance arbi', async () => {
+    const res = await getWalletBalance({ chainId: '421611', accountAddress, bTokenSymbol: 'USDC' })
+    expect(res.success).toEqual(true)
+    expect(res.response.data).toEqual([])
+  }, TIMEOUT)
+
+  // it('getTotalPnl', async () => {
+  //   const res = await getBetsPnl({ chainId, accountAddress })
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual('0')
+  // }, TIMEOUT)
 
 })

@@ -38,6 +38,20 @@ const chainConfigList = [
       // 'https://data-seed-prebsc-2-s3.binance.org:8545/',
     ],
   },
+  {
+    chainId: '42161',
+    name: 'arbitrum',
+    providers: [
+      "https://arb1.arbitrum.io/rpc",
+    ]
+  },
+  {
+    chainId: '421611',
+    name: 'arbitrumtestnet',
+    providers: [
+      "https://rinkeby.arbitrum.io/rpc",
+    ]
+  },
 ];
 
 export const getChainConfig = (chainId) => {
