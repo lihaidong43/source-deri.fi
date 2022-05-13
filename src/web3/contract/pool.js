@@ -380,12 +380,13 @@ export class Pool {
     this._updatePositions(accountAddress)
   }
   _updatePositions(accountAddress) {
+    let fundingAccrued = '0',
+      initialMargin = '0',
+      maintenanceMargin = '0',
+      traderPnl = '0',
+      dpmmTraderPnl = '0',
+      res = [];
     if (Array.isArray(this.positions) && this.positions.length > 0) {
-      let fundingAccrued = '0',
-        initialMargin = '0',
-        maintenanceMargin = '0',
-        traderPnl = '0',
-        dpmmTraderPnl = '0';
       this.positions = this.positions.map((p) => {
         const symbol = this.symbols.find((s) => p.symbol === s.symbol);
         // console.log(symbol.symbol)
@@ -471,23 +472,21 @@ export class Pool {
         }
         return p;
       });
-      if (accountAddress != ZERO_ADDRESS) {
-        this[accountAddress].fundingAccrued = fundingAccrued.toString()
-        this[accountAddress].traderPnl = traderPnl.toString()
-        this[accountAddress].dpmmTraderPnl = dpmmTraderPnl.toString()
-        this[accountAddress].initialMargin = initialMargin.toString()
-        this[accountAddress].maintenanceMargin = maintenanceMargin.toString()
-        this[accountAddress].dynamicMargin = bg(this[accountAddress].margin)
-          //.minus(this.account.initialMargin)
-          .minus(this[accountAddress].fundingAccrued)
-          .plus(this[accountAddress].traderPnl)
-          .toString();
-      }
-      return this.positions;
-    } else {
-      // console.log('skip getPositions');
-      return [];
+      res = this.positions;
     }
+    if (accountAddress != ZERO_ADDRESS) {
+      this[accountAddress].fundingAccrued = fundingAccrued.toString()
+      this[accountAddress].traderPnl = traderPnl.toString()
+      this[accountAddress].dpmmTraderPnl = dpmmTraderPnl.toString()
+      this[accountAddress].initialMargin = initialMargin.toString()
+      this[accountAddress].maintenanceMargin = maintenanceMargin.toString()
+      this[accountAddress].dynamicMargin = bg(this[accountAddress].margin)
+        //.minus(this.account.initialMargin)
+        .minus(this[accountAddress].fundingAccrued)
+        .plus(this[accountAddress].traderPnl)
+        .toString();
+    }
+    return res
   }
 }
 
