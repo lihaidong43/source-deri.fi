@@ -59,7 +59,6 @@ export class BrokerImplementation extends ContractBase {
     return await this._transact('closeBet', [pool, symbolName, priceLimit, oracleSignatures], accountAddress, opts)
   }
   async openBet(accountAddress, pool, asset, amount, symbolName, tradeVolume, priceLimit, oracleSignatures, opts={}) {
-    debug() && console.log(`--->>> ${pool} ${asset} ${amount} ${symbolName} ${tradeVolume} priceLimit(${priceLimit})`)
     return await this._transact('openBet', [pool, asset, amount, symbolName, tradeVolume, priceLimit, oracleSignatures], accountAddress, opts)
   }
   // async setAdmin(accountAddress, newAdmin, opts={}) {
