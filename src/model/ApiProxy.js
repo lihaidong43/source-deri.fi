@@ -1,4 +1,4 @@
-import * as api from "../web3/index";
+import * as apis from '../web3/index'
 import { show, hide } from "react-functional-modal";
 import ChainInteraction from "../components/ChainInteraction/ChainInteraction";
 import {MODAL_OPTIONS} from '../utils/Constants'
@@ -6,11 +6,11 @@ import {MODAL_OPTIONS} from '../utils/Constants'
 class ApiProxy {
   status = 'waiting'
   async request(method,options = {}){
-    const apis = await import('../web3/index')
+    // const apis = await import('../web3/index')
     let res = null;
     if(options.write) {
       const {subject} = options
-      params.push({
+      Object.assign(options,{
         onAccept : () => {
           this.onProcessing(subject,'success')
           window.setTimeout(() => this.close(subject),2000)
@@ -23,7 +23,7 @@ class ApiProxy {
       this.onProcessing(subject,'pending')
     }
     try {
-      res = await apis[method].call(this,...params)
+      res = await apis[method].call(this,options)
     } catch(e){
       console.log(e)
     }
@@ -31,7 +31,7 @@ class ApiProxy {
   }
 
   syncRequest(method,params = [], options ={}) {
-    const res = api[method].call(this,...params)  
+    const res = apis[method].call(this,...params)  
     return this.processResponse(res,options)
   }
 
@@ -39,7 +39,7 @@ class ApiProxy {
     hide(this.getMessageKey(subject))
   }
 
-  getMessageKey(subject){
+  getMessageKey(subject = ''){
     return `transaction-box-${subject.split(/\s+/).join('-')}`
   }
 

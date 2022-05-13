@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import classNames from 'classnames'
 import Button from '../Button/Button'
 import Icon from '../Icon/Icon'
 import './card.scss'
 import Input from './Input'
+import ApiProxy from "../../model/ApiProxy";
+import { useWallet } from "use-wallet";
 export default function Card({ info, lang }) {
   const [amount,setAmount] = useState()
+  const wallet = useWallet();
   const onChange =(value)=>{
     setAmount(value)
   }
+  const betit = useCallback(() => {
+    ApiProxy.request('unlock',{write : true, subject : 'approve',chainId : wallet.chainId, accountAddress : wallet.account, bTokenSymbol: 'BUSD' }) 
+  })
+  
   return (
     <div className={classNames('card-box', info.symbol)}>
       <div className='icon-name'>
@@ -36,7 +43,7 @@ export default function Card({ info, lang }) {
       </div>
       <div className='btn-box'>
         <Button label={lang['up']} disabled={true} className="btn up-btn"  width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
-        <Button label={lang['down']}  className="btn down-btn"  width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
+        <Button label={lang['down']} onClick={betit} className="btn down-btn"  width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
         <Button label={lang['boosted-up']} disabled={true} className="btn boosted-btn"  width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />
       </div>
 

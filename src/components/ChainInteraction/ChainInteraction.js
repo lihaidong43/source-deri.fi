@@ -6,22 +6,22 @@ export default function ChainInteraction({title,status = 'pending',close}){
   const config =  useMemo(() => (
     {
       pending : {
-        rgb : '85, 119, 253',
+        rgb : '255, 171, 0',
         icon : 'trans-waiting',
-        subTitle : Intl.get('trade','waiting-for-confirmation'),
-        desc :  Intl.get('trade','waiting-for-confirmation-desc')
+        subTitle : Intl.get('betit','waiting-for-confirmation'),
+        desc :  Intl.get('betit','waiting-for-confirmation-desc')
       },
       success : {
-        rgb : '89, 174, 153',
+        rgb : '56, 203, 137',
         icon : 'trans-submitted',
-        subTitle :  Intl.get('trade','transaction-submitted'),
-        desc :  Intl.get('trade','transaction-submitted-desc')
+        subTitle :  Intl.get('betit','transaction-submitted'),
+        desc :  Intl.get('betit','transaction-submitted-desc')
       } ,
       reject : {
-        rgb : '206, 94, 94',
+        rgb : '255, 86, 48',
         icon : 'trans-rejected',
-        subTitle :  Intl.get('trade','transaction-rejected'),
-        desc :  Intl.get('trade','transaction-rejected-desc')
+        subTitle :  Intl.get('betit','transaction-rejected'),
+        desc :  Intl.get('betit','transaction-rejected-desc')
       }
     }
   ), [])

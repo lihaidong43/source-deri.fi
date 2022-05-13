@@ -1,5 +1,5 @@
 import BreatheIcon from "../BreatheEffect/BreatheIcon";
-import './transactionBox.less'
+import './transactionBox.scss'
 import Icon from "../Icon/Icon";
 import {useState, useEffect } from "react";
 import classNames from "classnames";
