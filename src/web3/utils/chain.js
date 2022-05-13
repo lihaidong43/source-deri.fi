@@ -1,7 +1,22 @@
 import Web3 from "web3";
 
 // configs
+const infuraAccount = "ec73e2f0c79a42c0997ee535364de584"
 const chainConfigList = [
+  {
+    chainId: '1',
+    name: 'ethereum',
+    providers: [
+      `https://mainnet.infura.io/v3/${infuraAccount}`
+    ],
+  },
+  {
+    chainId: '3',
+    name: 'ropsten',
+    providers: [
+      `https://ropsten.infura.io/v3/${infuraAccount}`
+    ],
+  },
   {
     chainId: '56',
     name: 'bsc',
