@@ -1,7 +1,7 @@
-import { debug } from "util"
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory"
 import { poolFactory } from "../contract/pool"
 import { txApi } from "../utils/api"
+import { debug } from "../utils/env"
 import { bg, toWei } from "../utils/bignumber"
 import { checkAddress } from "../utils/chain"
 import { getBrokerAddress, getBToken, getPoolConfig, getSymbol } from "../utils/config"
