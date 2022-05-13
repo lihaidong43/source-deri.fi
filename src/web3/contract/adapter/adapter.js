@@ -1,7 +1,7 @@
 import { bg, fromWei } from "../../utils/bignumber";
 import { MAX_UINT256 } from "../../utils/constant";
 import { deriSymbolScaleIn, deriSymbolScaleOut, normalizeDeriSymbol } from "../../utils/symbol";
-import { getBlockInfo } from "../../utils/chain";
+import { getBlockInfo } from "../../utils/web3";
 import { classAdapter, overrideMethods, processMethod } from "./shared";
 
 export const ERC20Adapter = (klass) => {
