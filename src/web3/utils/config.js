@@ -90,7 +90,7 @@ export const getSymbol = (chainId, symbolName) => {
   if (config) {
     return config
   }
-  throw new Error(`Cannot find bToken config: chainId(${chainId}) symbol(${symbolName})`)
+  throw new Error(`Cannot find symbol config: chainId(${chainId}) symbol(${symbolName})`)
 }
 
 export const getBrokerAddress = (chainId) => {

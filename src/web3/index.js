@@ -4,6 +4,10 @@ export {
 } from './utils/env'
 
 export {
+  bg,
+} from './utils/bignumber'
+
+export {
   isUnlocked,
   getBetInfo,
   getBetsInfo,

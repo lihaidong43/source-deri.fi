@@ -29,15 +29,15 @@ describe('query api', () => {
   //   expect(res.response.error.message).toContain('has no position')
   // }, TIMEOUT)
 
-  // it('closeBet with position', async() => {
-  //   let res = await closeBet({ chainId, symbol: 'AXSUSDT', accountAddress: accountAddress, isNodeEnv: true, ...callback })
-  //   console.log(res)
-  //   expect(res.success).toEqual(true)
-  // }, TIMEOUT)
-
-  it('openBet ', async() => {
-    let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: symbol1, accountAddress: accountAddress, direction: 'short', isNodeEnv: true, ...callback })
+  it('closeBet with position', async() => {
+    let res = await closeBet({ chainId, symbol: symbol1, accountAddress: accountAddress, isNodeEnv: true, ...callback })
     console.log(res)
-    expect(res.success).toEqual(false)
+    expect(res.success).toEqual(true)
   }, TIMEOUT)
+
+  // it('openBet ', async() => {
+  //   let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: symbol1, accountAddress: accountAddress, direction: 'short', isNodeEnv: true, ...callback })
+  //   console.log(res)
+  //   expect(res.success).toEqual(false)
+  // }, TIMEOUT)
 })

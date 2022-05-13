@@ -1,5 +1,4 @@
-export const TIMEOUT = 60 * 1000
-
+export const TIMEOUT = 120 * 1000
 
 export const sendTxWithPkey = async (web3, contract, methodName, args, pkey) => {
   if (!pkey) {
