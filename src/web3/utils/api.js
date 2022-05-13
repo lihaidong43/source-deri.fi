@@ -27,9 +27,9 @@ const checkCommonArgs = (args) => {
 const checkCommonTxArgs = (args) => {
   let { chainId, accountAddress, onAccept, onReject, ...rest } = args
   chainId = checkChainId(chainId)
-  onAccept = checkCallback(onAccept)
-  onReject = checkCallback(onReject)
-  return { chainId, accountAddress, ...rest }
+  onAccept = checkCallback(onAccept, 'onAccept')
+  onReject = checkCallback(onReject, 'Reject')
+  return { chainId, accountAddress, onAccept, onReject, ...rest }
 }
 
 export const queryApi = (fn, defaultValue) => {
