@@ -10,11 +10,11 @@ describe('Pool', () => {
   beforeAll(() => {
     pool = poolFactory(chainId, poolAddress)
   })
-  // it('init', async() => {
-  //   await pool.init()
-  //   // expect(pool.bTokens).toEqual([])
-  //   expect(pool.symbols).toEqual([])
-  // }, TIMEOUT)
+  it('init', async() => {
+    await pool.init()
+    // expect(pool.bTokens).toEqual([])
+    expect(pool.symbols).toEqual([])
+  }, TIMEOUT)
   // it('updateTdInfo', async() => {
   //   await pool.init()
   //   await pool.getTdInfo(accountAddress)

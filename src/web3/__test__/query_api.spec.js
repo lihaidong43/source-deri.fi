@@ -24,7 +24,7 @@ describe('query api', () => {
   //   expect(res.response.data).toEqual(true)
   // }, TIMEOUT)
   it('getBetInfo', async () => {
-    const res = await getBetInfo({ chainId, accountAddress: accountAddress, symbol: 'AXSUSDT' })
+    const res = await getBetInfo({ chainId, accountAddress, symbol: 'AXSUSDT' })
     console.log(res)
     expect(res.success).toEqual(true)
     expect(res.response.data).toEqual([])

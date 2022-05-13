@@ -29,7 +29,7 @@ describe('query api', () => {
   // it('closeBet with position', async() => {
   //   let res = await closeBet({ chainId, symbol: 'AXSUSDT', accountAddress: accountAddress, isNodeEnv: true, ...callback })
   //   console.log(res)
-  //   expect(res.success).toEqual(false)
+  //   expect(res.success).toEqual(true)
   // }, TIMEOUT)
   it('openBet ', async() => {
     let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: 'AXSUSDT', accountAddress: accountAddress, isNodeEnv: true, ...callback })
