@@ -37,13 +37,11 @@ export default function Input({ value, lang, onChange, focus, bToken, bTokenList
           <div className='token-info'>
             {bTokenList && bToken.map((item, index) => {
               return (
-                <Icon token={item} />
+                <Icon token={item.bTokenSymbol} />
               )
             })}
           </div>
         </div>}
-
-
       </div>
     </div>
   )

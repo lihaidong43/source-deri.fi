@@ -1,12 +1,31 @@
 $className: "BTC",
 "ETH",
 "BNB",
-"DOGE","LUNA","DOT","SOL";
+"DOGE",
+"LUNA",
+"DOT",
+"SOL",
+"APE",
+"AXS",
+"BABYDOGE",
+"FITFI",
+"GTM",
+"SHIB",
+"X2Y2";
 $Color: #F49B33,
 #7A57DD,
 #F3BA2D,
-#C1A633,#172852,#E6007A,#865FEE;
-$BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/BNB.png","../../assets/img/DOGE.png","../../assets/img/LUNA.png","../../assets/img/DOT.png","../../assets/img/SOL.png";
+#C1A633,
+#172852,
+#E6007A,
+#865FEE,
+#0055D5,
+#0055D5,
+#FFDF0D,
+#FFD122,
+#CDA84D,
+#CDA84D,
+#4D41CE;
 
 .card-box {
   width: 376px;
@@ -59,10 +78,15 @@ $BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/B
     width: 302px;
     height: 90px;
     margin-top: 21px;
-    
+
   }
 
   .btn-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 237px;
+
     .btn {
       margin-top: 19px;
       background-repeat: no-repeat;
@@ -101,15 +125,15 @@ $BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/B
     }
 
     .boosted-btn {
-      background-image: url('../../assets/img/boosted-up.svg');
-      background-position: 90px;
+      background-image: url('../../assets/img/boosted-up.svg'), url('../../assets/img/boosted-hint.svg');
+      background-position: 90px, 195px;
 
       &:hover {
-        background-image: url('../../assets/img/boosted-up-hover.svg');
+        background-image: url('../../assets/img/boosted-up-hover.svg'), url('../../assets/img/boosted-hint-hover.svg');
       }
 
       &.disabled {
-        background-image: url('../../assets/img/boosted-up-disable.svg');
+        background-image: url('../../assets/img/boosted-up-disable.svg'), url('../../assets/img/boosted-hint-disable.svg');
       }
     }
   }
@@ -118,9 +142,10 @@ $BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/B
 
 @for $i from 1 through length($className) {
   .#{nth($className, $i)} {
-    background-image: url(nth($BgImg,$i));
+    background-image: url("../../assets/img/#{nth($className, $i)}.png"); 
     background-size: 100% 100%;
     background-repeat: no-repeat;
+
     .icon-name {
       color: nth($Color, $i);
     }
@@ -138,10 +163,12 @@ $BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/B
     width: 336px;
     height: 584px;
     padding: 27px 0 0 28px;
+
     .input-box {
       width: 288px;
       margin-top: 14px;
     }
+
     .btn-box {
       .btn {
         width: 288px;
@@ -156,7 +183,7 @@ $BgImg:"../../assets/img/BTC.png","../../assets/img/ETH.png","../../assets/img/B
       }
 
       .boosted-btn {
-        background-position: 85px;
+        background-position: 85px, 190px;
       }
     }
   }
