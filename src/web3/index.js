@@ -1,6 +1,12 @@
 export {
+  DeriEnv,
+  Env,
+} from './utils/env'
+
+export {
   isUnlocked,
   getBetInfo,
+  getBetsInfo,
 } from './api/query_api'
 
 export {

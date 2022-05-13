@@ -10,7 +10,7 @@ import { getSymbolsOracleInfo } from "../utils/oracle"
 import { checkToken, nativeCoinSymbols } from "../utils/symbol"
 
 const getPriceLimit = (volume) => {
-  debug() && console.log(`-- volume: ${volume}`)
+  debug() && console.log(`-- trade volume: ${volume}`)
   return bg(volume).gt(0) ? MAX_UINT256_DIV_ONE : '0'
 }
 

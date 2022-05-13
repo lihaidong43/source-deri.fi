@@ -1,5 +1,6 @@
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
 import { queryApi } from "../utils/api";
+import { bg } from "../utils/bignumber";
 import { checkAddress } from "../utils/chain";
 import { getBrokerAddress, getBToken, getSymbol } from "../utils/config";
 import { checkToken, nativeCoinSymbols, stringToId } from "../utils/symbol";
@@ -54,11 +55,10 @@ export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols })
   const volumes = await Promise.all(
     pools.map((pool) => broker.getBetVolumes(accountAddress, pool, poolsInfo.find((p) => p.pool === pool).symbols))
   )
-  console.log('>>> ', volumes, poolsInfo)
   pools.forEach((pool, index) => {
     poolsInfo.find((p) => p.pool === pool).volumes = volumes[index]
   })
-  let res = symbols.reduce((acc, symbol, index) => {
+  let res = symbols.reduce((acc, symbol) => {
     for (let pool of pools) {
       const poolInfo = poolsInfo.find((p)=> p.pool === pool)
       if (poolInfo.symbols[0] === symbol) {
@@ -69,5 +69,9 @@ export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols })
     }
     return acc
   }, [])
-  return res
+  const totalPnl = res.reduce((acc, s) => acc.plus(s.pnl), bg(0)).toString()
+  return {
+    totalPnl,
+    bets: res
+  }
 }, {})
