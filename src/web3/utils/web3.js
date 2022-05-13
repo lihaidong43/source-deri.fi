@@ -82,7 +82,7 @@ export const getContract = factory(async (chainId, address, Klass) => {
   return new Klass(web3, address);
 }, 'getContract');
 
-export const getBlock = async (chainId, blockNumber='latest') => {
+export const getBlockInfo = async (chainId, blockNumber='latest') => {
   const web3 = await getWeb3(chainId)
   return await web3.eth.getBlock(blockNumber);
 }
