@@ -6,21 +6,77 @@ import './card.scss'
 import Input from './Input'
 import ApiProxy from "../../model/ApiProxy";
 import { useWallet } from "use-wallet";
-export default function Card({ info, lang }) {
-  const [amount,setAmount] = useState()
+export default function Card({ info, lang, bTokens }) {
+  const [amount, setAmount] = useState()
+  const [betInfo, setBetInfo] = useState({})
+  const [bToken, setBToken] = useState(bTokens[0].bTokenSymbol)
+  const [balance, setBalance] = useState(0)
+  const [disabled, setDisabled] = useState(true)
   const wallet = useWallet();
-  const onChange =(value)=>{
+  const onChange = (value) => {
     setAmount(value)
   }
-  const betit = useCallback(() => {
-    ApiProxy.request('unlock',{write : true, subject : 'approve',chainId : wallet.chainId, accountAddress : wallet.account, bTokenSymbol: 'BUSD' }) 
-  })
-  
+  const getBetInfo = async () => {
+    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
+    if (res) {
+      setBetInfo(res)
+    }
+  }
+
+  const getWalletBalance = async () => {
+    let res = await ApiProxy.request("getWalletBalance", { chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account })
+    setBalance(res)
+  }
+
+  const betDown = async () => {
+    let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'short' }
+    let res = await ApiProxy.request("openBet", params)
+  }
+
+  const betUp = async () => {
+    let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'long'}
+    let res = await ApiProxy.request("openBet", params)
+  }
+
+  const betClose = async () => {
+    let params = { write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
+    let res = await ApiProxy.request("openBet", params)
+    console.log("betClose",res)
+  }
+
+  const boostedUp = async()=>{
+    let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
+    let res = await ApiProxy.request("openBet", params)
+  }
+
+  useEffect(() => {
+    if (wallet.chainId && wallet.account && info) {
+      getBetInfo()
+    }
+  }, [wallet, info])
+
+  useEffect(() => {
+    if (wallet.chainId && wallet.account && bToken) {
+      getWalletBalance()
+    }
+  }, [wallet, bToken])
+
+  useEffect(() => {
+    if (+amount <= +balance && amount) {
+      setDisabled(false)
+    }else{
+      setDisabled(true)
+    }
+  }, [amount])
+
   return (
-    <div className={classNames('card-box', info.symbol)}>
+    <div className={classNames('card-box', info.unit)}>
       <div className='icon-name'>
         <Icon token={info.symbol} width={45} height={45} />
-        <span className='symbol-name'>{info.symbol}</span>
+        <span className='symbol-name'>{info.unit}</span>
+        {betInfo.volume && betInfo.volume !== "0" && <div className='entered'>
+          {lang['entered']}
+        </div>}
       </div>
       <div className='price-box'>
         <div className='symbol-price'>
@@ -32,19 +88,26 @@ export default function Card({ info, lang }) {
       </div>
       <div className='leverage-box'>
         <div className='symbol-leverage'>
-          {info.Leverage}
+          {/* {info.Leverage} */}
+          10 X
         </div>
         <div className='leverage-title'>
           {lang['leverage']}  <Icon token="leverage" />
         </div>
       </div>
       <div className='input-box'>
-      <Input value={amount} onChange={onChange} lang={lang} />
+        <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
       </div>
       <div className='btn-box'>
-        <Button label={lang['up']} disabled={true} className="btn up-btn"  width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
-        <Button label={lang['down']} onClick={betit} className="btn down-btn"  width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
-        {info.isPower && <Button label={lang['boosted-up']} disabled={false} className="btn boosted-btn"  width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />} 
+        {betInfo.volume && betInfo.volume !== "0" ?
+          <>
+            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
+          </>
+          : <>
+            <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
+            <Button label={lang['down']} onClick={betDown} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
+            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={boostedUp} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />}
+          </>}
       </div>
 
     </div>

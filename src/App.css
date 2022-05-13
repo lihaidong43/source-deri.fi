@@ -7,6 +7,14 @@
   pointer-events: none;
 }
 
+.loading-line {
+  width: 100px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #203B60;
+  animation: pulse 2s cubic-bezier(0.2, 0, 0.4, 1) infinite;
+  display: inline-block;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */

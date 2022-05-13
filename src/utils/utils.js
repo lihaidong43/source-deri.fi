@@ -16,6 +16,15 @@ export function getCookie(name){
 export function removeCookie(name,domain = COOKIE_DERI_DOMAIN, path = '/'){
   Cookies.remove(name,{domain,path})
 }
+//反科学计数法
+export function toPlainString(num) {
+  return (''+ +num).replace(/(-?)(\d*)\.?(\d*)e([+-]\d+)/,
+    function(a,b,c,d,e) {
+      return e < 0
+        ? b + '0.' + Array(1-e-c.length).join(0) + c + d
+        : b + c + d + Array(e-d.length+1).join(0);
+    });
+}
 
 
 export function formatNumber(number,decimal){
@@ -70,6 +79,7 @@ export function importAll(r,config = {}){
 export function getEnv(){
   return process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 }
+
 
 export async function  switchNetwork(chain,successCb,errorCb) {
   const chainId = `0x${(parseInt(chain.chainId)).toString(16)}`

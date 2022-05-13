@@ -31,6 +31,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-weight: 600;
     }
     .token-list{
       position: absolute;
@@ -43,7 +44,17 @@
       font-size: 12px;
       font-weight: 600;
       color: #C8CDD5;
-      padding: 19px 17px 0 23px;
+      padding: 8px 17px 0 23px;
+      .token-info{
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 24px;
+        text-align: right;
+        img{
+          margin-left: 4px;
+          margin-top: 4px;
+        }
+      }
     }
   }
   

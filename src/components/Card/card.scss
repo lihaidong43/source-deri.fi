@@ -9,7 +9,7 @@ $className: "BTC",
 "AXS",
 "BABYDOGE",
 "FITFI",
-"GTM",
+"GMT",
 "SHIB",
 "X2Y2";
 $Color: #F49B33,
@@ -40,12 +40,26 @@ $Color: #F49B33,
   .icon-name {
     display: flex;
     align-items: center;
-
+    position: relative;
     .symbol-name {
       margin-left: 12px;
       font-weight: 700;
       font-size: 24px;
     }
+    .entered{
+      position: absolute;
+      right: 0;
+      color: #FFF;
+      text-align: center;
+      line-height: 40px;
+      font-size: 16px;
+      font-weight: 700;
+      width: 102px;
+      height: 40px;
+      border-radius: 20px 0px 0px 20px;
+      background: #FFAB00;
+    }
+
   }
 
   .symbol-price {
