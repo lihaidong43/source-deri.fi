@@ -27,6 +27,7 @@ export const overrideMethods = (klass, fns = []) => {
     return klass;
   }
 };
+
 export const processMethod = (klass) => (methodName, propList = []) => {
   const originMethod = klass.prototype[methodName];
   klass.prototype[methodName] = async function (...args) {

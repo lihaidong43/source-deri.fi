@@ -12332,6 +12332,11 @@ react-error-overlay@^6.0.11:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
 
+react-functional-modal@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-functional-modal/-/react-functional-modal-1.0.9.tgz#8cc5a44bd723f05f20902827181a9a4b29f44e21"
+  integrity sha512-4z9SfhvoNSRzFRzhf+b6AXoeXzEXedfgrzGrkGQeq/5AFvWqI18sD7PwmgL2N5XLD8R7nAly00Xc8wcZACe3Bg==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

@@ -70,7 +70,6 @@ export class ContractBase {
 
   async _transact(method, args=[], accountAddress, opts={}) {
     await this._init()
-    debug() && console.log(`-- method: ${method}(${args.join(',')}) from: ${accountAddress}`)
     let { onAccept, onReject, ...restOpts } = opts
     if (!onAccept) {
       onAccept = noOp

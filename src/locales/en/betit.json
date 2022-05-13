@@ -12,5 +12,12 @@
   "down":"DOWN",
   "boosted-up":"BOOSTED UP",
   "balance":"BALANCE",
-  "select-coin":"Select coin"
+  "select-coin":"Select coin",
+	"waiting-for-confirmation": "Waiting For Confirmation",
+	"transaction-submitted": "Transaction Submitted",
+	"transaction-rejected": "Transaction Rejected",
+	"waiting-for-confirmation-desc": "Confirm this transaction in your wallet",
+	"simulate-pnl-icon-tip": "Click to open PnL simulator",
+	"transaction-submitted-desc": "Your transaction has been submitted",
+	"transaction-rejected-desc": "Your transaction was rejected"
 }
