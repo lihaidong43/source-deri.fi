@@ -111,7 +111,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {lang['leverage']}  <Icon token="leverage" />
         </div>
       </div>
-      <div className='input-box'>
+      <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
         {betInfo.volume && betInfo.volume !== "0" ?
           <div className='symbol-pnl'>
             <div className='profit'>
