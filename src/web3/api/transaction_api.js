@@ -27,10 +27,11 @@ export const unlock = txApi(async ({ chainId, bTokenSymbol, accountAddress, isNo
   return await erc20.unlock(accountAddress, brokerAddress, opts)
 })
 
-export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, accountAddress, boostUp = false, isNodeEnv = false, ...opts }) => {
+export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, accountAddress, direction = 'long', boostUp = false, isNodeEnv = false, ...opts }) => {
   accountAddress = checkAddress(accountAddress)
   bTokenSymbol = checkToken(bTokenSymbol)
   symbol = checkToken(symbol)
+  direction = direction.toLowerCase()
   const brokerAddress = getBrokerAddress(chainId)
   const broker = BrokerImplementationFactory(chainId, brokerAddress, { isNodeEnv })
   const symbolConfig = getSymbol(chainId, symbol)
@@ -44,7 +45,12 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
   const symbolInfo = pool.symbols.find((s) => s.symbol === symbol)
 
   // calc max volume
-  const volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
+  let volume = '0'
+  if (direction === 'short') {
+    volume = bg(amount).div(symbolInfo.curIndexPrice).negated().toString()
+  } else {
+    volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
+  }
 
   const normalizedVolume = bg(Math.floor(bg(volume).div(symbolInfo.minTradeVolume).toNumber())).times(symbolInfo.minTradeVolume).toString()
 

@@ -40,12 +40,13 @@ export const queryApi = (fn, defaultValue) => {
       const newArgs = checkCommonArgs(args)
       // method call
       const data = await fn(newArgs)
+      debug() && console.log('queryApi data:', res)
       // checkOutput here
       res = toResponse(data)
     } catch (err) {
+      debug() && console.log('queryApi error:', err)
       res = toErrorResponse(err, defaultValue)
     }
-    debug() && console.log('queryApi res:', res)
     return res
   }
 }
@@ -58,9 +59,11 @@ export const txApi = (fn, defaultValue) => {
       const newArgs = checkCommonTxArgs(args)
       // send tx
       const data = await fn(newArgs)
+      debug() && console.log('txApi data:', data)
       // checkOutput here
       res = toResponse(data)
     } catch (err) {
+      debug() && console.log('txApi error:', err)
       res = toErrorResponse(err, defaultValue)
     }
     return res
