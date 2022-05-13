@@ -8,7 +8,7 @@ import { isStartScroll } from "../utils/utils";
 import DeriNumberFormat from "../utils/DeriNumberFormat";
 import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
-  const [totalPnl, setTotalPnl] = useState(0)
+  const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
   const wallet = useWallet()

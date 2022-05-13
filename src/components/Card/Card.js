@@ -6,13 +6,16 @@ import './card.scss'
 import Input from './Input'
 import ApiProxy from "../../model/ApiProxy";
 import { useWallet } from "use-wallet";
-export default function Card({ info, lang, bTokens }) {
+import { useAlert } from 'react-alert'
+import DeriNumberFormat from "../../utils/DeriNumberFormat";
+export default function Card({ info, lang, bTokens ,getLang}) {
   const [amount, setAmount] = useState()
   const [betInfo, setBetInfo] = useState({})
   const [bToken, setBToken] = useState(bTokens[0].bTokenSymbol)
-  const [balance, setBalance] = useState(0)
+  const [balance, setBalance] = useState()
   const [disabled, setDisabled] = useState(true)
   const wallet = useWallet();
+  const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
   }
@@ -32,24 +35,27 @@ export default function Card({ info, lang, bTokens }) {
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'short' }
     let res = await ApiProxy.request("openBet", params)
     console.log("down",res)
+    getBetInfo()
   }
 
   const betUp = async () => {
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'long'}
     let res = await ApiProxy.request("openBet", params)
-    console.log("up",res)
+    getBetInfo()
   }
 
   const betClose = async () => {
     let params = { write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
-    let res = await ApiProxy.request("openBet", params)
+    let res = await ApiProxy.request("closeBet", params)
     console.log("betClose",res)
+    getBetInfo()
   }
 
   const boostedUp = async()=>{
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
     let res = await ApiProxy.request("openBet", params)
     console.log("boostedUp",res)
+    getBetInfo()
   }
 
   useEffect(() => {
@@ -83,7 +89,7 @@ export default function Card({ info, lang, bTokens }) {
       </div>
       <div className='price-box'>
         <div className='symbol-price'>
-          ${info.price}
+          $<DeriNumberFormat value={info.price} decimalScale={2} height={30} />
         </div>
         <div className='price-title'>
           {lang['current-price']}

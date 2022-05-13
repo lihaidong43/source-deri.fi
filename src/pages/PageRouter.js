@@ -14,7 +14,7 @@ function PageRouter({intl}){
   const { dict } = intl
   return (
     <Routes>
-      <Route exact path='/betit' element={<BetIt lang={dict['betit']} />}></Route>
+      <Route exact path='/betit' element={<BetIt lang={dict['betit']} getLang={getLang} />}></Route>
       <Route exact path='/' element={<Navigate to='/betit'/>} />
     </Routes>
   )
