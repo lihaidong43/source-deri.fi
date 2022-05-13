@@ -4,7 +4,7 @@ import Button from '../Button/Button'
 import Icon from '../Icon/Icon'
 import './card.scss'
 import Input from './Input'
-export default function Card({ info, lang }) {
+export default function Card({ info, lang,bTokens }) {
   const [amount,setAmount] = useState()
   const onChange =(value)=>{
     setAmount(value)
@@ -37,7 +37,7 @@ export default function Card({ info, lang }) {
       <div className='btn-box'>
         <Button label={lang['up']} disabled={true} className="btn up-btn"  width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
         <Button label={lang['down']}  className="btn down-btn"  width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
-        <Button label={lang['boosted-up']} disabled={true} className="btn boosted-btn"  width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />
+        {info.isPower && <Button label={lang['boosted-up']} disabled={false} className="btn boosted-btn"  width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />} 
       </div>
 
     </div>

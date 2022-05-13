@@ -1,17 +1,20 @@
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
+import { useWallet } from 'use-wallet';
 import './betit.scss'
-
 import { useState, useEffect,useCallback } from "react";
 import { isStartScroll } from "../utils/utils";
 import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
   const [isFixed, setIsFixed] = useState(false)
+  // const [symbols,setSymbols] = useState()
+  // const [bTokens,setBTokens] = useState()
   const [bTokens,symbols] = usePool();
-
+  console.log('bTokens,symbols',bTokens,symbols)
+  const wallet = useWallet()
   const handler = useCallback(() => {
     if (isStartScroll()) {
-      setIsFixed(true)
+      setIsFixed(true)  
     } else {
       setIsFixed(false)
     }
@@ -23,11 +26,14 @@ export default function BetIt({ lang }) {
       document.removeEventListener('scroll', handler)
     }
   }, [])
+  useEffect(()=>{
+  },[wallet])
   const list = [
     {
       symbol: "BTC",
       Leverage: "12.5x",
       price: 30000,
+      isPower:true,
     },
     {
       symbol: "ETH",
@@ -58,6 +64,7 @@ export default function BetIt({ lang }) {
       symbol: "SOL",
       Leverage: "12.5x",
       price: 0.5,
+      isPower:false,
     },
   ]
   return (
@@ -86,9 +93,9 @@ export default function BetIt({ lang }) {
         </div>
 
         <div className='card-list'>
-          {list.map((item, index) => {
+          {symbols&&symbols.map((item, index) => {
             return (
-              <Card info={item} lang={lang} />
+              <Card info={item} bTokens={bTokens} lang={lang} />
             )
           })}
         </div>
