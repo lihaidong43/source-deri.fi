@@ -4,7 +4,7 @@ import { queryApi } from "../utils/api";
 import { bg, fromWei } from "../utils/bignumber";
 import { checkAddress } from "../utils/chain";
 import { getBrokerAddress, getBToken, getSymbol, getSymbolList } from "../utils/config";
-import { ZERO_ADDRESS } from "../utils/constant";
+import { debug } from "../utils/env";
 import { checkToken, nativeCoinSymbols, stringToId } from "../utils/symbol";
 import { getWeb3 } from "../utils/web3";
 
@@ -38,14 +38,21 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   accountAddress = checkAddress(accountAddress)
   symbol = checkToken(symbol)
   const brokerAddress = getBrokerAddress(chainId)
-  const symbolInfo = getSymbol(chainId, symbol)
+  const symbolConfig = getSymbol(chainId, symbol)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   // const clientInfo = await broker.bets(accountAddress, symbolInfo.pool, stringToId(symbol))
-  const volumes = await broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
+  const clientInfo = await broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol))
+  //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
+  let position = { dpmmTraderPnl: '0', traderPnl: '0' }
+  if (clientInfo.volume !== '0') {
+    const pool = poolFactory(chainId, symbolConfig.pool)
+    await pool.init(clientInfo.client)
+    position = pool.positions.find((p) => p.symbol === symbol)
+  }
   return {
     symbol,
-    volume: volumes[0],
-    pnl: '0',
+    volume: clientInfo.volume,
+    pnl:  position.dpmmTraderPnl,
   }
 }, {})
 
@@ -97,8 +104,7 @@ export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
     return broker.bets(accountAddress, s.pool, stringToId(s.symbol))
   }))
   const clientsInfo = res.map((r, index) => ({ ...r, symbol: symbols[index].symbol, pool: symbols[index].pool }))
-    .filter((c) => c.client !== ZERO_ADDRESS)
-  console.log(clientsInfo)
+    .filter((c) => c.volume !== '0')
   const pnlsInfo = (await Promise.all(clientsInfo.map((c) => {
     const pool = poolFactory(chainId, c.pool)
     return pool.init(c.client)

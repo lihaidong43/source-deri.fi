@@ -10,6 +10,7 @@ import { isOptionSymbol, isPowerSymbol, normalizeBNB, tokenToName } from "../uti
 import { deriLensFactoryProxy, ERC20Factory, symbolManagerImplementationFactory } from "./factory"
 import { calculateDpmmCost, getInitialMarginRequired } from "./symbol/shared"
 
+const interval = 3000
 export class Pool {
   constructor(chainId, poolAddress) {
     this.chainId = chainId
@@ -18,6 +19,9 @@ export class Pool {
     this.deriLens = deriLensFactoryProxy(chainId, this.deriLensAddress)
   }
   async init(accountAddress = ZERO_ADDRESS) {
+    if (accountAddress !== ZERO_ADDRESS && (Date.now() - this._update_timestamp) < interval) {
+      return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
+    }
     if (!this.symbolNames) {
       const symbols = await this.deriLens.getSymbolsInfo(this.poolAddress);
       this.symbolNames = symbols.map((s) => s.symbol)
@@ -80,11 +84,11 @@ export class Pool {
     }
     this._updateBTokens(marketsInfo)
     this._updateSymbols(symbolsInfo)
-    this._updateTimestamp()
     if (accountAddress !== ZERO_ADDRESS) {
       const { lpInfo, tdInfo } = info;
       this._updateLpInfo(lpInfo, accountAddress)
       this._updateTdInfo(tdInfo, accountAddress)
+      this._updateTimestamp()
       return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
     }
     return { pool: this.poolAddress, symbols: this.symbols, bTokens: this.bTokens }
@@ -98,7 +102,6 @@ export class Pool {
     const oracleSignatures = await getSymbolsOracleInfoForLens(this.chainId, this.symbolNames)
     const symbolsInfo = await this.deriLens.getSymbolsInfo(this.poolAddress, ZERO_ADDRESS, oracleSignatures)
     this._updateSymbols(symbolsInfo)
-    this._updateTimestamp()
   }
   async getLpInfo(accountAddress) {
     const lpInfo = await this.deriLens.getLpInfo(this.poolAddress, accountAddress)
@@ -182,15 +185,15 @@ export class Pool {
   }
 
   async updateState(accountAddress = ZERO_ADDRESS) {
-    if (accountAddress === ZERO_ADDRESS) {
+    if (accountAddress !== ZERO_ADDRESS) {
       await Promise.all([
         this.getSymbols(),
         this.getTdInfo(accountAddress),
       ])
+      this._updateTimestamp()
     } else {
       await this.getSymbols()
     }
-    this._updateTimestamp()
   }
 
   // internal method

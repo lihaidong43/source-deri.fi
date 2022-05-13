@@ -35,7 +35,7 @@ describe('tx api', () => {
   //   expect(res.success).toEqual(true)
   // }, TIMEOUT)
 
-  it('openBet ', async() => {
+  it('openBet', async() => {
     let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: symbol2, accountAddress: accountAddress, direction: 'long', isNodeEnv: true, ...callback })
     console.log(res)
     expect(res.success).toEqual(false)
