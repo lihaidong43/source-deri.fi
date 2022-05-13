@@ -42,12 +42,17 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
     pool.init(),
   ])
   const symbolInfo = pool.symbols.find((s) => s.symbol === symbol)
-  const volume = bg(amount).div(symbolInfo.curIndexPrice).times(0.1).toString()
-  const priceLimit = getPriceLimit(volume)
-  debug() && console.log(`-- volume(${volume})`)
-  debug() && console.log(`-- pool(${poolConfig.pool}) account(${accountAddress}) symbol(${symbol}) priceLimit: ${priceLimit}`)
+
+  // calc max volume
+  const volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
+
+  const normalizedVolume = bg(Math.floor(bg(volume).div(symbolInfo.minTradeVolume).toNumber())).times(symbolInfo.minTradeVolume).toString()
+
+  const priceLimit = getPriceLimit(normalizedVolume)
+  debug() && console.log(`-- pool(${poolConfig.pool}) account(${accountAddress}) symbol(${symbol}) volume(${normalizedVolume}) priceLimit: ${priceLimit}`)
   // debug() && console.log(oracleSignatures)
-  return await broker.openBet(accountAddress, poolConfig.pool, bTokenConfig.bTokenAddress, toWei(amount), symbol, toWei(bg(volume).negated().toString()), '0', oracleSignatures, opts)
+  // return await broker.openBet(accountAddress, poolConfig.pool, bTokenConfig.bTokenAddress, toWei(amount), symbol, toWei(volume), priceLimit, oracleSignatures, opts)
+  return await broker.openBet(accountAddress, poolConfig.pool, bTokenConfig.bTokenAddress, toWei(amount), symbol, toWei(normalizedVolume), priceLimit, oracleSignatures, opts)
 })
 
 export const closeBet = txApi(async({chainId, symbol, accountAddress, isNodeEnv=false, ...opts}) => {

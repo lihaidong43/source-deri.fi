@@ -1,5 +1,5 @@
 import { getDeriLensAddress} from "../config"
-import { bg } from "../utils/bignumber"
+import { bg, max } from "../utils/bignumber"
 import { isArbiChain, isBSCChain } from "../utils/chain"
 import { ZERO_ADDRESS } from "../utils/constant"
 import { getLensPropAlias } from "../utils/deri_lens"
@@ -91,7 +91,7 @@ export class Pool {
   }
   async getLpInfo(accountAddress) {
     const lpInfo = await this.deriLens.getLpInfo(this.poolAddress, accountAddress)
-    this._updateLpInfo(tdInfo)
+    this._updateLpInfo(lpInfo)
   }
   async getTdInfo(accountAddress) {
     const tdInfo = await this.deriLens.getTdInfo(this.poolAddress, accountAddress)

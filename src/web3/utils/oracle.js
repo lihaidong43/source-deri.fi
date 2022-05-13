@@ -1,3 +1,4 @@
+import { debug } from "util";
 import { asyncCache } from "./cache";
 import { isArbiChain, isBSCChain, onChainSymbols, onChainSymbolsArbi } from "./chain";
 import { isOptionSymbol, isPowerSymbol, normalizeOptionSymbol, normalizePowerSymbolForOracle, stringToId } from "./symbol";
@@ -20,7 +21,7 @@ const delayMs = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 export const getOracleInfoFromRest = asyncCache(async (symbol) => {
   let url = getOracleServerUrl(symbol);
   let retry = 2;
-  DEBUG && console.log('symbol oracle url: ', url)
+  debug() && console.log('symbol oracle url: ', url)
   let res, priceInfo;
   while (retry > 0) {
     try {
@@ -42,7 +43,7 @@ export const getOracleInfoFromRest = asyncCache(async (symbol) => {
       // delay
       await delayMs(100)
     } catch (err) {
-      DEBUG && console.log(err)
+      debug() && console.log(err)
     }
     retry -= 1;
   }
@@ -105,17 +106,6 @@ const _getOracleInfoFromRest  = async (symbolList) => {
 
 export const getOracleInfosFromRest = asyncCache(_getOracleInfoFromRest, 'getOracleInfosFromRest', [], 3)
 export const getOracleInfosFromRestForLens = asyncCache(_getOracleInfoFromRest, 'getOracleInfosFromRest', [], 10)
-
-export const getSymbolPrice = async (chainId, oracleManagerAddress, symbol, version) => {
-  if (oracleManagerAddress !== '') {
-  const id = symbol.length === 66 ? symbol : stringToId(symbol)
-  const oracleManager = oracleManagerFactory(chainId, oracleManagerAddress);
-  return await oracleManager.getValue(id);
-  } else {
-    const priceInfo = await getOracleInfoFromRest(symbol);
-    return priceInfo.value
-  }
-};
 
 // need to add cache later
 export const getSignedValues = async (symbols = []) => {
