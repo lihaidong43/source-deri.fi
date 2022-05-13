@@ -32,7 +32,7 @@ describe('query api', () => {
   //   expect(res.success).toEqual(true)
   // }, TIMEOUT)
   it('openBet ', async() => {
-    let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: 'AXSUSDT', accountAddress: accountAddress, isNodeEnv: true, ...callback })
+    let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: 'AXSUSDT', accountAddress: accountAddress, direction: 'short', isNodeEnv: true, ...callback })
     console.log(res)
     expect(res.success).toEqual(false)
   }, TIMEOUT)

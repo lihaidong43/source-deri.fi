@@ -1,4 +1,4 @@
-import { getBetInfo, isUnlocked } from "../api/query_api"
+import { getBetInfo, getBetsInfo, isUnlocked } from "../api/query_api"
 import { TIMEOUT } from "./shared"
 
 const chainId = '97'
@@ -25,7 +25,11 @@ describe('query api', () => {
   // }, TIMEOUT)
   it('getBetInfo', async () => {
     const res = await getBetInfo({ chainId, accountAddress, symbol: 'AXSUSDT' })
-    console.log(res)
+    expect(res.success).toEqual(true)
+    expect(res.response.data).toEqual([])
+  }, TIMEOUT)
+  it('getBetsInfo', async () => {
+    const res = await getBetsInfo({ chainId, accountAddress, symbols: ['AXSUSDT', 'SHIBUSDT'] })
     expect(res.success).toEqual(true)
     expect(res.response.data).toEqual([])
   }, TIMEOUT)
