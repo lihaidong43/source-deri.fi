@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import { bg } from "./bignumber";
 
 export const stringToId = (symbolName) => {
   return Web3.utils.keccak256(symbolName);
