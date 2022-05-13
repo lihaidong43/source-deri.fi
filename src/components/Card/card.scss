@@ -112,44 +112,44 @@ $Color: #F49B33,
       background-color: #FFFFFF;
     }
 
-    .up-btn {
-      background-image: url('../../assets/img/up.svg');
-      background-position: 125px;
+    // .up-btn {
+    //   background-image: url('../../assets/img/up.svg');
+    //   background-position: 125px;
 
-      &:hover {
-        background-image: url('../../assets/img/up-hover.svg');
-      }
+    //   &:hover {
+    //     background-image: url('../../assets/img/up-hover.svg');
+    //   }
 
-      &.disabled {
-        background-image: url('../../assets/img/up-disable.svg');
-      }
-    }
+    //   &.disabled {
+    //     background-image: url('../../assets/img/up-disable.svg');
+    //   }
+    // }
 
-    .down-btn {
-      background-image: url('../../assets/img/down.svg');
-      background-position: 110px;
+    // .down-btn {
+    //   background-image: url('../../assets/img/down.svg');
+    //   background-position: 110px;
 
-      &:hover {
-        background-image: url('../../assets/img/down-hover.svg');
-      }
+    //   &:hover {
+    //     background-image: url('../../assets/img/down-hover.svg');
+    //   }
 
-      &.disabled {
-        background-image: url('../../assets/img/down-disable.svg');
-      }
-    }
+    //   &.disabled {
+    //     background-image: url('../../assets/img/down-disable.svg');
+    //   }
+    // }
 
-    .boosted-btn {
-      background-image: url('../../assets/img/boosted-up.svg'), url('../../assets/img/boosted-hint.svg');
-      background-position: 90px, 195px;
+    // .boosted-btn {
+    //   background-image: url('../../assets/img/boosted-up.svg'), url('../../assets/img/boosted-hint.svg');
+    //   background-position: 90px, 195px;
 
-      &:hover {
-        background-image: url('../../assets/img/boosted-up-hover.svg'), url('../../assets/img/boosted-hint-hover.svg');
-      }
+    //   &:hover {
+    //     background-image: url('../../assets/img/boosted-up-hover.svg'), url('../../assets/img/boosted-hint-hover.svg');
+    //   }
 
-      &.disabled {
-        background-image: url('../../assets/img/boosted-up-disable.svg'), url('../../assets/img/boosted-hint-disable.svg');
-      }
-    }
+    //   &.disabled {
+    //     background-image: url('../../assets/img/boosted-up-disable.svg'), url('../../assets/img/boosted-hint-disable.svg');
+    //   }
+    // }
   }
 
 }

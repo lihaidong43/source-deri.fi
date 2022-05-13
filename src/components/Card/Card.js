@@ -8,10 +8,10 @@ import ApiProxy from "../../model/ApiProxy";
 import { useWallet } from "use-wallet";
 import { useAlert } from 'react-alert'
 import DeriNumberFormat from "../../utils/DeriNumberFormat";
-export default function Card({ info, lang, bTokens ,getLang}) {
+export default function Card({ info, lang, bTokens, getLang }) {
   const [amount, setAmount] = useState()
   const [betInfo, setBetInfo] = useState({})
-  const [bToken, setBToken] = useState(bTokens[0].bTokenSymbol)
+  const [bToken, setBToken] = useState()
   const [balance, setBalance] = useState()
   const [disabled, setDisabled] = useState(true)
   const wallet = useWallet();
@@ -32,29 +32,30 @@ export default function Card({ info, lang, bTokens ,getLang}) {
   }
 
   const betDown = async () => {
-    let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'short' }
+    let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
     let res = await ApiProxy.request("openBet", params)
-    console.log("down",res)
+    console.log("down", res)
     getBetInfo()
   }
 
   const betUp = async () => {
-    let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction:'long'}
+    let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
     let res = await ApiProxy.request("openBet", params)
+    console.log("up", res)
     getBetInfo()
   }
 
   const betClose = async () => {
     let params = { write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
-    console.log("betClose",res)
+    console.log("betClose", res)
     getBetInfo()
   }
 
-  const boostedUp = async()=>{
+  const boostedUp = async () => {
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
     let res = await ApiProxy.request("openBet", params)
-    console.log("boostedUp",res)
+    console.log("boostedUp", res)
     getBetInfo()
   }
 
@@ -69,11 +70,15 @@ export default function Card({ info, lang, bTokens ,getLang}) {
       getWalletBalance()
     }
   }, [wallet, bToken])
-
+  useEffect(() => {
+    if (bTokens.length) {
+      setBToken(bTokens[0].bTokenSymbol)
+    }
+  }, [bTokens])
   useEffect(() => {
     if (+amount <= +balance && amount) {
       setDisabled(false)
-    }else{
+    } else {
       setDisabled(true)
     }
   }, [amount])
@@ -113,9 +118,9 @@ export default function Card({ info, lang, bTokens ,getLang}) {
             <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
           </>
           : <>
-            <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
-            <Button label={lang['down']} onClick={betDown} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" />
-            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={boostedUp} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" />}
+            <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
+            <Button label={lang['down']} onClick={betDown} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
+            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={boostedUp} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip="aa" tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
           </>}
       </div>
 

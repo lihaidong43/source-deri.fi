@@ -2,12 +2,14 @@
   border-radius: 15px;
   height: 90px;
   background: #FAFBFC;
-  .balance-bet{
+
+  .balance-bet {
     font-size: 12px;
     display: flex;
     justify-content: space-between;
     padding: 0 14px;
-    .bet{
+
+    .bet {
       width: 40px;
       height: 16px;
       text-align: center;
@@ -16,24 +18,28 @@
       background-color: #FFAB00;
       border-radius: 1000px;
     }
-    .balance{
+
+    .balance {
       color: #C8CDD5;
     }
   }
-  .input-token{
+
+  .input-token {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     padding-right: 20px;
-    .baseToken{
+
+    .baseToken {
       width: 115px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-weight: 600;
     }
-    .token-list{
+
+    .token-list {
       position: absolute;
       width: 100%;
       height: 86px;
@@ -45,19 +51,36 @@
       font-weight: 600;
       color: #C8CDD5;
       padding: 8px 17px 0 23px;
-      .token-info{
+
+      .token-info {
         display: flex;
         flex-wrap: wrap;
         margin-left: 24px;
         text-align: right;
-        img{
+        div {
+          position: relative;
+          .check-bToken {
+            width: 23px;
+            height: 23px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background-image: url('../../assets/img/checkToken.svg');
+            background-color: rgba(92, 92, 92, 0.44);
+            border-radius: 1000px;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+        }
+
+        img {
           margin-left: 4px;
           margin-top: 4px;
         }
       }
     }
   }
-  
+
   input {
     background: transparent;
     border-radius: 4px;
@@ -65,14 +88,14 @@
     border: 0;
     width: 147px;
     height: 72px;
-    color : #040415;
-    font-size : 30px;
+    color: #040415;
+    font-size: 30px;
     padding-left: 23px;
   }
+
   input:focus {
     outline: none;
   }
 }
-@media only screen and (min-width : 760px) and (max-width:1339px) {
-  
-}
+
+@media only screen and (min-width : 760px) and (max-width:1339px) {}
