@@ -10,11 +10,11 @@ export const isObject = (value) => typeof value === 'object' && value !== null
 export const isArray = (value) => typeof value === 'object' && Array.isArray(value)
 export const isFunction = (value) => typeof value === 'function'
 
-export const checkCallback = (callback) => {
+export const checkCallback = (callback, name) => {
   if (callback && typeof callback === 'function') {
     return callback
   }
-  throw new Error(`Invalid callback type: ${typeof callback}`)
+  throw new Error(`Invalid callback type: ${name}(${typeof callback})`)
 }
 
 
