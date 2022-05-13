@@ -1,8 +1,10 @@
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
+import { poolFactory } from "../contract/pool";
 import { queryApi } from "../utils/api";
-import { fromWei } from "../utils/bignumber";
+import { bg, fromWei } from "../utils/bignumber";
 import { checkAddress } from "../utils/chain";
 import { getBrokerAddress, getBToken, getSymbol, getSymbolList } from "../utils/config";
+import { ZERO_ADDRESS } from "../utils/constant";
 import { checkToken, nativeCoinSymbols, stringToId } from "../utils/symbol";
 import { getWeb3 } from "../utils/web3";
 
@@ -94,9 +96,14 @@ export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
   const res = await Promise.all(symbols.map((s) => {
     return broker.bets(accountAddress, s.pool, stringToId(s.symbol))
   }))
-  console.log(res)
-  // get pool addresses
-  // update pnl for each symbol
-  // const totalPnl = res.reduce((acc, s) => acc.plus(s.pnl), bg(0)).toString()
-  return '0'
+  const clientsInfo = res.map((r, index) => ({ ...r, symbol: symbols[index].symbol, pool: symbols[index].pool }))
+    .filter((c) => c.client !== ZERO_ADDRESS)
+  console.log(clientsInfo)
+  const pnlsInfo = (await Promise.all(clientsInfo.map((c) => {
+    const pool = poolFactory(chainId, c.pool)
+    return pool.init(c.client)
+  }))).map((c) => c.account)
+  console.log(pnlsInfo)
+  // return pnlsInfo.reduce((acc, s) => acc.plus(s.traderPnl), bg(0)).toString()
+  return pnlsInfo.reduce((acc, s) => acc.plus(s.dpmmTraderPnl), bg(0)).toString()
 }, '')

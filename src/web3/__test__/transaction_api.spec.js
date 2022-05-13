@@ -12,7 +12,7 @@ const symbol2 = 'DOTUSDT'
 
 const callback = { onAccept: () => { }, onReject: () => { } }
 
-describe('query api', () => {
+describe('tx api', () => {
   // it('unlock', async() => {
   //   let res = await isUnlocked({ chainId, accountAddress: accountAddress, bTokenSymbol: 'BUSD' })
   //   expect(res.success).toEqual(true)
@@ -35,9 +35,9 @@ describe('query api', () => {
   //   expect(res.success).toEqual(true)
   // }, TIMEOUT)
 
-  // it('openBet ', async() => {
-  //   let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: symbol1, accountAddress: accountAddress, direction: 'short', isNodeEnv: true, ...callback })
-  //   console.log(res)
-  //   expect(res.success).toEqual(false)
-  // }, TIMEOUT)
+  it('openBet ', async() => {
+    let res = await openBet({ chainId, bTokenSymbol: 'BUSD', amount: '100', symbol: symbol2, accountAddress: accountAddress, direction: 'long', isNodeEnv: true, ...callback })
+    console.log(res)
+    expect(res.success).toEqual(false)
+  }, TIMEOUT)
 })
