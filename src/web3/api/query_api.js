@@ -89,6 +89,12 @@ export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols })
 export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
   const symbols = getSymbolList(chainId)
+  const brokerAddress = getBrokerAddress(chainId)
+  const broker = BrokerImplementationFactory(chainId, brokerAddress)
+  const res = await Promise.all(symbols.map((s) => {
+    return broker.bets(accountAddress, s.pool, stringToId(s.symbol))
+  }))
+  console.log(res)
   // get pool addresses
   // update pnl for each symbol
   // const totalPnl = res.reduce((acc, s) => acc.plus(s.pnl), bg(0)).toString()

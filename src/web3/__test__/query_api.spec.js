@@ -2,7 +2,7 @@ import { getBetInfo, getBetsInfo, getBetsPnl, getWalletBalance, isUnlocked } fro
 import { TIMEOUT } from "./shared"
 
 const chainId = '97'
-const accountAddress = '0xFefC938c543751babc46cc1D662B982bd1636721'
+const accountAddress = '0xFFe85D82409c5b9D734066C134b0c2CCDd68C4dF'
 const accountAddress2 = '0xfbc7Ec602A24A338A2E6F182E2B9793D22682D59'
 const bToken0 = '0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47' // busd
 const bToken1 = '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd' // bnb
@@ -35,28 +35,28 @@ describe('query api', () => {
   //   expect(res.response.data).toEqual([])
   // }, TIMEOUT)
 
-  // it('getBetsInfo', async () => {
-  //   const res = await getBetsInfo({ chainId, accountAddress, symbols: [symbol1, symbol2] })
+  it('getBetsInfo', async () => {
+    const res = await getBetsInfo({ chainId, accountAddress, symbols: [symbol1, symbol2] })
+    expect(res.success).toEqual(true)
+    expect(res.response.data).toEqual([])
+  }, TIMEOUT)
+
+  // it('getWalletBalance BNB', async () => {
+  //   const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'BNB'})
   //   expect(res.success).toEqual(true)
   //   expect(res.response.data).toEqual([])
   // }, TIMEOUT)
 
-  it('getWalletBalance BNB', async () => {
-    const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'BNB'})
-    expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual([])
-  }, TIMEOUT)
+  // it('getWalletBalance CAKE', async () => {
+  //   const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual([])
+  // }, TIMEOUT)
 
-  it('getWalletBalance CAKE', async () => {
-    const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
-    expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual([])
-  }, TIMEOUT)
-
-  it('getTotalPnl', async () => {
-    const res = await getBetsPnl({ chainId, accountAddress })
-    expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual('0')
-  }, TIMEOUT)
+  // it('getTotalPnl', async () => {
+  //   const res = await getBetsPnl({ chainId, accountAddress })
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual('0')
+  // }, TIMEOUT)
 
 })

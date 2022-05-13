@@ -83,6 +83,32 @@ export const normalizePowerSymbolForOracle = (symbol) => {
   }
 }
 
+// deri power symbol
+export const normalizeDeriSymbol = (symbol) => {
+  const res = isPowerSymbol(symbol) ? `m${symbol}` : symbol;
+  return res
+}
+// for power symbol,  oracle use only
+export const deriSymbolMultiplierPairs = {
+  "BTC^2": 10 ** 3,
+  "ETH^2": 10 ** 3,
+};
+export const getDeriSymbolMultiplier = (symbol) => {
+  if (Object.keys(deriSymbolMultiplierPairs).includes(symbol)) {
+    return deriSymbolMultiplierPairs[symbol];
+  } else {
+    return 1;
+  }
+};
+
+export const deriSymbolScaleIn = (symbol, value) => {
+  return bg(value).div(getDeriSymbolMultiplier(symbol)).toString()
+}
+
+export const deriSymbolScaleOut = (symbol, value) => {
+  return bg(value).times(getDeriSymbolMultiplier(symbol)).toString()
+}
+
 // WETH => ETH, WBNB => BNB
 export const normalizeBNB = (chainId, symbol) => {
   if (symbol.toUpperCase() === "WBNB" && ['56', '97'].includes(chainId)) {

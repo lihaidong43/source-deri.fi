@@ -6,6 +6,7 @@
     "version": "v3_lite",
     "versionId": "v3",
     "broker": "0xcD3B34f2942c26a5c070767441f9Fc45e6E3f4ca",
+    "symbolManager": "0xf211aAC2188504B722f723Ba281462951e7349fB",
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
@@ -112,6 +113,7 @@
     "version": "v3",
     "versionId": "v3",
     "broker": "0x0000000000000000000000000000000000000000",
+    "symbolManager": "0xeebdD97439B9a3Ca84363190124c43c49CDca3F6",
     "bTokens": [
       {
         "bTokenSymbol": "USDC",
