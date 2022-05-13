@@ -5,6 +5,7 @@
     "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
     "version": "v3_lite",
     "versionId": "v3",
+    "broker": "0xcD3B34f2942c26a5c070767441f9Fc45e6E3f4ca",
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
@@ -158,6 +159,7 @@
     "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
     "version": "v3",
     "versionId": "v3",
+    "broker": "0x0000000000000000000000000000000000000000",
     "bTokens": [
       {
         "bTokenSymbol": "USDC",
