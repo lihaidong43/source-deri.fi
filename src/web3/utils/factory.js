@@ -5,8 +5,8 @@ export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // contract factory
 export const contractFactory = (klass) => {
   let instances = {}
-  return (chainId, address, opts) => {
-    const key = `${chainId}_${address}`
+  return (chainId, address, opts={}) => {
+    const key = `${chainId}_${address}_${!!opts.isNodeEnv}`
     if (Object.keys(instances).includes(key)) {
       return instances[key];
     } else {

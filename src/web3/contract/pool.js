@@ -7,7 +7,7 @@ import { debug, DeriEnv, Env } from "../utils/env"
 import { contractFactory } from "../utils/factory"
 import { getSymbolsOracleInfoForLens } from "../utils/oracle"
 import { isOptionSymbol, isPowerSymbol, normalizeBNB, tokenToName } from "../utils/symbol"
-import { deriLensFactoryProxy, ERC20Factory } from "./factory"
+import { deriLensFactoryProxy, ERC20Factory, symbolManagerImplementationFactory } from "./factory"
 import { calculateDpmmCost, getInitialMarginRequired } from "./symbol/shared"
 
 export class Pool {
@@ -26,8 +26,11 @@ export class Pool {
     debug() && console.log(`--- oracleSignatures: ${oracleSignatures}`)
     const info = await this.deriLens.getInfo(this.poolAddress, ZERO_ADDRESS, oracleSignatures);
     const { poolInfo, marketsInfo, symbolsInfo } = info;
-    if (!this.tokenB0) {
-      this.tokenB0 = ERC20Factory(this.chainId, poolInfo.tokenB0)
+    if (!this.symbolManager) {
+      this.symbolManager = symbolManagerImplementationFactory(
+        this.chainId,
+        poolInfo.symbolManager
+      );
       // bTokens
       for (let i = 0; i < marketsInfo.length; i++) {
         const market = marketsInfo[i];

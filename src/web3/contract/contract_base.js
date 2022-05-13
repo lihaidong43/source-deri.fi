@@ -15,7 +15,9 @@ export class ContractBase {
 
   async _init() {
     // re-init web3 and contract when web3 instance is null
+
     if (!this.web3) {
+      // console.log('isNodeEnv', this.isNodeEnv, this.web3)
       if (this.isNodeEnv) {
         this.web3 = await getWeb3WithSigner(this.chainId);
       } else {
