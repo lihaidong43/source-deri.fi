@@ -16,6 +16,15 @@ export function getCookie(name){
 export function removeCookie(name,domain = COOKIE_DERI_DOMAIN, path = '/'){
   Cookies.remove(name,{domain,path})
 }
+//反科学计数法
+export function toPlainString(num) {
+  return (''+ +num).replace(/(-?)(\d*)\.?(\d*)e([+-]\d+)/,
+    function(a,b,c,d,e) {
+      return e < 0
+        ? b + '0.' + Array(1-e-c.length).join(0) + c + d
+        : b + c + d + Array(e-d.length+1).join(0);
+    });
+}
 
 
 export function formatNumber(number,decimal){
@@ -34,4 +43,65 @@ export function countDecimal(n){
 
 export function formatAddress(address){
   return address && `${address.substr(0,6)}...${address.substr(-4)}`
+}
+
+export function isElementInViewport (el) {
+  var rect = el ? el.getBoundingClientRect() : {}
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+  );
+}
+
+export function isStartScroll(offset = 82) {
+  const st = window.pageYOffset || document.documentElement.scrollTop; 
+  return st > offset ? true : false
+}
+
+export function eqInNumber(str1,str2){
+  return (+str1) === (+str2)
+}
+
+export function importAll(r,config = {}){
+  r.keys().forEach(key => {
+    const path = key.split('.')
+    const env = path[2]
+    if(!config[env]) {
+      config[env] = {}
+    }
+    config[env] = r(key)
+  });
+  return config;
+}
+
+export function getEnv(){
+  return process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
+}
+
+
+export async function  switchNetwork(chain,successCb,errorCb) {
+  const chainId = `0x${(parseInt(chain.chainId)).toString(16)}`
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    })
+    successCb && successCb()
+  } catch (error) {
+    if (error.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{ chainId, ...chain.metamask }],
+        });
+      } catch (addError) {
+        console.error('err', addError)
+      }
+    } else if(error.code === 4001){
+      errorCb && errorCb(40001)
+    } 
+  }
+
 }

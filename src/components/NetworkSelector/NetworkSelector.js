@@ -1,114 +1,120 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,useCallback} from 'react'
 import styled from 'styled-components';
-import bscLogoIcon from '../../assets/img/bsc-logo.svg'
-import arrowDownIcon from '../../assets/img/arrow-down.svg'
-import Tooltip from '../Tooltip/Tooltip';
-import { getNetworkList, getDefaultNw } from '../../utils/utils';
-import { DeriEnv } from '../../lib/web3js';
-import { inject, observer } from 'mobx-react';
+import {isStartScroll, switchNetwork } from '../../utils/utils';
 import Icon from '../Icon/Icon';
 import { NETWORK_MAP } from '../../utils/Constants';
 import { useWallet } from 'use-wallet';
-import useConfig from '../../hooks/useConfig';
+import useChain from '../../hooks/useChain';
+import classNames from 'classnames';
+
 const Wrapper = styled.div`
-  display : flex;
-  align-items : center;
-  color : #93A1B8;
-  margin : 0 16px;
   cursor : pointer;
+  color : #fff;
+  font-size : 16px;
+  font-weight : 600;
+  min-width : 180px;
+  height : 48px;
+  margin-right : 24px;
+  position : relative;
+  display : flex;
+  justify-content : center;
   .name {
-    margin-left : 4px
+    margin : 0 4px;
   }
-  .cur-network {
+  .nw-wrapper {
+    border : 2px solid #fff;
+    border-radius: 15px;
+    background : ${props => props.bgColor};
+    position : absolute;
+    top : 0px;
     display : flex;
-    align-items : center;
-  }
-  #network-select {
-    .item {
-      padding : 16px;
-      color: #93A1B8;
-      height: 48px;
-      display: flex;
+    flex-direction : column;
+    item-align : center;
+    min-height: 48px;
+    width: 100%;
+    padding: 0 16px;
+    z-index :1;
+    .cur-network {
+      display : flex;
+      align-items : center;
+      height : 48px;
+    }
+    .nw-item {
+      display : flex;
+      height : 48px;
       align-items: center;
-      border : 1px solid transparent;
-      img {
-        margin-right : 8px;
+      .name {
+        white-space: nowrap;
       }
     }
-    .item:hover,.item.selected {
-      color : #E0ECFF;
-      cursor : pointer;
-      border-radius: 4px;
-      background: #5577FD1A;
-    }
-    .item:hover {
-      // border: 1px solid #CD7A37;
+    .nw-item.hidden {
+      display : none;
     }
   }
 `  
-function NetworkSelector({wallet,showWalletModal}){
-  const [networkList, setNetworkList] = useState([])
-  const config = useConfig()
-  const [nowIcon,setNowIcon] = useState('BNB')
-  const [curNetwork, setCurNetwork] = useState({});
+function NetworkSelector({}){
+  const [bgColor, setBgColor] = useState('rgba(255, 255, 255, 0.2)');
+  const [isScroll, setIsScroll] = useState(false);
   const [isShow, setIsShow] = useState(false)
-  const walletContext = useWallet();
-  const calculatePosition = (position,
-    currentEvent,
-    currentTarget,
-    refNode,
-    place,
-    desiredPlace,
-    effect,
-    offset) => {
-      const rect = currentTarget.getBoundingClientRect();
-      const top = rect.top + rect.height + 8;
-      const left = (rect.left - refNode.offsetWidth + rect.width)
-      return {top:top + offset.top,left : rect.left}
-    }
+  const chains = useChain();
+  const wallet = useWallet()
 
-  const onSelect = async (network) => {
-    if(walletContext.isConnected()){
-      wallet.switchNetwork(network)
+  const onSelect = useCallback(async (chain) => {
+    if(wallet.isConnected()){
+      switchNetwork(chain,() => setIsShow(false))
     } else {
-      showWalletModal()
-      // wallet.switchNetwork(network);
+      await wallet.connect();
+      switchNetwork(chain,() => setIsShow(false))
     }
-  }
+  },[wallet])
+
+  const handler = useCallback(() => {
+    if(isStartScroll()) {
+      setIsScroll(true)
+      setBgColor('#FFAF0D')
+    } else {
+      setIsScroll(false)
+      setBgColor('')
+    }
+  })
 
   useEffect(() => {
-    const networkList = getNetworkList(DeriEnv.get())
-    const defaultNw = getDefaultNw(DeriEnv.get());
-    if(walletContext.isConnected()){
-      let icon = networkList.filter(p => (+p.id) === (+walletContext.chainId))
-      if(icon.length){
-        icon = icon[0].icon
-        setNowIcon(icon)
-      }
-      if(walletContext.chainId && config[walletContext.chainId]){
-        setCurNetwork(config[walletContext.chainId])
-      }
+    document.addEventListener('scroll', handler, false);
+    return () => {
+      document.removeEventListener('scroll',handler)
     }
-    wallet.setDefaultNw(defaultNw)
-    setNetworkList(networkList)
-  }, [wallet,walletContext])
+  }, []);
+
+
 
 
   return (
-    <Wrapper className='network-select'>
-      <div className='cur-network' data-tip data-for='network-select' data-event-off='' data-event='click'>
-        <Icon token={nowIcon} width='20'/>
-        <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
-        <Icon token={isShow ? 'arrow-up' : 'arrow-down'}/>
+    <Wrapper className='network-select' bgColor={bgColor}>
+      <div className='nw-wrapper'>
+        {chains.map((chain,index) => {
+          const itemClass = classNames('nw-item',{
+            hidden : !isShow
+          })
+          return index === 0 
+            ?
+              (<div className='nw-item' onClick={() => setIsShow(!isShow)} key={index}>
+                <Icon token={isScroll ? `${chain.icon}-LIGHT` : chain.icon} width='20'/>
+                <div className='name'>{chain.name}</div>
+                <Icon  width='16' token={'arrow-down'}/>
+              </div>)
+          : 
+            (<div className={itemClass} onClick={e => onSelect(chain)} key={index}>
+              <Icon token={isScroll ? `${chain.icon}-LIGHT` : chain.icon} width='20'/>
+              <div className='name'>{chain.name}</div>
+            </div>)
+        })}
+        {/* <div className='nw-item cur-network' >
+          <Icon token={nowIcon} width='20'/>
+          <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
+          <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
+        </div> */}
       </div>
-      <Tooltip  id='network-select' width = {180} offset={{top : 14}}  overridePosition={calculatePosition} type="info" clickable >
-        {networkList.map((network,index) => (
-          <div onClick = {()=> onSelect(network)} key={index} className={`item ${wallet.detail.code && network.code === wallet.detail.code ? 'selected' : ''}`} >
-            <Icon token={network.icon} width='24' height='24'/><span>{network.name}</span>
-          </div>)
-      )}
-      </Tooltip>
     </Wrapper>
   )
 }
-export default inject('wallet')(observer(NetworkSelector))
+export default NetworkSelector;

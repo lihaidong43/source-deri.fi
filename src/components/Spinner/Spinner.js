@@ -1,4 +1,4 @@
-import './spinner.less'
+import './spinner.scss'
 import styled from 'styled-components'
 const Wrapper = styled.div`
   width : ${props => props.width}px;
