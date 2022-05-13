@@ -61,7 +61,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
   useEffect(() => {
     if (wallet.chainId && wallet.account && info) {
+      let interval = window.setInterval(() => { getBetInfo() }, 1000 * 3);
       getBetInfo()
+      return () => clearInterval(interval);
     }
   }, [wallet, info])
 
@@ -110,7 +112,18 @@ export default function Card({ info, lang, bTokens, getLang }) {
         </div>
       </div>
       <div className='input-box'>
-        <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+        {betInfo.volume && betInfo.volume !== "0" ?
+          <div className='symbol-pnl'>
+            <div className='profit'>
+              {lang['profit']}
+            </div>
+            <div className={+betInfo.pnl > 0 ? "symbol-pnl-num up-pnl" : "symbol-pnl-num down-pnl"}>
+              {+betInfo.pnl > 0 ? "+" : "-"}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} />
+            </div>
+          </div>
+          :
+          <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+        }
       </div>
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?

@@ -16,6 +16,7 @@
   "balance":"BALANCE",
   "entered":"Entered",
   "select-coin":"Select coin",
+  "profit":"PROFIT",
 	"waiting-for-confirmation": "Waiting For Confirmation",
 	"transaction-submitted": "Transaction Submitted",
 	"transaction-rejected": "Transaction Rejected",
