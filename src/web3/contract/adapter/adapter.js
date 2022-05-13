@@ -1,6 +1,7 @@
 import { bg, fromWei } from "../../utils/bignumber";
 import { MAX_UINT256 } from "../../utils/constant";
 import { deriSymbolScaleIn, deriSymbolScaleOut, normalizeDeriSymbol } from "../../utils/symbol";
+import { getBlockInfo } from "../../utils/chain";
 import { classAdapter, overrideMethods, processMethod } from "./shared";
 
 export const ERC20Adapter = (klass) => {
@@ -37,7 +38,7 @@ export const symbolManagerImplementationAdapter = (klass) => {
     async function (event, symbols, accountAddress) {
       const info = event.returnValues;
       const tradeVolume = fromWei(info.tradeVolume);
-      const block = await getBlockInf(this.chainId, event.blockNumber);
+      const block = await getBlockInfo(this.chainId, event.blockNumber);
       const symbolId = info.symbolId;
       const symbol = symbols.find((s) => s.symbolId === symbolId);
       const tradeFee = info.tradeFee;
@@ -76,8 +77,8 @@ export const symbolManagerImplementationAdapter = (klass) => {
 };
 
 export const brokerImplementationAdapter = (klass) => {
-  // klass = overrideMethods(klass, [
-  //   [processMethod, ""]
-  // ])
+  klass = overrideMethods(klass, [
+    [processMethod, "bets", ['volume']]
+  ])
   return klass
 }
