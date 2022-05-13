@@ -22,7 +22,7 @@ export default function TransactionBox({title,subTitle,desc,icon,rgb,close}) {
     <div className='trans-box'>
       <div className='trans-box-title'>
         {title}
-        <Icon token='trans-close' height='20' width='20' className='close-icon' onClick={close}/>
+        <Icon token='trans-close' height='10' width='10' className='close-icon' onClick={close}/>
       </div>
       <div className='trans-box-content'>
         <div className={iconClass}>
