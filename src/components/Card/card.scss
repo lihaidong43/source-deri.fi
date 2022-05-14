@@ -32,6 +32,7 @@ $Color: #F49B33,
   height: 616px;
   border-radius: 30px;
   background: #FFFFFF;
+  box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   margin-top: 50px;
   padding: 32px 0 0 36px;
   border: 1px solid transparent;
@@ -221,12 +222,13 @@ $Color: #F49B33,
       margin-top: 14px;
     }
     .position{
-      margin-top: 42px;
+      margin-top: 31px;
       height: 72px;
     }
 
     .btn-box {
       height: 207px;
+      margin-top: 27px;
       .btn {
         width: 288px;
       }
