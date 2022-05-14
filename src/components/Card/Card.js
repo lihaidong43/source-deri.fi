@@ -6,6 +6,7 @@ import './card.scss'
 import Input from './Input'
 import ApiProxy from "../../model/ApiProxy";
 import { useWallet } from "use-wallet";
+import useChain from '../../hooks/useChain';
 import { useAlert } from 'react-alert'
 import DeriNumberFormat from "../../utils/DeriNumberFormat";
 export default function Card({ info, lang, bTokens, getLang }) {
@@ -15,22 +16,24 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [balance, setBalance] = useState()
   const [disabled, setDisabled] = useState(true)
   const wallet = useWallet();
+  const chains = useChain()
+  const chain = chains.find((item) => +item.chainId === +wallet.chainId)
   const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
   }
   const betit = useCallback(() => {
-    ApiProxy.request('openBet',{
-      write : true, 
-      subject : 'open Bet',
-      amount: '100', 
-      direction : 'long',
-      chainId : wallet.chainId, 
-      accountAddress : wallet.account, 
-      bTokenSymbol: 'ETH' 
-    }) 
+    ApiProxy.request('openBet', {
+      write: true,
+      subject: 'open Bet',
+      amount: '100',
+      direction: 'long',
+      chainId: wallet.chainId,
+      accountAddress: wallet.account,
+      bTokenSymbol: 'ETH'
+    })
   })
-  
+
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
     if (res.symbol) {
@@ -48,78 +51,92 @@ export default function Card({ info, lang, bTokens, getLang }) {
     setBalance(res)
   }
 
-  const betDown = async () => {
-    let isApproved  = await getIsApprove()
-    let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
-    if(!isApproved){
-      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
-      let appoved = await ApiProxy.request("unlock", paramsApprove)
-      params["approved"] = appoved
-    }
-    let res = await ApiProxy.request("openBet", params)
-    console.log("down", res)
-    getBetInfo()
-  }
-
-  const betUp = async () => {
-    alert.success(`${lang['buy']} ${11} ${info.unit}`, {
-      timeout: 80000,
-      isTransaction: true,
-      transactionHash:"aaa",
-      link: "${wallet.blockExploreUrl}/tx/${res.transactionHash}",
-      title: lang['buy-order-executed'] 
-    })
-    return;
-    let isApproved  = await getIsApprove()
-    let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
-    if(!isApproved){
-      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
-      let appoved = await ApiProxy.request("unlock", paramsApprove)
-      params["approved"] = appoved
-    }
-    let res = await ApiProxy.request("openBet", params)
-    if (res) {
-      alert.success(`${lang['buy']} ${res.volume} ${info.unit} ${`${getLang('with-entry-price',{price:(1).toFixed(2)})} `} `, {
-        timeout: 80000,
-        isTransaction: true,
-        transactionHash:res.transactionHash,
-        link: `${wallet.blockExploreUrl}/tx/${res.transactionHash}`,
-        title: lang['buy-order-executed'] 
-      })
-    } else {
-      if (res.transactionHash === "") {
-        return false;
-      }
-      alert.error(`${lang['transaction-failed']} : ${res.error}`, {
-        timeout: 300000,
-        isTransaction: true,
-        transactionHash:res.transactionHash,
-        link: `${wallet.blockExploreUrl}/tx/${res.transactionHash}`,
-        title: lang['buy-order-failed'] 
-      })
-    }
-    getBetInfo()
-  }
 
   const betClose = async () => {
-    let params = { write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
+    let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
+    if (res.success) {
+      alert.success(`${+res.response.data.volume > 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit}`, {
+        timeout: 8000,
+        isTransaction: true,
+        transactionHash: res.response.data.transactionHash,
+        link: `${chain.viewUrl}/tx/${res.response.data.transactionHash}`,
+        title:`${+res.response.data.volume > 0 ? lang['buy-order-executed'] : lang['sell-order-executed']}` 
+      })
+    } else {
+      if (res.response.transactionHash === "") {
+        return false;
+      }
+      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
+        timeout: 300000,
+        isTransaction: true,
+        transactionHash: res.response.transactionHash,
+        link: `${chain.viewUrl}/tx/${res.response.transactionHash}`,
+        title: lang['buy-order-failed']
+      })
+    }
     console.log("betClose", res)
     getBetInfo()
   }
 
-  const boostedUp = async () => {
-    let isApproved  = await getIsApprove()
-    let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
-    if(!isApproved){
-      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
-      let appoved = await ApiProxy.request("unlock", paramsApprove)
-      params["approved"] = appoved
+  const openBet = async (type) => {
+    let isApproved = await getIsApprove()
+    let direction = type === "up" || type === "boostedUp" ? "long" : "short"
+    let boostedUp = type === "boostedUp" ? true : false
+    let params = { includeResponse: true, write: true, subject: type, chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: boostedUp, direction: direction }
+    if (!isApproved) {
+      let paramsApprove = { includeResponse: true, write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let approved = await ApiProxy.request("unlock", paramsApprove)
+      if (approved) {
+        if (approved.status) {
+          alert.success(`Approve ${bToken}`, {
+            timeout: 8000,
+            isTransaction: true,
+            transactionHash: approved.transactionHash,
+            link: `${chain.viewUrl}/tx/${approved.transactionHash}`,
+            title: 'Approve Executed'
+          })
+        } else {
+          if (approved.transactionHash === "") {
+            return false;
+          }
+          alert.error(`Transaction Failed ${approved.error}`, {
+            timeout: 300000,
+            isTransaction: true,
+            transactionHash: approved.transactionHash,
+            link: `${chain.viewUrl}/tx/${approved.transactionHash}`,
+            title: 'Approve Failed'
+          })
+        }
+        return approved.status
+      }
+      params["approved"] = approved
     }
     let res = await ApiProxy.request("openBet", params)
-    console.log("boostedUp", res)
+    console.log(type, res)
+    if (res.success) {
+      alert.success(`${+res.response.data.volume > 0 ? lang['buy'] : lang['sell']} ${res.response.data.volume} ${info.unit} ${boostedUp && lang['powers']} `, {
+        timeout: 8000,
+        isTransaction: true,
+        transactionHash: res.response.data.transactionHash,
+        link: `${chain.viewUrl}/tx/${res.response.data.transactionHash}`,
+        title: `${direction === "long" ? lang['buy-order-executed'] : lang['sell-order-executed']}`
+      })
+    } else {
+      if (res.response.transactionHash === "") {
+        return false;
+      }
+      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
+        timeout: 300000,
+        isTransaction: true,
+        transactionHash: res.response.transactionHash,
+        link: `${chain.viewUrl}/tx/${res.response.transactionHash}`,
+        title: `${direction === "long" ? lang['buy-order-failed'] : lang['sell-order-failed']}`
+      })
+    }
     getBetInfo()
   }
+
 
   useEffect(() => {
     if (wallet.chainId && wallet.account && info) {
@@ -193,9 +210,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
             <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
-            <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
-            <Button label={lang['down']} onClick={betDown} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
-            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={boostedUp} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip="aa" tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
+            <Button label={lang['up']} onClick={() => openBet("up")} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
+            <Button label={lang['down']} onClick={() => openBet("down")} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
+            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip="aa" tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
           </>}
       </div>
 

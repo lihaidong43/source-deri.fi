@@ -31,7 +31,7 @@ export default function MessageTemplate({ style, options, message, close }) {
           </div>
           <div className={options.type === 'error' ? 'close noAnimation' : 'close'} onClick={close}>
             <div className='close-icon'>
-              <Icon token="close-modal-icon" width='7' />
+              <Icon token="close" width='7' />
             </div>
             <div className={options.type === 'error' ? "circle_process" : "circle_process animation"}>
               <div className="wrapper right">

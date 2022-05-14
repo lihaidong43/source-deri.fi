@@ -32,5 +32,6 @@
 	"sell-order-failed": "Sell Order Failed",
 	"buy-order-failed": "Buy Order Failed",
   "powers":"POWERS",
+  "transaction-failed": "Transaction failed",
   "with-entry-price": "with entry price $ ${price}"
 }
