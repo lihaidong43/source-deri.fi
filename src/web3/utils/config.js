@@ -40,6 +40,7 @@ export const getBTokenList = (chainId) => {
         bTokenAddress: b.bTokenAddress,
         bTokenSymbol: b.bTokenSymbol,
         bTokenDecimals: b.bTokenDecimals,
+        bTokenDiscount: b.bTokenDiscount,
       }
     } else {
       return {
@@ -47,6 +48,7 @@ export const getBTokenList = (chainId) => {
         pool: pool.pool,
         bTokenAddress: b.bTokenAddress,
         bTokenSymbol: b.bTokenSymbol,
+        bTokenDiscount: b.bTokenDiscount,
       }
     }
   }
@@ -66,6 +68,15 @@ export const getBToken = (chainId, bTokenSymbol) => {
     return config
   }
   throw new Error(`Cannot find bToken config: chainId(${chainId}) bTokenSymbol(${bTokenSymbol})`)
+}
+
+export const getBTokenByAddress = (chainId, bTokenAddress) => {
+  const bTokenList = getBTokenList(chainId)
+  const config = bTokenList.find((b) => b.bTokenAddress === bTokenAddress)
+  if (config) {
+    return config
+  }
+  throw new Error(`Cannot find bToken config: chainId(${chainId}) bTokenSymbol(${bTokenAddress})`)
 }
 
 export const getSymbolList = (chainId) => {

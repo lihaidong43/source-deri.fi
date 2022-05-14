@@ -207,7 +207,7 @@ export class Pool {
       debug() &&  console.log(`-- calcMaxVolume(): return ${volume}`)
 
       // scale to 0.99 due to index price changes.
-      return bg(volume).times(0.99).toString()
+      return bg(volume).times(0.98).toString()
     }
   }
 
