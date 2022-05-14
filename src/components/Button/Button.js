@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { PRIMARY, SECONDARY } from '../../utils/Constants';
 import classNames from 'classnames';
-import Spinner from '../Spinner/Spinner';
+import Loading from '../Loading/Loading';
 import Icon from '../Icon/Icon';
 const Wrapper = styled.div`
     position : ${props => props.position ? props.position : 'initial'};
@@ -22,6 +22,9 @@ const Wrapper = styled.div`
     opacity : ${props => props.pending ? '0.5' : '1'};
     img{
       margin-right:4px;
+      margin-left:4px;
+    }
+    .spinner{
       margin-left:4px;
     }
     &:hover {
@@ -85,7 +88,7 @@ export default function Button({ label, fontColor = '#E0ECFF', type = PRIMARY, b
       onMouseOut={() => { setIsHover(false) }}
       radius={radius}
       height={height} className={clazz} style={{ ...styles }} onClick={click}>
-      {icon && <Icon token={disabled ? disabledIcon ? disabledIcon : icon : isHover ? hoverIcon ? hoverIcon : icon : pending ? hoverIcon ? hoverIcon : icon : icon} />}{label} {pending && <Spinner />} {tip && <Icon token={disabled ? disabledTipIcon ? disabledTipIcon : tipIcon : isHover ? hoverTipIcon ? hoverTipIcon : tipIcon : pending ? hoverTipIcon ? hoverTipIcon : tipIcon : tipIcon} />}
+      {icon && <Icon token={disabled ? disabledIcon ? disabledIcon : icon : isHover ? hoverIcon ? hoverIcon : icon : pending ? hoverIcon ? hoverIcon : icon : icon} />}{label}  {tip && <Icon token={disabled ? disabledTipIcon ? disabledTipIcon : tipIcon : isHover ? hoverTipIcon ? hoverTipIcon : tipIcon : pending ? hoverTipIcon ? hoverTipIcon : tipIcon : tipIcon} /> } {pending && <Loading borderColor="#FFFFFF" bgColor="rgba(255, 255, 255, 0.3)" />}
     </Wrapper>
   )
 }
