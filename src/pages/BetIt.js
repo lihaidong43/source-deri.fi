@@ -11,6 +11,7 @@ export default function BetIt({ lang }) {
   const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
+  console.log("symbols",symbols)
   const wallet = useWallet()
   const handler = useCallback(() => {
     if (isStartScroll()) {
@@ -32,8 +33,10 @@ export default function BetIt({ lang }) {
     }
   }, [])
   useEffect(() => {
-    if(wallet.chainId&&wallet.account){
+    if (wallet.chainId && wallet.account) {
+      let interval = window.setInterval(() => { getBetsPnl()}, 1000 * 3);
       getBetsPnl()
+      return () => clearInterval(interval);
     }
   }, [wallet])
   return (
@@ -57,7 +60,7 @@ export default function BetIt({ lang }) {
         <div className='total-pnl-box'>
           <div className='total-pnl'>
             <span>{lang['total-pnl']}:</span>
-            <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2}  /></div>
+            <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
           </div>
         </div>
 

@@ -32,6 +32,7 @@ $Color: #F49B33,
   height: 616px;
   border-radius: 30px;
   background: #FFFFFF;
+  box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   margin-top: 50px;
   padding: 32px 0 0 36px;
   border: 1px solid transparent;
@@ -41,12 +42,14 @@ $Color: #F49B33,
     display: flex;
     align-items: center;
     position: relative;
+
     .symbol-name {
       margin-left: 12px;
       font-weight: 700;
       font-size: 24px;
     }
-    .entered{
+
+    .entered {
       position: absolute;
       right: 0;
       color: #FFF;
@@ -92,8 +95,44 @@ $Color: #F49B33,
     width: 302px;
     height: 90px;
     margin-top: 21px;
+    .symbol-pnl {
+      width: 100%;
+      height: 72px;
+      background: #FFFFFF;
+      border: 1px solid rgba(4, 4, 21, 0.1);
+      border-radius: 16px;
+      font-size: 12px;
+      color: #C8CDD5;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 23px;
 
+      .profit {
+        position: absolute;
+        left: 15px;
+        top: -8px;
+        background: #FFFFFF;
+        padding: 0 8px;
+      }
+
+      .symbol-pnl-num {
+        font-size: 30px;
+        color: #38CB89;
+        font-weight: 700;
+      }
+
+      .down-pnl {
+        color: #FF5630;
+      }
+    }
   }
+
+  .position{
+    margin-top: 38px;
+    height: 72px;
+  }
+
 
   .btn-box {
     display: flex;
@@ -156,7 +195,7 @@ $Color: #F49B33,
 
 @for $i from 1 through length($className) {
   .#{nth($className, $i)} {
-    background-image: url("../../assets/img/#{nth($className, $i)}.png"); 
+    background-image: url("../../assets/img/#{nth($className, $i)}.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
 
@@ -182,8 +221,14 @@ $Color: #F49B33,
       width: 288px;
       margin-top: 14px;
     }
+    .position{
+      margin-top: 31px;
+      height: 72px;
+    }
 
     .btn-box {
+      height: 207px;
+      margin-top: 27px;
       .btn {
         width: 288px;
       }

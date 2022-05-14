@@ -19,11 +19,28 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const onChange = (value) => {
     setAmount(value)
   }
+  const betit = useCallback(() => {
+    ApiProxy.request('openBet',{
+      write : true, 
+      subject : 'open Bet',
+      amount: '100', 
+      direction : 'long',
+      chainId : wallet.chainId, 
+      accountAddress : wallet.account, 
+      bTokenSymbol: 'ETH' 
+    }) 
+  })
+  
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
-    if (res) {
+    if (res.symbol) {
       setBetInfo(res)
     }
+  }
+
+  const getIsApprove = async () => {
+    let res = await ApiProxy.request("isUnlocked", { chainId: wallet.chainId, accountAddress: wallet.account, bTokenSymbol: bToken })
+    return res
   }
 
   const getWalletBalance = async () => {
@@ -32,14 +49,28 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betDown = async () => {
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("down", res)
     getBetInfo()
   }
 
   const betUp = async () => {
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("up", res)
     getBetInfo()
@@ -53,7 +84,14 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const boostedUp = async () => {
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("boostedUp", res)
     getBetInfo()
@@ -61,7 +99,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
   useEffect(() => {
     if (wallet.chainId && wallet.account && info) {
+      let interval = window.setInterval(() => { getBetInfo() }, 1000 * 3);
       getBetInfo()
+      return () => clearInterval(interval);
     }
   }, [wallet, info])
 
@@ -103,19 +143,30 @@ export default function Card({ info, lang, bTokens, getLang }) {
       <div className='leverage-box'>
         <div className='symbol-leverage'>
           {/* {info.Leverage} */}
-          10 X
+          {info.leverage} X
         </div>
         <div className='leverage-title'>
           {lang['leverage']}  <Icon token="leverage" />
         </div>
       </div>
-      <div className='input-box'>
-        <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+      <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
+        {betInfo.volume && betInfo.volume !== "0" ?
+          <div className='symbol-pnl'>
+            <div className='profit'>
+              {lang['profit']}
+            </div>
+            <div className={+betInfo.pnl > 0 ? "symbol-pnl-num up-pnl" : "symbol-pnl-num down-pnl"}>
+              {+betInfo.pnl > 0 ? "+" : ""}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} />
+            </div>
+          </div>
+          :
+          <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+        }
       </div>
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
-            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
+            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
             <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />

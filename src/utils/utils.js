@@ -103,5 +103,13 @@ export async function  switchNetwork(chain,successCb,errorCb) {
       errorCb && errorCb(40001)
     } 
   }
+}
 
+export function hasParent(parent,current){
+  if(parent === current){
+    return true
+  } else if(current.parentElement){
+    return hasParent(parent,current.parentElement)
+  }
+  return false
 }
