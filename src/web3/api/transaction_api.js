@@ -79,12 +79,12 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
   let assetAddress, newOpts
   if (nativeCoinSymbols(chainId).includes(bTokenSymbol)) {
     assetAddress = ZERO_ADDRESS
-    newOpts = { ...opts, value: toWei(amount) }
+    newOpts = { ...opts, value: toWei(amount, bTokenConfig.bTokenDecimals || 18) }
   } else {
     assetAddress = bTokenConfig.bTokenAddress
     newOpts = opts
   }
-  let res = await broker.openBet(accountAddress, poolConfig.pool, assetAddress, toWei(amount), symbol, toWei(normalizedVolume), priceLimit, oracleSignatures, newOpts)
+  let res = await broker.openBet(accountAddress, poolConfig.pool, assetAddress, toWei(amount, bTokenConfig.bTokenDecimals || 18), symbol, toWei(normalizedVolume), priceLimit, oracleSignatures, newOpts)
   return await formatTradeEvent(pool, res)
 })
 
