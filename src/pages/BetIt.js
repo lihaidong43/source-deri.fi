@@ -7,11 +7,10 @@ import { useState, useEffect, useCallback } from "react";
 import { isStartScroll } from "../utils/utils";
 import DeriNumberFormat from "../utils/DeriNumberFormat";
 import usePool from "../hooks/usePool";
-export default function BetIt({ lang }) {
+export default function BetIt({ lang ,getLang}) {
   const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
-  console.log("symbols",symbols)
   const wallet = useWallet()
   const handler = useCallback(() => {
     if (isStartScroll()) {
@@ -67,7 +66,7 @@ export default function BetIt({ lang }) {
         <div className='card-list'>
           {symbols && symbols.map((item, index) => {
             return (
-              <Card info={item} bTokens={bTokens} lang={lang} />
+              <Card info={item} bTokens={bTokens} lang={lang} getLang={getLang} />
             )
           })}
         </div>

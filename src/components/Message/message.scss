@@ -7,11 +7,11 @@
   width: 288px;
   background: #FFFFFF;
   border-radius: 4px;
-  border: 1px solid #364F70;
+  box-shadow: 0px 50px 77px rgba(176, 183, 195, 0.22);
   margin-top: 47px;
   margin-right: 24px;
   font-size: 14px;
-  color: #E0ECFF;
+  color: rgb(185, 185, 185)B;
   position: relative;
   z-index: 99999;
 
@@ -33,7 +33,7 @@
 
     .close {
       cursor: pointer;
-      background: #112140;
+      background: #F3F3F3;
       border-radius: 50%;
       position: relative;
 
@@ -45,7 +45,7 @@
       }
     }
     .noAnimation{
-      border: 2px solid #364F70;
+      border: 1px solid #F3F3F3;
     }
   }
 
@@ -119,17 +119,17 @@
 
 
 .animation .rightcircle {
-  border-top: 2px solid #364F70;
-  border-right: 2px solid #364F70;
+  border-top: 1px solid #F3F3F3;
+  border-right: 1px solid #F3F3F3;
   right: 0;
-  animation: circle_left 8s linear 1;
+  animation: circle_left 10s linear 1;
 }
 
 .animation .leftcircle {
-  border-bottom: 2px solid #364F70;
-  border-left: 2px solid #364F70;
+  border-bottom: 1px solid #F3F3F3;
+  border-left: 1px solid #F3F3F3;
   left: 0;
-  animation: circle_right 8s linear 1;
+  animation: circle_right 10s linear 1;
 }
 
 @keyframes circle_right {

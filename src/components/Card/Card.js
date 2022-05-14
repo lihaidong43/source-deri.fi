@@ -52,7 +52,6 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
     if(!isApproved){
-      params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
       params["approved"] = appoved
@@ -63,16 +62,42 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betUp = async () => {
+    alert.success(`${lang['buy']} ${11} ${info.unit}`, {
+      timeout: 80000,
+      isTransaction: true,
+      transactionHash:"aaa",
+      link: "${wallet.blockExploreUrl}/tx/${res.transactionHash}",
+      title: lang['buy-order-executed'] 
+    })
+    return;
     let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
     if(!isApproved){
-      params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
       params["approved"] = appoved
     }
     let res = await ApiProxy.request("openBet", params)
-    console.log("up", res)
+    if (res) {
+      alert.success(`${lang['buy']} ${res.volume} ${info.unit} ${`${getLang('with-entry-price',{price:(1).toFixed(2)})} `} `, {
+        timeout: 80000,
+        isTransaction: true,
+        transactionHash:res.transactionHash,
+        link: `${wallet.blockExploreUrl}/tx/${res.transactionHash}`,
+        title: lang['buy-order-executed'] 
+      })
+    } else {
+      if (res.transactionHash === "") {
+        return false;
+      }
+      alert.error(`${lang['transaction-failed']} : ${res.error}`, {
+        timeout: 300000,
+        isTransaction: true,
+        transactionHash:res.transactionHash,
+        link: `${wallet.blockExploreUrl}/tx/${res.transactionHash}`,
+        title: lang['buy-order-failed'] 
+      })
+    }
     getBetInfo()
   }
 
@@ -87,7 +112,6 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
     if(!isApproved){
-      params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
       params["approved"] = appoved
