@@ -109,7 +109,7 @@ export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
     const pool = poolFactory(chainId, c.pool)
     return pool.init(c.client)
   }))).map((c) => c.account)
-  console.log(pnlsInfo)
+  // console.log(pnlsInfo)
   // return pnlsInfo.reduce((acc, s) => acc.plus(s.traderPnl), bg(0)).toString()
   return pnlsInfo.reduce((acc, s) => acc.plus(s.dpmmTraderPnl), bg(0)).toString()
 }, '')

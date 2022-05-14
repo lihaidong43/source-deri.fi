@@ -10,75 +10,93 @@
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
-        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "BNB",
-        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "BTCB",
-        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "ETH",
-        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "USDT",
-        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955"
+        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "USDC",
-        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "CAKE",
-        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+        "bTokenDiscount": "0.6875"
       },
       {
         "bTokenSymbol": "XVS",
-        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63"
+        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "ADA",
-        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47"
+        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "XRP",
-        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE"
+        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "DOT",
-        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402"
+        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "MATIC",
-        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD"
+        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "LINK",
-        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD"
+        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "LTC",
-        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94"
+        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "DAI",
-        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "TRX",
-        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B"
+        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "TUSD",
-        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784"
+        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "SXP",
-        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A"
+        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A",
+        "bTokenDiscount": "0.625"
       }
     ],
     "symbols": [
@@ -121,75 +139,93 @@
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
-        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+        "bTokenAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "BNB",
-        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+        "bTokenAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "BTCB",
-        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+        "bTokenAddress": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "ETH",
-        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+        "bTokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "USDT",
-        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955"
+        "bTokenAddress": "0x55d398326f99059fF775485246999027B3197955",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "USDC",
-        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        "bTokenAddress": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "CAKE",
-        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+        "bTokenAddress": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+        "bTokenDiscount": "0.6875"
       },
       {
         "bTokenSymbol": "XVS",
-        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63"
+        "bTokenAddress": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "ADA",
-        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47"
+        "bTokenAddress": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "XRP",
-        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE"
+        "bTokenAddress": "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "DOT",
-        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402"
+        "bTokenAddress": "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "MATIC",
-        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD"
+        "bTokenAddress": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "LINK",
-        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD"
+        "bTokenAddress": "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "LTC",
-        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94"
+        "bTokenAddress": "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "DAI",
-        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+        "bTokenAddress": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "TRX",
-        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B"
+        "bTokenAddress": "0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B",
+        "bTokenDiscount": "0.75"
       },
       {
         "bTokenSymbol": "TUSD",
-        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784"
+        "bTokenAddress": "0x14016E85a25aeb13065688cAFB43044C2ef86784",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "SXP",
-        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A"
+        "bTokenAddress": "0x47BEAd2563dCBf3bF2c9407fEa4dC236fAbA485A",
+        "bTokenDiscount": "0.625"
       }
     ],
     "symbols": [
@@ -235,24 +271,29 @@
       {
         "bTokenSymbol": "USDC",
         "bTokenAddress": "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
-        "bTokenDecimals": "6"
+        "bTokenDecimals": "6",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "ETH",
-        "bTokenAddress": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+        "bTokenAddress": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        "bTokenDiscount": "1"
       },
       {
         "bTokenSymbol": "WBTC",
         "bTokenAddress": "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
-        "bTokenDecimals": "8"
+        "bTokenDecimals": "8",
+        "bTokenDiscount": "0.875"
       },
       {
         "bTokenSymbol": "DAI",
-        "bTokenAddress": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"
+        "bTokenAddress": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+        "bTokenDiscount": "0.9375"
       },
       {
         "bTokenSymbol": "LINK",
-        "bTokenAddress": "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4"
+        "bTokenAddress": "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+        "bTokenDiscount": "0.875"
       }
     ],
     "symbols": [
