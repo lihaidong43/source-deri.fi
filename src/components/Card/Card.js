@@ -49,19 +49,28 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betDown = async () => {
-    // let isApprove  = await getIsApprove()
-    // if(!isApprove){
-    //   let params = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
-    //   let appoved = await ApiProxy.request("unlock", params)
-    // }
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("down", res)
     getBetInfo()
   }
 
   const betUp = async () => {
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("up", res)
     getBetInfo()
@@ -75,7 +84,14 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const boostedUp = async () => {
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
+    if(!isApproved){
+      params["isApproved"] = isApproved
+      let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let appoved = await ApiProxy.request("unlock", paramsApprove)
+      params["approved"] = appoved
+    }
     let res = await ApiProxy.request("openBet", params)
     console.log("boostedUp", res)
     getBetInfo()
