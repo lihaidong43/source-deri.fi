@@ -13,7 +13,15 @@ export default function Card({ info, lang }) {
     setAmount(value)
   }
   const betit = useCallback(() => {
-    ApiProxy.request('unlock',{write : true, subject : 'approve',chainId : wallet.chainId, accountAddress : wallet.account, bTokenSymbol: 'BUSD' }) 
+    ApiProxy.request('openBet',{
+      write : true, 
+      subject : 'open Bet',
+      amount: '100', 
+      direction : 'long',
+      chainId : wallet.chainId, 
+      accountAddress : wallet.account, 
+      bTokenSymbol: 'ETH' 
+    }) 
   })
   
   return (

@@ -1,8 +1,7 @@
 import React, { useState, useEffect ,useCallback} from 'react'
 import styled from 'styled-components';
-import {isStartScroll, switchNetwork } from '../../utils/utils';
+import { isStartScroll, switchNetwork, hasParent } from '../../utils/utils';
 import Icon from '../Icon/Icon';
-import { NETWORK_MAP } from '../../utils/Constants';
 import { useWallet } from 'use-wallet';
 import useChain from '../../hooks/useChain';
 import classNames from 'classnames';
@@ -52,7 +51,7 @@ const Wrapper = styled.div`
     }
   }
 `  
-function NetworkSelector({}){
+function ChainSelector(){
   const [bgColor, setBgColor] = useState('rgba(255, 255, 255, 0.2)');
   const [isScroll, setIsScroll] = useState(false);
   const [isShow, setIsShow] = useState(false)
@@ -78,10 +77,19 @@ function NetworkSelector({}){
     }
   })
 
+  const onBodyClick = useCallback((e) => {
+    const parent = document.querySelector('.network-select');
+    if(!hasParent(parent,e.target)){
+      setIsShow(false)
+    }
+  })
+
   useEffect(() => {
     document.addEventListener('scroll', handler, false);
+    document.addEventListener('click',onBodyClick)
     return () => {
       document.removeEventListener('scroll',handler)
+      document.removeEventListener('click',onBodyClick)
     }
   }, []);
 
@@ -117,4 +125,4 @@ function NetworkSelector({}){
     </Wrapper>
   )
 }
-export default NetworkSelector;
+export default ChainSelector;

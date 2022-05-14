@@ -4,23 +4,21 @@ import ChainInteraction from "../components/ChainInteraction/ChainInteraction";
 import {MODAL_OPTIONS} from '../utils/Constants'
 
 class ApiProxy {
-  status = 'waiting'
   async request(method,options = {}){
-    // const apis = await import('../web3/index')
     let res = null;
     if(options.write) {
       const {subject} = options
       Object.assign(options,{
         onAccept : () => {
-          this.onProcessing(subject,'success')
+          this.onProcessing(subject,'success',options)
           window.setTimeout(() => this.close(subject),2000)
         },
         onReject : () => {
-          this.onProcessing(subject,'reject')
+          this.onProcessing(subject,'reject',options)
           window.setTimeout(() => this.close(subject),2000)
         }
       })
-      this.onProcessing(subject,'pending')
+      this.onProcessing(subject,'pending',options)
     }
     try {
       res = await apis[method].call(this,options)
@@ -43,18 +41,19 @@ class ApiProxy {
     return `transaction-box-${subject.split(/\s+/).join('-')}`
   }
 
-  onProcessing(subject,status){
+  onProcessing(subject,status,options){
+    const {direction,approved} = options;
     const key = this.getMessageKey(subject)
     this.close(key);
-    const options = {
+    const params = {
       ...MODAL_OPTIONS,
         style : {
           background: "rgba(0, 0, 0, 0.4)" ,
-          zIndex : 2,
+          zIndex : 11,
         },
         key : key
     }
-    show(<ChainInteraction title={subject} status={status} close={() => this.close(subject)}/>,options)
+    show(<ChainInteraction title={subject} status={status} direction={direction.toUpperCase()} approved={approved} close={() => this.close(subject)}/>,params)
   }
 
   

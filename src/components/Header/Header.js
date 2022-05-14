@@ -1,12 +1,11 @@
 // import NetworkSelector from "../NetworkSelector/NetworkSelector";
 import WalletConnector from "../WalletConnector/WalletConnector";
 import styled  from 'styled-components';
-import BetIt from '../../pages/BetIt';
 import { useCallback, useEffect } from 'react';
 import classNames from "classnames";
 import { useState } from 'react';
-import NetworkSelector from "../NetworkSelector/NetworkSelector";
-import { isScroll, isStartScroll } from "../../utils/utils";
+import ChainSelector from "../ChainSelector/ChainSelector";
+import {isStartScroll } from "../../utils/utils";
 
 const Wrapper = styled.div`
   &.header {
@@ -76,7 +75,7 @@ export default function Header ({lang}) {
       <div className="left">
         <span className="f-name">{lang['bet'].toUpperCase()}</span><span className="l-name">{lang['it']}</span></div>
       <div className="right">
-        <NetworkSelector bgColor={btnMainColor}/>
+        <ChainSelector bgColor={btnMainColor}/>
         <WalletConnector lang={lang} bgColor={btnMainColor}/>
       </div>
     </Wrapper>
