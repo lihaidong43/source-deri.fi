@@ -57,15 +57,18 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
     getSymbolsOracleInfo(chainId, poolConfig.symbols.map((s) => s.symbol)),
     pool.init(),
   ])
+  const bTokenInfo = pool.bTokens.find((b) => b.bTokenSymbol === bTokenSymbol)
   const symbolInfo = pool.symbols.find((s) => s.symbol === symbol)
 
   // calc max volume
-  let volume = '0'
-  if (direction === 'short') {
-    volume = bg(amount).div(symbolInfo.curIndexPrice).negated().toString()
-  } else {
-    volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
-  }
+  // let volume = '0'
+  // if (direction === 'short') {
+  //   volume = bg(amount).div(symbolInfo.curIndexPrice).negated().toString()
+  // } else {
+  //   volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
+  // }
+  let volume = pool.calcMaxVolume(symbol, bg(amount).times(bTokenInfo.bTokenPrice).toString(), direction)
+  console.log('-- volumn', volume)
 
   const normalizedVolume = bg(Math.floor(bg(volume).div(symbolInfo.minTradeVolume).toNumber())).times(symbolInfo.minTradeVolume).toString()
 

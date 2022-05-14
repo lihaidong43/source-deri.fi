@@ -5,6 +5,8 @@ import { checkEnv, DeriEnv, Env } from './env';
 import { checkChainId } from './chain';
 import { ZERO_ADDRESS } from './constant';
 
+// constant
+export const SECONDS_IN_A_DAY = 86400;  // 60 * 60 * 24
 
 export const getPoolConfigList = ({ env, chainId }) => {
   if (env) {

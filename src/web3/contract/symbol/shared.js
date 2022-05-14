@@ -1,4 +1,4 @@
-import { bg } from "../../utils/bignumber";
+import { bg, max } from "../../utils/bignumber";
 
 export const calculateDpmmCost = (
   indexPrice,
@@ -30,3 +30,19 @@ export const getInitialMarginRequired = (data) => {
     .times(data.maintenanceMarginRatio);
   return bg(deltaPart).plus(gammaPart).toString()
 }
+
+export const getIntrinsicPrice = (indexPrice, strikePrice, isCall) => {
+  return isCall
+    ? max(bg(indexPrice).minus(strikePrice), bg(0)).toString()
+    : max(bg(strikePrice).minus(indexPrice), bg(0)).toString();
+};
+
+export const calculateK = (indexPrice, liquidity, alpha) => {
+  return bg(liquidity).eq(0)
+    ? bg(0)
+    : bg(indexPrice).times(alpha).div(liquidity);
+};
+
+export const calculateDpmmPrice = (indexPrice, K, tradersNetPosition) => {
+  return bg(indexPrice).times(bg(1).plus(bg(K).times(tradersNetPosition)));
+};

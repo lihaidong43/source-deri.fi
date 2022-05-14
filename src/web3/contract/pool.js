@@ -1,6 +1,7 @@
 import { getDeriLensAddress} from "../config"
 import { bg, max } from "../utils/bignumber"
 import { isArbiChain, isBSCChain } from "../utils/chain"
+import { SECONDS_IN_A_DAY } from "../utils/config"
 import { ZERO_ADDRESS } from "../utils/constant"
 import { getLensPropAlias } from "../utils/deri_lens"
 import { debug, DeriEnv, Env } from "../utils/env"
@@ -8,9 +9,9 @@ import { contractFactory } from "../utils/factory"
 import { getSymbolsOracleInfoForLens } from "../utils/oracle"
 import { isOptionSymbol, isPowerSymbol, normalizeBNB, tokenToName } from "../utils/symbol"
 import { deriLensFactoryProxy, ERC20Factory, symbolManagerImplementationFactory } from "./factory"
-import { calculateDpmmCost, getInitialMarginRequired } from "./symbol/shared"
+import { calculateDpmmCost, getInitialMarginRequired, getIntrinsicPrice } from "./symbol/shared"
 
-const interval = 3000
+const interval = 2000
 export class Pool {
   constructor(chainId, poolAddress) {
     this.chainId = chainId
@@ -113,74 +114,100 @@ export class Pool {
     this._updateTimestamp()
     return { account: this[accountAddress], pool: this.poolAddress }
   }
-  getEstimatedFee(symbolName, newVolume) {
-    const symbol= this.symbols.find((s) => s.symbol === symbolName)
-    if (symbol) {
-      if (isOptionSymbol(symbol)) {
-        let fee;
-        if (bg(symbol.intrinsicValue).gt(0)) {
-          fee = bg(newVolume)
-            .abs()
-            .times(symbol.curIndexPrice)
-            .times(symbol.feeRatioITM)
-            .toString();
-        } else {
-          const cost = calculateDpmmCost(
-            symbol.theoreticalPrice,
-            symbol.K,
-            symbol.netVolume,
-            newVolume
-          );
-          fee = bg(cost).abs().times(symbol.feeRatioOTM).toString();
-        }
-        return fee;
-      } else if (isPowerSymbol(symbol)) {
+  getEstimatedFee(symbol, newVolume) {
+    if (isOptionSymbol(symbol)) {
+      let fee;
+      if (bg(symbol.intrinsicValue).gt(0)) {
+        fee = bg(newVolume)
+          .abs()
+          .times(symbol.curIndexPrice)
+          .times(symbol.feeRatioITM)
+          .toString();
+      } else {
         const cost = calculateDpmmCost(
           symbol.theoreticalPrice,
           symbol.K,
           symbol.netVolume,
           newVolume
         );
-        return bg(cost).abs().times(symbol.feeRatio).toString();
-      } else {
-        console.log(symbol)
-        const { curIndexPrice, feeRatio } = symbol;
-        const res = bg(newVolume).abs().times(curIndexPrice).times(feeRatio).toString();
-        return res
+        fee = bg(cost).abs().times(symbol.feeRatioOTM).toString();
       }
+      return fee;
+    } else if (isPowerSymbol(symbol)) {
+      const cost = calculateDpmmCost(
+        symbol.theoreticalPrice,
+        symbol.K,
+        symbol.netVolume,
+        newVolume
+      );
+      return bg(cost).abs().times(symbol.feeRatio).toString();
     } else {
-      throw new Error(`Invalid symbol(${symbolName}) for chainId(${this.chainId}) and pool(${this.poolAddress})`)
+      const { curIndexPrice, feeRatio } = symbol;
+      const res = bg(newVolume).abs().times(curIndexPrice).times(feeRatio).toString();
+      return res
     }
   }
-  getEstimatedCost(symbolName, newVolume) {
-    const symbol= this.symbols.find((s) => s.symbol === symbolName)
-    if (symbol) {
+  getEstimatedCost(symbol, newVolume) {
     if (isOptionSymbol(symbol) || isPowerSymbol(symbol)) {
       return calculateDpmmCost(
         symbol.theoreticalPrice,
         symbol.K,
         symbol.netVolume,
         newVolume
-      ).toString();
+      )
     } else {
       return calculateDpmmCost(
         symbol.curIndexPrice,
         symbol.K,
         symbol.netVolume,
         newVolume
-      ).toString();
-    }
-    } else {
-      throw new Error(`Invalid symbol(${symbolName}) for chainId(${this.chainId}) and pool(${this.poolAddress})`)
+      )
     }
   }
-  getEstimatedPnl(symbolName, newVolume) {
-    const symbol= this.symbols.find((s) => s.symbol === symbolName)
+  getEstimatedPnl(symbol, newVolume) {
+    const price = (isPowerSymbol(symbol) || isOptionSymbol(symbol)) ? symbol.theoreticalPrice : symbol.curIndexPrice
+    return bg(price).times(newVolume).minus(this.getEstimatedCost(symbol, newVolume))
+  }
+  getEstimatedMarginHeld(symbol, newVolume) {
+    return bg(newVolume).abs().times(symbol.initialMarginPerVolume)
+  }
+
+  calcMaxVolume(symbolName, margin, direction) {
+    const symbol = this.symbols.find((s) => s.symbol === symbolName)
     if (symbol) {
-      const price = (isPowerSymbol(symbol) || isOptionSymbol(symbol)) ? symbol.theoreticalPrice : symbol.curIndexPrice
-      return bg(price).times(newVolume).minus(this.getEstimatedCost(symbolName, newVolume)).toString()
-    } else {
-      throw new Error(`Invalid symbol(${symbolName}) for chainId(${this.chainId}) and pool(${this.poolAddress})`)
+      let step = 50, stopValue = bg(margin).times(0.01).toString()
+      let low, high, volume;
+      if (direction === 'long') {
+        low = bg(margin).div(symbol.curIndexPrice).toString()
+        high = bg(low).times(2).div(symbol.initialMarginRatio).toString()
+      } else {
+        high = bg(margin).div(symbol.curIndexPrice).negated().toString()
+        low = bg(high).times(2).div(symbol.initialMarginRatio).toString()
+      }
+      for (let i = 0; i < step; i++) {
+        volume = bg(low).plus(high).div(2).toString()
+        const pnl = this.getEstimatedPnl(symbol, volume).toString()
+        const fee = this.getEstimatedFee(symbol, volume).toString()
+        const marginHeld = this.getEstimatedMarginHeld(symbol, volume).toString()
+        const availableMargin = bg(margin).plus(pnl).minus(fee).minus(marginHeld).toString()
+        debug() &&  console.log(`-- margin(${margin}) pnl(${pnl}) fee(${fee}) marginHeld(${marginHeld}) availableMargin(${availableMargin})`)
+        if (bg(availableMargin).gt(0) && bg(availableMargin) < stopValue) {
+          debug() &&  console.log(`-- calcMaxVolume(): hit stopValue(${stopValue}) return ${volume.toString()}`)
+          break;
+        }
+        if (
+          (bg(availableMargin).gt(0) && direction === 'long') ||
+          (bg(availableMargin).lt(0) && direction === 'short')
+        ) {
+          low = volume
+        } else {
+          high = volume
+        }
+      }
+      debug() &&  console.log(`-- calcMaxVolume(): return ${volume}`)
+
+      // scale to 0.99 due to index price changes.
+      return bg(volume).times(0.99).toString()
     }
   }
 
@@ -310,6 +337,102 @@ export class Pool {
         theoreticalPrice: s.category === 'power' ? s.theoreticalPrice : "",
       }));
     }
+    this.symbols = this.symbols.map((s) => {
+      //s.curTimestamp = Math.floor(Date.now()/1000)
+      if (isOptionSymbol(s)) {
+        s.intrinsicValue = getIntrinsicPrice(
+          s.curIndexPrice,
+          s.strikePrice,
+          s.isCall
+        );
+        s.theoreticalPrice = bg(s.intrinsicValue)
+          .plus(s.timeValue)
+          .toString();
+        s.fundingPerSecond = bg(s.fundingPeriod).eq(0)
+          ? "0"
+          : bg(s.markPrice)
+            .minus(s.intrinsicValue)
+            .div(s.fundingPeriod)
+            .toString();
+        s.initialMarginPerVolume = max(
+          bg(getInitialMarginRequired(s)).times(
+            bg(s.initialMarginRatio).div(s.maintenanceMarginRatio)
+          ),
+          bg(s.curIndexPrice).times(s.minInitialMarginRatio)
+        ).abs().toString();
+        s.maintenanceMarginPerVolume = getInitialMarginRequired(s).toString();
+        //console.log(s.theoreticalPrice, s.K, s.netVolume, s.netCost)
+        s.curTradersPnl = calculateDpmmCost(
+          s.theoreticalPrice,
+          s.K,
+          s.netVolume,
+          bg(s.netVolume).negated()
+        )
+          .negated()
+          .minus(s.netCost)
+          .toString();
+      } else if (isPowerSymbol(s)) {
+        // s.oneHT = bg(1).minus(
+        //   bg(s.curVolatility)
+        //     .times(s.curVolatility)
+        //     .times(s.power)
+        //     .times(bg(s.power).minus(1))
+        //     .div(2)
+        //     .times(s.fundingPeriod)
+        //     .div(31536000)
+        // ).toString()
+        // s.powerPrice = bg(s.curIndexPrice).times(s.curIndexPrice).toString()
+        // s.theoreticalPrice = bg(s.powerPrice).div(s.oneHT).toString()
+        s.oneHT = bg(1).minus(s.hT).toString()
+        s.fundingPerSecond = bg(s.fundingPeriod).eq(0)
+          ? "0"
+          : bg(s.markPrice)
+            .minus(s.powerPrice)
+            .div(s.fundingPeriod)
+            .toString();
+        s.curTradersPnl = calculateDpmmCost(
+          s.theoreticalPrice,
+          s.K,
+          s.netVolume,
+          bg(s.netVolume).negated()
+        )
+          .negated()
+          .minus(s.netCost)
+          .toString();
+        s.maintenanceMarginPerVolume = bg(s.theoreticalPrice).times(s.maintenanceMarginRatio).toString()
+        s.initialMarginPerVolume = bg(s.maintenanceMarginPerVolume)
+          .times(s.initialMarginRatio)
+          .div(s.maintenanceMarginRatio)
+          .toString();
+      } else {
+        s.fundingPerSecond = bg(s.fundingPeriod).eq(0)
+          ? "0"
+          : bg(s.markPrice)
+            .minus(s.curIndexPrice)
+            .div(s.fundingPeriod)
+            .toString();
+        s.initialMarginPerVolume = bg(s.curIndexPrice)
+          .times(s.initialMarginRatio)
+          .toString();
+        s.maintenanceMarginPerVolume = bg(s.initialMarginPerVolume)
+          .times(s.maintenanceMarginRatio).div(s.initialMarginRatio)
+          .toString();
+        s.curTradersPnl = calculateDpmmCost(
+          s.curIndexPrice,
+          s.K,
+          s.netVolume,
+          bg(s.netVolume).negated()
+        )
+          .negated()
+          .minus(s.netCost)
+          .toString();
+      }
+      s.fundingPerDay = bg(s.fundingPerSecond)
+        .times(SECONDS_IN_A_DAY)
+        .toString();
+      return s;
+    });
+    return this.symbols
   }
   _updateLpInfo(lpInfo, accountAddress) {
     this[accountAddress] = this[accountAddress] || {}
