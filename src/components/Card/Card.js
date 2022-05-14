@@ -37,9 +37,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betDown = async () => {
-    let isApprove  = await getIsApprove()
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
-    if(!isApprove){
+    if(!isApproved){
       params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
@@ -51,9 +51,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betUp = async () => {
-    let isApprove  = await getIsApprove()
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'up', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'long' }
-    if(!isApprove){
+    if(!isApproved){
       params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
@@ -72,9 +72,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const boostedUp = async () => {
-    let isApprove  = await getIsApprove()
+    let isApproved  = await getIsApprove()
     let params = { write: true, subject: 'boostedUp', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: true }
-    if(!isApprove){
+    if(!isApproved){
       params["isApproved"] = isApproved
       let paramsApprove = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
       let appoved = await ApiProxy.request("unlock", paramsApprove)
