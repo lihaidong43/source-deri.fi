@@ -90,12 +90,12 @@ export const getSymbol = (chainId, symbolName) => {
   if (config) {
     return config
   }
-  throw new Error(`Cannot find bToken config: chainId(${chainId}) symbol(${symbolName})`)
+  throw new Error(`Cannot find symbol config: chainId(${chainId}) symbol(${symbolName})`)
 }
 
 export const getBrokerAddress = (chainId) => {
   const configList = getPoolConfigList(DeriEnv.get())
-  const brokerList = configList.map((c) => c.broker)
+  const brokerList = configList.map((c) => c.broker).filter((c) => c != null)
   if (brokerList.length > 0 && brokerList[0] !== ZERO_ADDRESS) {
     return brokerList[0]
   }

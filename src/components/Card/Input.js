@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Icon from '../Icon/Icon';
+import ApiProxy from '../../model/ApiProxy';
+import DeriNumberFormat from '../../utils/DeriNumberFormat';
 import './input.scss'
-export default function Input({ value, lang, onChange, focus, bToken, bTokenList, selectToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
+export default function Input({ value, lang, onChange, balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
   const inputRef = useRef(null);
-  const [balance, setBalance] = useState(0)
   const [isShowToken, setIsShowToken] = useState(false)
   const change = e => {
     const { value } = e.target
@@ -22,7 +23,7 @@ export default function Input({ value, lang, onChange, focus, bToken, bTokenList
           {lang['bet'].toUpperCase()}
         </div>
         <div className="balance">
-          {lang['balance']}:{balance}
+          {lang['balance']}:<DeriNumberFormat value={balance} displayType='text' decimalScale={2} /> 
         </div>
       </div>
       <div className='input-token'>
@@ -35,9 +36,12 @@ export default function Input({ value, lang, onChange, focus, bToken, bTokenList
             {lang['select-coin']}
           </div>
           <div className='token-info'>
-            {bTokenList && bToken.map((item, index) => {
+            {bTokens && bTokens.map((item, index) => {
               return (
-                <Icon token={item.bTokenSymbol} />
+                <div key={index}>
+                  <Icon token={item.bTokenSymbol} width={23} height={23} onClick={() => { setBToken(item.bTokenSymbol) }} />
+                  {bToken === item.bTokenSymbol && <div className='check-bToken'></div>}
+                </div>
               )
             })}
           </div>

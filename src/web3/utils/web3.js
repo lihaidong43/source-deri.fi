@@ -63,6 +63,7 @@ export const getWeb3WithSigner = async (chainId) => {
       //web3.eth.accounts.wallet.add(process.env.PKEY)
       const account = web3.eth.accounts.wallet.add(process.env.PKEY)
       web3.eth.defaultAccount = account.address
+      debug() && console.log(`-- getWeb3WithSigner: ${account.address}`)
       return web3
     }
   //}
@@ -80,6 +81,11 @@ export const getContract = factory(async (chainId, address, Klass) => {
   const web3 = await getWeb3(chainId);
   return new Klass(web3, address);
 }, 'getContract');
+
+export const getBlockInfo = async (chainId, blockNumber='latest') => {
+  const web3 = await getWeb3(chainId)
+  return await web3.eth.getBlock(blockNumber);
+}
 
 export const getContractFromAbi = factory(async (chainId, address, abi) => {
   const web3 = await getWeb3(chainId);

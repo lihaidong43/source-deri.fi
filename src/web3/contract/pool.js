@@ -7,9 +7,10 @@ import { debug, DeriEnv, Env } from "../utils/env"
 import { contractFactory } from "../utils/factory"
 import { getSymbolsOracleInfoForLens } from "../utils/oracle"
 import { isOptionSymbol, isPowerSymbol, normalizeBNB, tokenToName } from "../utils/symbol"
-import { deriLensFactoryProxy, ERC20Factory } from "./factory"
+import { deriLensFactoryProxy, ERC20Factory, symbolManagerImplementationFactory } from "./factory"
 import { calculateDpmmCost, getInitialMarginRequired } from "./symbol/shared"
 
+const interval = 3000
 export class Pool {
   constructor(chainId, poolAddress) {
     this.chainId = chainId
@@ -17,17 +18,23 @@ export class Pool {
     this.deriLensAddress = getDeriLensAddress(chainId)
     this.deriLens = deriLensFactoryProxy(chainId, this.deriLensAddress)
   }
-  async init() {
+  async init(accountAddress = ZERO_ADDRESS) {
+    if (accountAddress !== ZERO_ADDRESS && (Date.now() - this._update_timestamp) < interval) {
+      return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
+    }
     if (!this.symbolNames) {
       const symbols = await this.deriLens.getSymbolsInfo(this.poolAddress);
       this.symbolNames = symbols.map((s) => s.symbol)
     }
     const oracleSignatures = await getSymbolsOracleInfoForLens(this.chainId, this.symbolNames)
     debug() && console.log(`--- oracleSignatures: ${oracleSignatures}`)
-    const info = await this.deriLens.getInfo(this.poolAddress, ZERO_ADDRESS, oracleSignatures);
+    const info = await this.deriLens.getInfo(this.poolAddress, accountAddress, oracleSignatures);
     const { poolInfo, marketsInfo, symbolsInfo } = info;
-    if (!this.tokenB0) {
-      this.tokenB0 = ERC20Factory(this.chainId, poolInfo.tokenB0)
+    if (!this.symbolManager) {
+      this.symbolManager = symbolManagerImplementationFactory(
+        this.chainId,
+        poolInfo.symbolManager
+      );
       // bTokens
       for (let i = 0; i < marketsInfo.length; i++) {
         const market = marketsInfo[i];
@@ -72,13 +79,21 @@ export class Pool {
         this.bTokens = this.bTokens.filter((b) => b.bTokenSymbol !== 'USDT')
       }
     }
-    if (!this.account) {
-      this.account = {}
+    if (accountAddress !== ZERO_ADDRESS && !this[accountAddress]) {
+      this[accountAddress] = {}
     }
     this._updateBTokens(marketsInfo)
     this._updateSymbols(symbolsInfo)
-    this._updateTimestamp()
+    if (accountAddress !== ZERO_ADDRESS) {
+      const { lpInfo, tdInfo } = info;
+      this._updateLpInfo(lpInfo, accountAddress)
+      this._updateTdInfo(tdInfo, accountAddress)
+      this._updateTimestamp()
+      return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
+    }
+    return { pool: this.poolAddress, symbols: this.symbols, bTokens: this.bTokens }
   }
+
   async getBTokens() {
     const marketsInfo = await this.deriLens.getMarketsInfo(this.poolAddress)
     this._updateBTokens(marketsInfo)
@@ -87,16 +102,16 @@ export class Pool {
     const oracleSignatures = await getSymbolsOracleInfoForLens(this.chainId, this.symbolNames)
     const symbolsInfo = await this.deriLens.getSymbolsInfo(this.poolAddress, ZERO_ADDRESS, oracleSignatures)
     this._updateSymbols(symbolsInfo)
-    this._updateTimestamp()
   }
   async getLpInfo(accountAddress) {
     const lpInfo = await this.deriLens.getLpInfo(this.poolAddress, accountAddress)
-    this._updateLpInfo(lpInfo)
+    this._updateLpInfo(lpInfo, accountAddress)
   }
   async getTdInfo(accountAddress) {
     const tdInfo = await this.deriLens.getTdInfo(this.poolAddress, accountAddress)
-    this._updateTdInfo(tdInfo)
+    this._updateTdInfo(tdInfo, accountAddress)
     this._updateTimestamp()
+    return { account: this[accountAddress], pool: this.poolAddress }
   }
   getEstimatedFee(symbolName, newVolume) {
     const symbol= this.symbols.find((s) => s.symbol === symbolName)
@@ -170,15 +185,15 @@ export class Pool {
   }
 
   async updateState(accountAddress = ZERO_ADDRESS) {
-    if (accountAddress === ZERO_ADDRESS) {
+    if (accountAddress !== ZERO_ADDRESS) {
       await Promise.all([
         this.getSymbols(),
         this.getTdInfo(accountAddress),
       ])
+      this._updateTimestamp()
     } else {
       await this.getSymbols()
     }
-    this._updateTimestamp()
   }
 
   // internal method
@@ -296,11 +311,11 @@ export class Pool {
       }));
     }
   }
-  _updateLpInfo(lpInfo) {
-    this.account = this.account || {}
+  _updateLpInfo(lpInfo, accountAddress) {
+    this[accountAddress] = this[accountAddress] || {}
     if (lpInfo.lTokenId !== '0') {
-      this.account.lTokenId = lpInfo.lTokenId;
-      this.account.lpVault = lpInfo.vault;
+      this[accountAddress].lTokenId = lpInfo.lTokenId;
+      this[accountAddress].lpVault = lpInfo.vault;
     }
     if (lpInfo.markets.length > 0) {
       this.assets = lpInfo.markets.map((m) => ({
@@ -326,11 +341,11 @@ export class Pool {
       this.assets = []
     }
   }
-  _updateTdInfo(tdInfo) {
-    this.account = this.account || {}
+  _updateTdInfo(tdInfo, accountAddress) {
+    this[accountAddress] = this[accountAddress] || {}
     if (tdInfo.pTokenId !== '0') {
-      this.account.pTokenId = tdInfo.pTokenId;
-      this.account.tdVault = tdInfo.vault;
+      this[accountAddress].pTokenId = tdInfo.pTokenId;
+      this[accountAddress].tdVault = tdInfo.vault;
     }
     if (tdInfo.markets.length > 0) {
       this.margins = tdInfo.markets.map((m) => ({
@@ -360,20 +375,21 @@ export class Pool {
     } else {
       this.positions = []
     }
-    this._updatePositions()
     //this.account.xvsBalance = await this.xvsToken.balanceOf(accountAddress)
-    this.account.margin =
-      !this.account.pTokenId
+    this[accountAddress].margin =
+      !this[accountAddress].pTokenId
         ? "0"
         : bg(tdInfo.amountB0).plus(tdInfo.vaultLiquidity).toString();
+    this._updatePositions(accountAddress)
   }
-  _updatePositions() {
+  _updatePositions(accountAddress) {
+    let fundingAccrued = '0',
+      initialMargin = '0',
+      maintenanceMargin = '0',
+      traderPnl = '0',
+      dpmmTraderPnl = '0',
+      res = [];
     if (Array.isArray(this.positions) && this.positions.length > 0) {
-      let fundingAccrued = '0',
-        initialMargin = '0',
-        maintenanceMargin = '0',
-        traderPnl = '0',
-        dpmmTraderPnl = '0';
       this.positions = this.positions.map((p) => {
         const symbol = this.symbols.find((s) => p.symbol === s.symbol);
         // console.log(symbol.symbol)
@@ -459,23 +475,21 @@ export class Pool {
         }
         return p;
       });
-      if (this.account.address) {
-        this.account.fundingAccrued = fundingAccrued.toString()
-        this.account.traderPnl = traderPnl.toString()
-        this.account.dpmmTraderPnl = dpmmTraderPnl.toString()
-        this.account.initialMargin = initialMargin.toString()
-        this.account.maintenanceMargin = maintenanceMargin.toString()
-        this.account.dynamicMargin = bg(this.account.margin)
-          //.minus(this.account.initialMargin)
-          .minus(this.account.fundingAccrued)
-          .plus(this.account.traderPnl)
-          .toString();
-      }
-      return this.positions;
-    } else {
-      // console.log('skip getPositions');
-      return [];
+      res = this.positions;
     }
+    if (accountAddress != ZERO_ADDRESS) {
+      this[accountAddress].fundingAccrued = fundingAccrued.toString()
+      this[accountAddress].traderPnl = traderPnl.toString()
+      this[accountAddress].dpmmTraderPnl = dpmmTraderPnl.toString()
+      this[accountAddress].initialMargin = initialMargin.toString()
+      this[accountAddress].maintenanceMargin = maintenanceMargin.toString()
+      this[accountAddress].dynamicMargin = bg(this[accountAddress].margin)
+        //.minus(this.account.initialMargin)
+        .minus(this[accountAddress].fundingAccrued)
+        .plus(this[accountAddress].traderPnl)
+        .toString();
+    }
+    return res
   }
 }
 

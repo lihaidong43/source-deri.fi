@@ -1,8 +1,8 @@
 
-import { checkAddress, checkChainId } from "../utils/chain"
-import { checkToken } from "../utils/symbol"
+import { checkChainId } from "../utils/chain"
 import { debug } from "./env";
 import { checkCallback } from "./lang";
+import { getWeb3 } from "./web3";
 
 export const toResponse = (data) => {
   return { success: true, response: { data } }
@@ -14,6 +14,41 @@ export const toErrorResponse = (error, defaultValue) => {
     response: {
       data: defaultValue,
       error: { code: error.code || '', message: error.message || error.toString() }
+    }
+  }
+}
+
+export const toTxErrorResponse = async(err, opts) => {
+  const { chainId, onReject } = opts
+  if (err.code && typeof err.code === 'number') {
+    onReject()
+  }
+
+  const message = err.message || `Transaction failed: ${err.toString()}`;
+  let reason = '', transactionHash = '';
+  if (err.receipt) {
+    transactionHash = err.receipt.transactionHash
+    const blockNumber = err.receipt.blockNumber
+    try {
+      const web3 = await getWeb3(chainId)
+      const tx = await web3.eth.getTransaction(transactionHash)
+      await web3.eth.call(tx, blockNumber)
+    } catch (error) {
+      if (error.message) {
+        reason = error.message.replace('execution reverted: ', '')
+        reason = reason.replace(/Transaction\sfailed!\s*:/, '')
+      }
+    }
+  }
+
+  return {
+    success: false,
+    response: {
+      error: {
+        code: err.code || '',
+        message: reason || message
+      },
+      transactionHash,
     }
   }
 }
@@ -40,17 +75,18 @@ export const queryApi = (fn, defaultValue) => {
       const newArgs = checkCommonArgs(args)
       // method call
       const data = await fn(newArgs)
+      debug() && console.log('queryApi data:', data)
       // checkOutput here
       res = toResponse(data)
     } catch (err) {
+      debug() && console.log('queryApi error:', err)
       res = toErrorResponse(err, defaultValue)
     }
-    debug() && console.log('queryApi res:', res)
     return res
   }
 }
 
-export const txApi = (fn, defaultValue) => {
+export const txApi = (fn) => {
   return async (args) => {
     let res
     try {
@@ -58,10 +94,15 @@ export const txApi = (fn, defaultValue) => {
       const newArgs = checkCommonTxArgs(args)
       // send tx
       const data = await fn(newArgs)
+      debug() && console.log('txApi data:', data)
       // checkOutput here
       res = toResponse(data)
     } catch (err) {
-      res = toErrorResponse(err, defaultValue)
+      debug() && console.log('txApi error:', err)
+
+      // process err
+      const { chainId, onAccept, onReject } = args
+      res = await toTxErrorResponse(err, { chainId, onAccept, onReject })
     }
     return res
   }

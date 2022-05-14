@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import { bg } from "./bignumber";
 
 export const stringToId = (symbolName) => {
   return Web3.utils.keccak256(symbolName);
@@ -81,6 +82,32 @@ export const normalizePowerSymbolForOracle = (symbol) => {
   } else {
     return symbol
   }
+}
+
+// deri power symbol
+export const normalizeDeriSymbol = (symbol) => {
+  const res = isPowerSymbol(symbol) ? `m${symbol}` : symbol;
+  return res
+}
+// for power symbol,  oracle use only
+export const deriSymbolMultiplierPairs = {
+  "BTC^2": 10 ** 3,
+  "ETH^2": 10 ** 3,
+};
+export const getDeriSymbolMultiplier = (symbol) => {
+  if (Object.keys(deriSymbolMultiplierPairs).includes(symbol)) {
+    return deriSymbolMultiplierPairs[symbol];
+  } else {
+    return 1;
+  }
+};
+
+export const deriSymbolScaleIn = (symbol, value) => {
+  return bg(value).div(getDeriSymbolMultiplier(symbol)).toString()
+}
+
+export const deriSymbolScaleOut = (symbol, value) => {
+  return bg(value).times(getDeriSymbolMultiplier(symbol)).toString()
 }
 
 // WETH => ETH, WBNB => BNB

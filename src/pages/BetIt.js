@@ -1,24 +1,29 @@
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
 import { useWallet } from 'use-wallet';
+import ApiProxy from "../model/ApiProxy";
 import './betit.scss'
-import { useState, useEffect,useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { isStartScroll } from "../utils/utils";
+import DeriNumberFormat from "../utils/DeriNumberFormat";
 import usePool from "../hooks/usePool";
 export default function BetIt({ lang }) {
+  const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
-  // const [symbols,setSymbols] = useState()
-  // const [bTokens,setBTokens] = useState()
-  const [bTokens,symbols] = usePool();
-  console.log('bTokens,symbols',bTokens,symbols)
+  const [bTokens, symbols] = usePool();
   const wallet = useWallet()
   const handler = useCallback(() => {
     if (isStartScroll()) {
-      setIsFixed(true)  
+      setIsFixed(true)
     } else {
       setIsFixed(false)
     }
   })
+
+  const getBetsPnl = async () => {
+    let res = await ApiProxy.request("getBetsPnl", { chainId: wallet.chainId, accountAddress: wallet.account })
+    setTotalPnl(res)
+  }
 
   useEffect(() => {
     document.addEventListener('scroll', handler, false);
@@ -26,47 +31,13 @@ export default function BetIt({ lang }) {
       document.removeEventListener('scroll', handler)
     }
   }, [])
-  useEffect(()=>{
-  },[wallet])
-  const list = [
-    {
-      symbol: "BTC",
-      Leverage: "12.5x",
-      price: 30000,
-      isPower:true,
-    },
-    {
-      symbol: "ETH",
-      Leverage: "12.5x",
-      price: 2600,
-    },
-    {
-      symbol: "BNB",
-      Leverage: "12.5x",
-      price: 300,
-    },
-    {
-      symbol: "DOGE",
-      Leverage: "12.5x",
-      price: 0.5,
-    },
-    {
-      symbol: "LUNA",
-      Leverage: "12.5x",
-      price: 0.5,
-    },
-    {
-      symbol: "DOT",
-      Leverage: "12.5x",
-      price: 0.5,
-    },
-    {
-      symbol: "SOL",
-      Leverage: "12.5x",
-      price: 0.5,
-      isPower:false,
-    },
-  ]
+  useEffect(() => {
+    if (wallet.chainId && wallet.account) {
+      let interval = window.setInterval(() => { getBetsPnl()}, 1000 * 3);
+      getBetsPnl()
+      return () => clearInterval(interval);
+    }
+  }, [wallet])
   return (
     <div className="betit">
       <div className={isFixed ? "bg-img-color hide-three" : "bg-img-color"} >
@@ -88,12 +59,12 @@ export default function BetIt({ lang }) {
         <div className='total-pnl-box'>
           <div className='total-pnl'>
             <span>{lang['total-pnl']}:</span>
-            <div className='pnl-num'>$100</div>
+            <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
           </div>
         </div>
 
         <div className='card-list'>
-          {symbols&&symbols.map((item, index) => {
+          {symbols && symbols.map((item, index) => {
             return (
               <Card info={item} bTokens={bTokens} lang={lang} />
             )

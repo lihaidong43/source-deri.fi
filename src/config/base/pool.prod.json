@@ -1,9 +1,12 @@
 [
   {
+    "name": "bsc_main",
     "chainId": "56",
     "pool": "0x243681B8Cd79E3823fF574e07B2378B8Ab292c1E",
     "version": "v3",
     "versionId": "v3",
+    "broker": "0x0000000000000000000000000000000000000000",
+    "symbolManager": "0x543A9FA25ba9a16612274DD707Ac4462eD6988FA",
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
@@ -83,6 +86,7 @@
         "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
         "symbol": "BTCUSD",
         "category": "futures",
+        "leverage": "12.5",
         "unit": "BTC",
         "powerSymbol": {
           "chainId": "56",
@@ -95,6 +99,7 @@
         "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
         "symbol": "ETHUSD",
         "category": "futures",
+        "leverage": "12.5",
         "unit": "ETH",
         "powerSymbol": {
           "chainId": "56",
@@ -106,10 +111,13 @@
     ]
   },
   {
+    "name": "bsc_inno",
     "chainId": "56",
     "pool": "0xD2D950e338478eF7FeB092F840920B3482FcaC40",
     "version": "v3_lite",
     "versionId": "v3",
+    "broker": "0x0000000000000000000000000000000000000000",
+    "symbolManager": "0x28ed1DBDb9BC5B7Fe67c27C1D767Db42AE6F61f7",
     "bTokens": [
       {
         "bTokenSymbol": "BUSD",
@@ -186,90 +194,43 @@
     ],
     "symbols": [
       {
-        "symbolId": "0x0c5eba1afaea317bd3994c932ff8027d56c2c03920e4acc162a96de171d0a7ce",
-        "symbol": "SHIBUSDT",
-        "category": "futures",
-        "unit": "SHIB"
-      },
-      {
-        "symbolId": "0xccd5f35e7e7d8cd3ac846557a1f342a999573c9c4b43722a060cdcecdceeec8f",
-        "symbol": "AXSUSDT",
-        "category": "futures",
-        "unit": "AXS"
-      },
-      {
         "symbolId": "0x1bc6d6279e196b1fa7b94a792d57a47433858940c1b3500f2a5e69640cd12ef4",
         "symbol": "BNBUSD",
         "category": "futures",
+        "leverage": "12.5",
         "unit": "BNB"
-      },
-      {
-        "symbolId": "0xb58a39b2eb9bff0bbc99d0b00709fd7ef3158c5958116c70fb1e39117651d78e",
-        "symbol": "BABYDOGEUSDT",
-        "category": "futures",
-        "unit": "BABYDOGE"
-      },
-      {
-        "symbolId": "0x086f4fc4719d5d463b29165e2ed20251ff7d4fe8e19ea51745354a111543b85a",
-        "symbol": "X2Y2USDT",
-        "category": "futures",
-        "unit": "X2Y2"
-      },
-      {
-        "symbolId": "0xf50f4566b7f185ebe3aa8cbe86193b28bffea10bfd9f3724127248ac8c046fbf",
-        "symbol": "APEUSDT",
-        "category": "futures",
-        "unit": "APE"
-      },
-      {
-        "symbolId": "0xc199c9161c951cb238f18c0165a14c039761d4aa6981272c853cb49970610816",
-        "symbol": "GMTUSDT",
-        "category": "futures",
-        "unit": "GMT"
       },
       {
         "symbolId": "0x214dda553a3e2a23944080bfcad3566db70ebe7a599389f0f9cf73f0cf03e933",
         "symbol": "DOGEUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "DOGE"
       },
       {
         "symbolId": "0x3db5e9fb22b6f66ce6550ab2b9d3872f875f575780c6abb9c95f9ce03845a83e",
         "symbol": "SOLUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "SOL"
-      },
-      {
-        "symbolId": "0x2604a2e1118dfde07476dfca68d4ac348004ccc2f71f10bfb22363cc0a1eeab3",
-        "symbol": "LUNAUSDT",
-        "category": "futures",
-        "unit": "LUNA"
       },
       {
         "symbolId": "0xb091137ce24b6cc1a176ff1c47ee784a62b93fe8cca125b8975b84c9b3c407ea",
         "symbol": "DOTUSDT",
         "category": "futures",
+        "leverage": "10",
         "unit": "DOT"
-      },
-      {
-        "symbolId": "0x3dafbe9f51a5b08f9ecc683b232c3055a6b651e25a50eaa56d6c54b7c949ac71",
-        "symbol": "AVAXUSDT",
-        "category": "futures",
-        "unit": "AVAX"
-      },
-      {
-        "symbolId": "0x2352987cbc46e349be26f5a6cd8c391839c1e6e3ddb0c97a712fb4269e42db1b",
-        "symbol": "FITFIUSDT",
-        "category": "futures",
-        "unit": "FITFI"
       }
     ]
   },
   {
+    "name": "arbitrum_main",
     "chainId": "42161",
     "pool": "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8",
     "version": "v3",
     "versionId": "v3",
+    "broker": "0x0000000000000000000000000000000000000000",
+    "symbolManager": "0x741c8e810cD1C7baB6565E850b775fc33C15C084",
     "bTokens": [
       {
         "bTokenSymbol": "USDC",
@@ -299,6 +260,7 @@
         "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
         "symbol": "BTCUSD",
         "category": "futures",
+        "leverage": "25",
         "unit": "BTC",
         "powerSymbol": {
           "chainId": "42161",
@@ -311,6 +273,7 @@
         "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
         "symbol": "ETHUSD",
         "category": "futures",
+        "leverage": "25",
         "unit": "ETH",
         "powerSymbol": {
           "chainId": "42161",
