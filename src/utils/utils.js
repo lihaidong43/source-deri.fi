@@ -1,7 +1,8 @@
 
 import Cookies from 'js-cookie'
-import { COOKIE_DERI_DOMAIN } from './Constants'
+import { COOKIE_DERI_DOMAIN, FUTURES ,POWER} from './Constants'
 import { BigNumber as bg} from 'bignumber.js';
+import { DeriEnv } from '../web3/utils/env';
 
 export function setCookie(name,value,expires = 365 ,domain = COOKIE_DERI_DOMAIN,path = '/'){
   if(name && value){
@@ -112,4 +113,33 @@ export function hasParent(parent,current){
     return hasParent(parent,current.parentElement)
   }
   return false
+}
+
+export function getMarkpriceSymbol(symbolInfo){
+   if(symbolInfo.category === FUTURES){
+    if(DeriEnv.get() === 'dev') {
+      if(/ARBI/i.test(symbolInfo.chain)) {
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.bTokenSymbol}`.toUpperCase() 
+      }
+      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase() 
+    } else {
+      if(/ARBI/i.test(symbolInfo.chain)){
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+      }
+    } 
+    return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+  } else if(symbolInfo.category === POWER) {
+     if(DeriEnv.get() === 'dev'){
+       if(/ARBI/i.test(symbolInfo.chain)) {
+        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.bTokenSymbol}`.toUpperCase()
+       } else {
+        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+       }
+     } else {
+      if(/ARBI/i.test(symbolInfo.chain)){
+        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+      } 
+    } 
+    return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+  }
 }

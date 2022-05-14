@@ -40,7 +40,7 @@ const Wrapper = styled.div`
     }
     .nw-item {
       display : flex;
-      height : 48px;
+      height : 44px;
       align-items: center;
       .name {
         white-space: nowrap;
