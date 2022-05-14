@@ -5,7 +5,7 @@ import { debug } from "../utils/env"
 import { bg, fromWei, toWei } from "../utils/bignumber"
 import { checkAddress } from "../utils/chain"
 import { getBrokerAddress, getBToken, getPoolConfig, getSymbol } from "../utils/config"
-import { MAX_UINT256_DIV_ONE } from "../utils/constant"
+import { MAX_UINT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
 import { getSymbolsOracleInfo } from "../utils/oracle"
 import { checkToken, nativeCoinSymbols } from "../utils/symbol"
 
@@ -67,16 +67,24 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
   // } else {
   //   volume = bg(amount).div(symbolInfo.curIndexPrice).toString()
   // }
-  let volume = pool.calcMaxVolume(symbol, bg(amount).times(bTokenInfo.bTokenPrice).toString(), direction)
-  console.log('-- volumn', volume)
+  const margin = bg(amount).times(bTokenInfo.bTokenPrice).times(bTokenConfig.bTokenDiscount).toString()
+  let volume = pool.calcMaxVolume(symbol, margin, direction)
 
   const normalizedVolume = bg(Math.floor(bg(volume).div(symbolInfo.minTradeVolume).toNumber())).times(symbolInfo.minTradeVolume).toString()
 
   const priceLimit = getPriceLimit(normalizedVolume)
   debug() && console.log(`-- pool(${poolConfig.pool}) account(${accountAddress}) symbol(${symbol}) volume(${normalizedVolume}) priceLimit: ${priceLimit}`)
-  // debug() && console.log(oracleSignatures)
-  // return await broker.openBet(accountAddress, poolConfig.pool, bTokenConfig.bTokenAddress, toWei(amount), symbol, toWei(volume), priceLimit, oracleSignatures, opts)
-  let res = await broker.openBet(accountAddress, poolConfig.pool, bTokenConfig.bTokenAddress, toWei(amount), symbol, toWei(normalizedVolume), priceLimit, oracleSignatures, opts)
+
+  // handle args native coin
+  let assetAddress, newOpts
+  if (nativeCoinSymbols(chainId).includes(bTokenSymbol)) {
+    assetAddress = ZERO_ADDRESS
+    newOpts = { ...opts, value: toWei(amount) }
+  } else {
+    assetAddress = bTokenConfig.bTokenAddress
+    newOpts = opts
+  }
+  let res = await broker.openBet(accountAddress, poolConfig.pool, assetAddress, toWei(amount), symbol, toWei(normalizedVolume), priceLimit, oracleSignatures, newOpts)
   return await formatTradeEvent(pool, res)
 })
 
