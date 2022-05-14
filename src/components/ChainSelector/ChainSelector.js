@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   font-size : 16px;
   font-weight : 600;
   min-width : 180px;
-  height : 48px;
+  height : 44px;
   margin-right : 24px;
   position : relative;
   display : flex;

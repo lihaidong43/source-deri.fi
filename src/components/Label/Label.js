@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import React from 'react'
+import Icon from "../Icon/Icon"
 const Wrapper = styled.div`
   padding : 0 8px;
   width :  ${props => props.width}px;
@@ -12,12 +13,13 @@ const Wrapper = styled.div`
   border : 1px solid ${props => props.borderColor};
   display : flex;
   align-items : center;
-  justify-content : center;
+  justify-content: space-around;
   text-align : center;
   .main {
     display : flex;
     align-items : center;
-    justify-content : center;
+    justify-content: space-around;
+    width : 100%;
   }
   img {
     margin-right :8px;
@@ -28,7 +30,7 @@ export default function Label({text,width,height ,borderColor ='#E0ECFF' ,color 
   return (
     <Wrapper className={className} width={width} height={height} borderColor={borderColor} color={color} bgColor={bgColor} borderRadius={borderRadius} fontSize={fontSize}>
       <span className='main'>
-        {React.isValidElement(icon) ? {icon}  : icon && <img src={icon} alt='' />}
+        {React.isValidElement(icon) ? icon : <Icon token={icon}/>}
         {text}
       </span>
     </Wrapper>

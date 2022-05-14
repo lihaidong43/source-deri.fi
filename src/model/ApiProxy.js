@@ -11,11 +11,12 @@ class ApiProxy {
       Object.assign(options,{
         onAccept : () => {
           this.onProcessing(subject,'success',options)
-          window.setTimeout(() => this.close(subject),2000)
+          // window.setTimeout(() => this.close(subject),2000)
         },
         onReject : () => {
+          options.direction = 'REJECT'
           this.onProcessing(subject,'reject',options)
-          window.setTimeout(() => this.close(subject),2000)
+          // window.setTimeout(() => this.close(subject),2000)
         }
       })
       this.onProcessing(subject,'pending',options)
@@ -42,7 +43,7 @@ class ApiProxy {
   }
 
   onProcessing(subject,status,options){
-    const {direction,approved} = options;
+    const {direction = 'CLOSE',approved} = options;
     const key = this.getMessageKey(subject)
     this.close(key);
     const params = {

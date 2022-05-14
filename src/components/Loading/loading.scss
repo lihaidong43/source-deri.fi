@@ -1,87 +1,99 @@
-.lds-spinner {
-  color: official;
-  display: inline-block;
+div.spinner {
   position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-spinner div {
-  transform-origin: 40px 40px;
-  animation: lds-spinner 1.2s linear infinite;
-}
-.lds-spinner div:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 6px;
+  width: 18px;
   height: 18px;
-  border-radius: 20%;
-  background: #fff;
+  display: inline-block;
+  background: rgba(255, 171, 0, 0.5);
+  border: 1px solid rgba(255, 171, 0, 0.5);
+  padding: 7px;
+  border-radius: 9px;
 }
 
-$i : 0;
+div.spinner div {
+  width: 6%;
+  height: 16%;
+  background: #FFF;
+  position: absolute;
+  left: 49%;
+  top: 43%;
+  opacity: 0;
+  border-radius: 50px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  animation: fade 1s linear infinite;
+  -webkit-border-radius: 50px;
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  -webkit-animation: fade 1s linear infinite;
+}
+
+@keyframes fade {
+  from {opacity: 1;}
+  to {opacity: 0.25;}
+}
+@-webkit-keyframes fade {
+  from {opacity: 1;}
+  to {opacity: 0.25;}
+}
+
+
+$i : 1;
 $rotate : 0;
 $second : 1.1;
-@while $i < 12 {
-  .lds-spinner div:nth-child(#{$i}) {
-    transform: rotate(#{$i}deg);
+@while $i <= 9 {
+  div.spinner div.bar#{$i} {
+    transform: rotate(#{$rotate}deg) translate(0, -130%);
     animation-delay: -#{$second}s;
+    -webkit-transform:rotate(#{$rotate}deg) translate(0, -130%);
+    -webkit-animation-delay: -#{$second}s;
   }
   $i: $i + 1;
-  $rotate : $i + 30;
-  $second : $second - 0.1;
+  $rotate : $rotate + 40;
+  $second : $second - 0.0837;
 }
-// .lds-spinner div:nth-child(2) {
-//   transform: rotate(30deg);
-//   animation-delay: -1s;
+
+
+// div.spinner div.bar2 {
+//   -webkit-transform:rotate(30deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.9167s;
 // }
-// .lds-spinner div:nth-child(3) {
-//   transform: rotate(60deg);
-//   animation-delay: -0.9s;
+
+// div.spinner div.bar3 {
+//   -webkit-transform:rotate(60deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.833s;
 // }
-// .lds-spinner div:nth-child(4) {
-//   transform: rotate(90deg);
-//   animation-delay: -0.8s;
+// div.spinner div.bar4 {
+//   -webkit-transform:rotate(90deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.7497s;
 // }
-// .lds-spinner div:nth-child(5) {
-//   transform: rotate(120deg);
-//   animation-delay: -0.7s;
+// div.spinner div.bar5 {
+//   -webkit-transform:rotate(120deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.667s;
 // }
-// .lds-spinner div:nth-child(6) {
-//   transform: rotate(150deg);
-//   animation-delay: -0.6s;
+// div.spinner div.bar6 {
+//   -webkit-transform:rotate(150deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.5837s;
 // }
-// .lds-spinner div:nth-child(7) {
-//   transform: rotate(180deg);
-//   animation-delay: -0.5s;
+// div.spinner div.bar7 {
+//   -webkit-transform:rotate(180deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.5s;
 // }
-// .lds-spinner div:nth-child(8) {
-//   transform: rotate(210deg);
-//   animation-delay: -0.4s;
+// div.spinner div.bar8 {
+//   -webkit-transform:rotate(210deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.4167s;
 // }
-// .lds-spinner div:nth-child(9) {
-//   transform: rotate(240deg);
-//   animation-delay: -0.3s;
+// div.spinner div.bar9 {
+//   -webkit-transform:rotate(240deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.333s;
 // }
-// .lds-spinner div:nth-child(10) {
-//   transform: rotate(270deg);
-//   animation-delay: -0.2s;
+// div.spinner div.bar10 {
+//   -webkit-transform:rotate(270deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.2497s;
 // }
-// .lds-spinner div:nth-child(11) {
-//   transform: rotate(300deg);
-//   animation-delay: -0.1s;
+// div.spinner div.bar11 {
+//   -webkit-transform:rotate(300deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.167s;
 // }
-// .lds-spinner div:nth-child(12) {
-//   transform: rotate(330deg);
-//   animation-delay: 0s;
+// div.spinner div.bar12 {
+//   -webkit-transform:rotate(330deg) translate(0, -130%); 
+//   -webkit-animation-delay: -0.0833s;
 // }
-@keyframes lds-spinner {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
+

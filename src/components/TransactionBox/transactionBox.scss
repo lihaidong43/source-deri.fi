@@ -1,7 +1,7 @@
 .trans-box {
   background: #fff;
-  height: 325px;
-  width: 328px;
+  height: 320px;
+  width: 400px;
   border-radius: 10px;
   &-title {
     height: 60px;
@@ -29,7 +29,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 51px;
+      margin-top: 36px;
       animation: fadein 1s ;
       &-fadeout {
         animation: fadeout 1s ;
