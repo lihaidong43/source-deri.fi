@@ -11,6 +11,7 @@ export default function BetIt({ lang }) {
   const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
+  console.log("symbols",symbols)
   const wallet = useWallet()
   const handler = useCallback(() => {
     if (isStartScroll()) {

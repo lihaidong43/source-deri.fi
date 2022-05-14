@@ -33,9 +33,14 @@ export default function Card({ info, lang, bTokens, getLang }) {
   
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
-    if (res) {
+    if (res.symbol) {
       setBetInfo(res)
     }
+  }
+
+  const getIsApprove = async () => {
+    let res = await ApiProxy.request("isUnlocked", { chainId: wallet.chainId, accountAddress: wallet.account, bTokenSymbol: bToken })
+    return res
   }
 
   const getWalletBalance = async () => {
@@ -44,6 +49,11 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const betDown = async () => {
+    // let isApprove  = await getIsApprove()
+    // if(!isApprove){
+    //   let params = { write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+    //   let appoved = await ApiProxy.request("unlock", params)
+    // }
     let params = { write: true, subject: 'down', chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, direction: 'short' }
     let res = await ApiProxy.request("openBet", params)
     console.log("down", res)
@@ -117,7 +127,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       <div className='leverage-box'>
         <div className='symbol-leverage'>
           {/* {info.Leverage} */}
-          10 X
+          {info.leverage} X
         </div>
         <div className='leverage-title'>
           {lang['leverage']}  <Icon token="leverage" />
@@ -130,7 +140,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
               {lang['profit']}
             </div>
             <div className={+betInfo.pnl > 0 ? "symbol-pnl-num up-pnl" : "symbol-pnl-num down-pnl"}>
-              {+betInfo.pnl > 0 ? "+" : "-"}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} />
+              {+betInfo.pnl > 0 ? "+" : ""}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} />
             </div>
           </div>
           :
@@ -140,7 +150,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
-            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" />
+            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
             <Button label={lang['up']} onClick={betUp} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
