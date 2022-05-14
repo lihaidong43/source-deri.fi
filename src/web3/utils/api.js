@@ -34,9 +34,15 @@ export const toTxErrorResponse = async(err, opts) => {
       const tx = await web3.eth.getTransaction(transactionHash)
       await web3.eth.call(tx, blockNumber)
     } catch (error) {
-      if (error.message) {
-        reason = error.message.replace('execution reverted: ', '')
-        reason = reason.replace(/Transaction\sfailed!\s*:/, '')
+      // if (error.message) {
+      //   reason = error.message.replace('execution reverted: ', '')
+      //   reason = reason.replace(/Transaction\sfailed!\s*:/, '')
+      if (err.message) {
+        const res = JSON.parse(err.message.slice(err.message.indexOf('{')))
+        if (res.message) {
+          reason = res.message.replace('execution reverted: ', '')
+          reason = res.message.replace(/Transaction\sfailed!\s*:/, '')
+        }
       }
     }
   }
