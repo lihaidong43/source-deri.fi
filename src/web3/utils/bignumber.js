@@ -30,6 +30,6 @@ export const min = (value1, value2) => {
   return value2;
 };
 
-export const fromWei = (value) => bg(value, -18).toString()
+export const fromWei = (value, decimals=-18) => bg(value, decimals).toString()
 
-export const toWei = (value) => bg(value, 18).toFixed(0).toString()
+export const toWei = (value, decimals = 18) => bg(value, decimals).toFixed(0).toString()
