@@ -2,8 +2,7 @@
 # echo PUBLIC_URL=https://cdn.jsdelivr.net/gh/deri-protocol/app@main > .env.production
 source ~/.bashrc
 echo PUBLIC_URL=/ > .env.production
-echo REACT_APP_WSS_URL=wss://oraclemainnet.deri.io >> .env.production
-echo REACT_APP_HTTP_URL=https://oraclemainnet.deri.io >> .env.production
+echo REACT_APP_ORACLE_HTTP_URL=https://oraclemainnet.deri.io >> .env.production
 yarn build --nomaps 
 repo=/tmp/build/deri.fi
 # rm -rf $repo

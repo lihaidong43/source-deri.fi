@@ -1,8 +1,7 @@
 #!/bin/bash
 # source ~/.bashrc
 echo PUBLIC_URL=/ > .env.development
-echo REACT_APP_WSS_URL=wss://oracledevnet.deri.io >> .env.development
-echo REACT_APP_HTTP_URL=https://oracledevnet.deri.io >> .env.development
+echo REACT_APP_ORACLE_HTTP_URL=https://oracledevnet.deri.io >> .env.development
 
 npm run build_testnet --nomaps --env=development
 repo=/tmp/build/devnet.deri.fi

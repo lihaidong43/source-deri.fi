@@ -40,18 +40,42 @@ const Wrapper = styled.div`
     width : 100%;
     justify-content: space-between;
     background : #FFAB00;
-    z-index : 10;
+    z-index : 10; 
+    animation : fadein 1s ease; 
     .f-name {
       color : #FF7913;
     }
   }
+  &.header.fadeOut {
+    animation : fadeout 0.5s ease; 
+  }
+  
+@keyframes fadein {
+  from {
+    opacity: 0;
+    height : 0px;
+  }
+  to {
+    opacity: 1;
+    height : 96px;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 `
 
 export default function Header ({lang}) {
   const [isFixed, setIsFixed] = useState(false);
   const [btnMainColor, setBtnMainColor] = useState('#FFAB00');
   const clazz = classNames('header',{
-    fixed : isFixed
+    fixed : isFixed,
+    fadeOut : !isFixed
   })
   const handler = useCallback(() => {
     if (isStartScroll()){

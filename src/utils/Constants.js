@@ -30,6 +30,12 @@ const SUPPORTED_CHAIN_LIST = {
   "200" : "https://arbitrum.xdaichain.com"
 }
 
+export const FUTURE = 'future'
+export const OPTION = 'option'
+export const POWER = 'power'
+export const FUTURES = 'futures'
+
+
 export const USE_WALLET_OPTIONS = {
   connectors : {
     injected: {
