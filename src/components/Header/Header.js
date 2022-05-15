@@ -41,16 +41,16 @@ const Wrapper = styled.div`
     justify-content: space-between;
     background : #FFAB00;
     z-index : 10; 
-    animation : fadein 1s ease; 
+    animation : headerFadein 1s ease; 
     .f-name {
       color : #FF7913;
     }
   }
   &.header.fadeOut {
-    animation : fadeout 0.5s ease; 
+    animation : headerFadeout 0.5s ease; 
   }
   
-@keyframes fadein {
+@keyframes headerFadein {
   from {
     opacity: 0;
     height : 0px;
@@ -60,7 +60,7 @@ const Wrapper = styled.div`
     height : 96px;
   }
 }
-@keyframes fadeout {
+@keyframes headerFadeout {
   from {
     opacity: 0;
   }

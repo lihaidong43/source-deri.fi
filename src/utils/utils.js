@@ -119,27 +119,27 @@ export function getMarkpriceSymbol(symbolInfo){
    if(symbolInfo.category === FUTURES){
     if(DeriEnv.get() === 'dev') {
       if(/ARBI/i.test(symbolInfo.chain)) {
-        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.bTokenSymbol}`.toUpperCase() 
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase() 
       }
-      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase() 
+      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase() 
     } else {
       if(/ARBI/i.test(symbolInfo.chain)){
-        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
       }
     } 
-    return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+    return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
   } else if(symbolInfo.category === POWER) {
      if(DeriEnv.get() === 'dev'){
        if(/ARBI/i.test(symbolInfo.chain)) {
-        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.bTokenSymbol}`.toUpperCase()
+        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase()
        } else {
-        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
        }
      } else {
       if(/ARBI/i.test(symbolInfo.chain)){
-        return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
       } 
     } 
-    return `MARKPRICE_${symbolInfo.displaySymbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${symbolInfo.zone}_${symbolInfo.bTokenSymbol}`.toUpperCase()
+    return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
   }
 }
