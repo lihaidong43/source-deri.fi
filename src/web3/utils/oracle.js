@@ -1,6 +1,6 @@
 import { debug } from "util";
 import { asyncCache } from "./cache";
-import { isArbiChain, isBSCChain, onChainSymbols, onChainSymbolsArbi } from "./chain";
+import { onChainSymbols } from "./chain";
 import { isOptionSymbol, isPowerSymbol, normalizeOptionSymbol, normalizePowerSymbolForOracle, stringToId } from "./symbol";
 
 const addSymbolParam = (url, symbol) => `${url}?symbol=${symbol}`;
@@ -147,21 +147,13 @@ const normalizeOracleSymbol = (symbol) => {
 
 export const getSymbolsOracleInfo = async (chainId, symbols) => {
   // const res = await getSignedPrices(this.chainId, this.symbolNames)
-  if (isBSCChain(chainId)) {
-    symbols = symbols.filter((s) => !onChainSymbols.includes(s))
-  } else if (isArbiChain(chainId)) {
-    symbols = symbols.filter((s) => !onChainSymbolsArbi.includes(s))
-  }
+  symbols = symbols.filter((s) => !onChainSymbols(chainId).includes(s))
   const res = await getOracleInfosFromRest([...new Set(symbols.map((s) => normalizeOracleSymbol(s)))])
   return res.filter((s) => s !== undefined)
 };
 
 export const getSymbolsOracleInfoForLens = async (chainId, symbols) => {
-  if (isBSCChain(chainId)) {
-    symbols = symbols.filter((s) => !onChainSymbols.includes(s))
-  } else if (isArbiChain(chainId)) {
-    symbols = symbols.filter((s) => !onChainSymbolsArbi.includes(s))
-  }
+  symbols = symbols.filter((s) => !onChainSymbols(chainId).includes(s))
   const res = await getOracleInfosFromRestForLens(symbols.map((s) => normalizeOracleSymbol(s)))
   return symbols.reduce((acc, symbol, index) => {
     if (res[index]) {

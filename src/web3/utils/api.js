@@ -37,11 +37,12 @@ export const toTxErrorResponse = async(err, opts) => {
       // if (error.message) {
       //   reason = error.message.replace('execution reverted: ', '')
       //   reason = reason.replace(/Transaction\sfailed!\s*:/, '')
-      if (err.message) {
-        const res = JSON.parse(err.message.slice(err.message.indexOf('{')))
+      if (error.message) {
+        const res = JSON.parse(error.message.slice(error.message.indexOf('{')))
         if (res.message) {
-          reason = res.message.replace('execution reverted: ', '')
-          reason = res.message.replace(/Transaction\sfailed!\s*:/, '')
+          reason = res.message.replace(/execution\sreverted[:\s]?/, '')
+          reason = reason || 'Fail'
+          // reason = res.message.replace(/Transaction\sfailed!\s*:/, '')
         }
       }
     }

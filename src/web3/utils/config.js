@@ -88,6 +88,7 @@ export const getSymbolList = (chainId) => {
     symbol: s.symbol,
     symbolId: s.symbolId,
     unit: s.unit,
+    powerSymbol: s.powerSymbol ? s.powerSymbol : null
   })))], [])
   return symbolList.reduce((acc, symbol) => {
     if (acc.map((s) => s.symbol).indexOf(symbol.symbol) === -1) {

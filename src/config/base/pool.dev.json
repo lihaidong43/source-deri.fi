@@ -124,6 +124,32 @@
         "category": "futures",
         "leverage": "10",
         "unit": "DOT"
+      },
+      {
+        "symbolId": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
+        "symbol": "BTCUSD",
+        "category": "futures",
+        "leverage": "12.5",
+        "unit": "BTC",
+        "powerSymbol": {
+          "chainId": "97",
+          "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+          "symbolId": "0x65e24fbf23a06751b86161d24e5f25b579daa4c55aa798f102a40243baf81293",
+          "symbol": "BTC^2"
+        }
+      },
+      {
+        "symbolId": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
+        "symbol": "ETHUSD",
+        "category": "futures",
+        "leverage": "12.5",
+        "unit": "ETH",
+        "powerSymbol": {
+          "chainId": "97",
+          "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
+          "symbolId": "0x5616d0a0d05adc200b8ea37c1801762baca26da49260fa2a9ca11179cb6b7017",
+          "symbol": "ETH^2"
+        }
       }
     ]
   },
