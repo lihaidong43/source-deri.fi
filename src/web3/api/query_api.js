@@ -41,13 +41,25 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   const symbolConfig = getSymbol(chainId, symbol)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   // const clientInfo = await broker.bets(accountAddress, symbolInfo.pool, stringToId(symbol))
-  const clientInfo = await broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol))
+  let clientInfo, clientInfo2
+  if (symbolConfig.powerSymbol) {
+    [clientInfo, clientInfo2] = await Promise.all([
+      broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol)),
+      broker.bets(accountAddress, symbolConfig.powerSymbol.pool, stringToId(symbolConfig.powerSymbol.symbol)),
+    ])
+  } else {
+    clientInfo = await broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol))
+  }
   //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
   let position = { dpmmTraderPnl: '0', traderPnl: '0' }
   if (clientInfo.volume !== '0') {
     const pool = poolFactory(chainId, symbolConfig.pool)
     await pool.init(clientInfo.client)
     position = pool.positions.find((p) => p.symbol === symbol)
+  } else if (clientInfo.volume !== '0') {
+    const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
+    await pool.init(clientInfo2.client)
+    position = pool.positions.find((p) => p.symbol === symbolConfig.powerSymbol.symbol)
   }
   return {
     symbol,

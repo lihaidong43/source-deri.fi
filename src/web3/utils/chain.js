@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import { DeriEnv, Env } from "./env";
 
 // configs
 const infuraAccount = "ec73e2f0c79a42c0997ee535364de584"
@@ -81,6 +82,13 @@ export const isBSCChain = (chainId) => {
 export const isArbiChain = (chainId) => {
   return ['42161', '421611'].includes(chainId)
 }
-export const onChainSymbols = ["BTCUSD", "ETHUSD", "BNBUSD"]
-export const onChainSymbolsArbi = ["ETHUSD" ]
+export const onChainSymbols = (chainId) => {
+  if (isBSCChain(chainId) && DeriEnv.get() === Env.PROD) {
+    return ["BTCUSD", "ETHUSD", "BNBUSD"]
+  } else if (isArbiChain(chainId)) {
+    return ["ETHUSD"]
+  } else {
+    return ["BTCUSD", "ETHUSD", "BNBUSD"]
+  }
+}
 
