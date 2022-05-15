@@ -56,7 +56,7 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
     const pool = poolFactory(chainId, symbolConfig.pool)
     await pool.init(clientInfo.client)
     position = pool.positions.find((p) => p.symbol === symbol)
-  } else if (clientInfo.volume !== '0') {
+  } else if (clientInfo2.volume !== '0') {
     const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
     await pool.init(clientInfo2.client)
     position = pool.positions.find((p) => p.symbol === symbolConfig.powerSymbol.symbol)
