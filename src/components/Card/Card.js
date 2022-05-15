@@ -208,7 +208,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
-            <LineChart symbol={info.symbol} color={'#38CB89'} />
+            <LineChart symbol={info.symbol} color={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
             <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
