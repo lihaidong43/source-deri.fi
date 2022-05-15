@@ -12,7 +12,7 @@ const Wraper = styled.div`
   color : #E0ECFF;
   background: #FFFFFF;
   box-sizing: border-box;
-  box-shadow: 0px 11px 19px rgba(10, 23, 43, 0.25);
+  box-shadow: 0px 50px 77px rgba(176, 183, 195, 0.22);
   border-radius: 8px;
   img {
     margin-left : 24px;
@@ -29,11 +29,11 @@ export default function MessageTemplate({ style, options, message, close }) {
             {options.type === 'error' && <Icon token='error' width={16} height={16} />}
             {options.title}
           </div>
-          <div className={options.type === 'error'?'close noAnimation':'close'} onClick={close}>
+          <div className={options.type === 'error' ? 'close noAnimation' : 'close'} onClick={close}>
             <div className='close-icon'>
-              <Icon token="close-modal-icon" width='7'  />
+              <Icon token="close" width='7' />
             </div>
-            <div className={ options.type === 'error' ? "circle_process" :"circle_process animation"}>
+            <div className={options.type === 'error' ? "circle_process" : "circle_process animation"}>
               <div className="wrapper right">
                 <div className="circle rightcircle"></div>
               </div>
