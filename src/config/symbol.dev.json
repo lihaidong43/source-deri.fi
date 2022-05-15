@@ -1,57 +1,41 @@
 [
   {
     "chainId": "97",
+    "chain" : "BSC",
     "name": "bsctestnet_inno",
     "default" : true,
     "symbols": [
       {
-        "symbol": "SHIBUSDT",
-        "order" : 1
-      },
-      {
-        "symbol": "AXSUSDT",
-        "order" : 2
-      },
-      {
-        "symbol": "ALICEUSDT",
-        "order" : 3
-      },
-      {
-        "symbol": "APEUSDT",
-        "order" : 1
-      },
-      {
-        "symbol": "GMTUSDT",
-        "order" : 1
-      },
-      {
         "symbol": "DOGEUSDT",
-        "order" : 1
+        "order" : 5
       },
       {
         "symbol": "SOLUSDT",
-        "order" : 1
-      },
-      {
-        "symbol": "LUNAUSDT",
-        "order" : 1
+        "order" : 4
       },
       {
         "symbol": "DOTUSDT",
-        "order" : 1
+        "order" : 3
       },
       {
-        "symbol": "AVAXUSDT",
-        "order" : 1
+        "symbol": "BTCUSD",
+        "order" : 1,
+        "powerSymbol": {
+          "displaySymbol": "mBTC^2"
+        }
       },
       {
-        "symbol": "FITFIUSDT",
-        "order" : 1
+        "symbol": "ETHUSD",
+        "order" : 2,
+        "powerSymbol": {
+          "displaySymbol": "mETH^2"
+        }
       }
     ]
   },
   {
     "chainId": "421611",
+    "chain" : "arbi",
     "name": "arbitrumtestnet_main",
     "symbols": [
       {
