@@ -57,12 +57,12 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
-      alert.success(`${+res.response.data.volume > 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit}`, {
+      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit}`, {
         timeout: 8000,
         isTransaction: true,
         transactionHash: res.response.data.transactionHash,
         link: `${chain.viewUrl}/tx/${res.response.data.transactionHash}`,
-        title:`${+res.response.data.volume > 0 ? lang['buy-order-executed'] : lang['sell-order-executed']}` 
+        title: `${+betInfo.volume < 0 ? lang['buy-order-executed'] : lang['sell-order-executed']}`
       })
     } else {
       if (res.response.transactionHash === "") {
@@ -86,15 +86,15 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let boostedUp = type === "boostedUp" ? true : false
     let params = { includeResponse: true, write: true, subject: type, chainId: wallet.chainId, bTokenSymbol: bToken, amount: amount, symbol: info.symbol, accountAddress: wallet.account, boostedUp: boostedUp, direction: direction }
     if (!isApproved) {
-      let paramsApprove = { includeResponse: true, write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: 'short' }
+      let paramsApprove = { includeResponse: true, write: true, subject: 'approve', chainId: wallet.chainId, bTokenSymbol: bToken, accountAddress: wallet.account, direction: direction, approved: false }
       let approved = await ApiProxy.request("unlock", paramsApprove)
       if (approved) {
-        if (approved.status) {
+        if (approved.success) {
           alert.success(`Approve ${bToken}`, {
             timeout: 8000,
             isTransaction: true,
-            transactionHash: approved.transactionHash,
-            link: `${chain.viewUrl}/tx/${approved.transactionHash}`,
+            transactionHash: approved.response.data.transactionHash,
+            link: `${chain.viewUrl}/tx/${approved.response.data.transactionHash}`,
             title: 'Approve Executed'
           })
         } else {
@@ -108,10 +108,10 @@ export default function Card({ info, lang, bTokens, getLang }) {
             link: `${chain.viewUrl}/tx/${approved.transactionHash}`,
             title: 'Approve Failed'
           })
+          return false;
         }
-        return approved.status
       }
-      params["approved"] = approved
+      params["approved"] = approved.success
     }
     let res = await ApiProxy.request("openBet", params)
     console.log(type, res)
@@ -202,13 +202,13 @@ export default function Card({ info, lang, bTokens, getLang }) {
             </div>
           </div>
           :
-          <Input value={amount} onChange={onChange} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+          <Input value={amount} onChange={onChange} setBalance={setBalance} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
         }
       </div>
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
-            <LineChart symbol={info.symbol} color={'#38CB89'}/>
+            <LineChart symbol={info.symbol} color={'#38CB89'} />
             <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>

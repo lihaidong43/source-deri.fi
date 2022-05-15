@@ -3,7 +3,7 @@ import Icon from '../Icon/Icon';
 import ApiProxy from '../../model/ApiProxy';
 import DeriNumberFormat from '../../utils/DeriNumberFormat';
 import './input.scss'
-export default function Input({ value, lang, onChange, balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
+export default function Input({ value, lang, onChange, setBalance,balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
   const inputRef = useRef(null);
   const [isShowToken, setIsShowToken] = useState(false)
   const change = e => {
@@ -39,7 +39,7 @@ export default function Input({ value, lang, onChange, balance,focus, bToken, bT
             {bTokens && bTokens.map((item, index) => {
               return (
                 <div key={index}>
-                  <Icon token={item.bTokenSymbol} width={23} height={23} onClick={() => { setBToken(item.bTokenSymbol) }} />
+                  <Icon token={item.bTokenSymbol} width={23} height={23} onClick={() => { setBToken(item.bTokenSymbol);setBalance('') ;setIsShowToken(!isShowToken) }} />
                   {bToken === item.bTokenSymbol && <div className='check-bToken'></div>}
                 </div>
               )
