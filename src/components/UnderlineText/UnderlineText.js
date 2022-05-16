@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import Tooltip from '../Tooltip/Tooltip';
 import {isMobile} from '../../utils/utils';
 import {isWindows} from 'react-device-detect'
-import  ReactTooltip  from 'react-tooltip';
+import { useCallback, useState } from 'react';
 
 const Wrapper = styled.div`
   display:${props => props.block};
@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 
 
 export default function UnderlineText({bottomLine, text, id = String(new Date().getTime()) + Math.random(), tip, multiline, html, className, element = '', block = 'block', width = 'auto', children, tiggerEvent }) {
+  const [tooltip, showTooltip] = useState(true);
   const calculatePosition = (position, currentEvent, currentTarget, refNode, place, desiredPlace, effect, offset) => {
     const rect = currentTarget.getBoundingClientRect();
     const tooltipNodeRect = refNode.getBoundingClientRect();
@@ -52,12 +53,18 @@ export default function UnderlineText({bottomLine, text, id = String(new Date().
     return { top: top, left: left }
   }
 
+  const onMouseLeave = useCallback(() => {
+    showTooltip(false);
+    setTimeout(() => showTooltip(true), 50);
+  })
+
   return (
     <Wrapper className={className} block={block} isWin={isWindows} bottomLine={bottomLine}>
-      <div className='text' data-for={id} data-tip={ html ? ReactDOMServer.renderToString(element) : tip} data-event-off='click' data-event={isMobile() ? 'click' : tiggerEvent} data-html={html} >
+      <div className='text' data-for={id} onMouseEnter={() => showTooltip(true)} onMouseLeave={onMouseLeave}
+        data-tip={ html ? ReactDOMServer.renderToString(element) : tip} data-event-off='click' data-event={isMobile() ? 'click' : tiggerEvent} data-html={html} >
         {text || children}
       </div>
-      {tip && <Tooltip id={id} width={width} padding='12' place='bottom' color='rgba(0, 0, 0, 0.3)' overridePosition={calculatePosition} html={html} borderRadius={8} multiline={multiline}>
+      {tooltip && tip && <Tooltip id={id} width={width} padding='12' place='bottom' color='rgba(0, 0, 0, 0.3)' overridePosition={calculatePosition} html={html} borderRadius={8} multiline={multiline}>
        </Tooltip>}
     </Wrapper>
   )
