@@ -32,8 +32,8 @@ export default function Input({ value, lang, onChange, inputDisabled, setBalance
       </div>
       <div className='input-token'>
         <input placeholder={placeholder} disabled={inputDisabled} type='number' onBlur={onBlur} onFocus={onFocus} disabled={disabled} value={value} ref={inputRef} onChange={change} readOnly={readOnly} />
-        <div className='baseToken'>
-          <Icon token={bToken} width="22" height="22" />  {bToken} <Icon token="select-token" onClick={() => { setIsShowToken(!isShowToken) }} />
+        <div className='baseToken' onClick={() => { setIsShowToken(!isShowToken) }}>
+          <Icon token={bToken} width="22" height="22" />  {bToken} <Icon token="select-token"  />
         </div>
         {isShowToken && <div className='token-list'>
           <div className='select-title'>

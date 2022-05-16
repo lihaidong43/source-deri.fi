@@ -68,6 +68,7 @@ export default function BetIt({ lang, getLang }) {
       <div className={isFixed ? "betit bg-hide" : "betit"}>
         <div className={isFixed ? "bg-img-color hide-three" : collect ? "bg-img-color bg-collect" : "bg-img-color bg-collected"} >
         </div>
+        <div className='bg-buttom'></div>
         <img src={leftBg} className='left-icon' />
         <img src={rightBg} className='right-icon' />
         <Header lang={lang} collect={collect}></Header>
