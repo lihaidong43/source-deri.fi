@@ -41,6 +41,7 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   const symbolConfig = getSymbol(chainId, symbol)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   // const clientInfo = await broker.bets(accountAddress, symbolInfo.pool, stringToId(symbol))
+  debug() && console.log(`-- chainId(${chainId}) ${accountAddress} ${symbol} broker(${brokerAddress})`)
   let clientInfo, clientInfo1, clientInfo2
   if (symbolConfig.powerSymbol) {
     [clientInfo1, clientInfo2] = await Promise.all([
@@ -52,29 +53,38 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   }
   //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
   let position = { dpmmTraderPnl: '0', traderPnl: '0' }
-  if (clientInfo1 && clientInfo1.volume !== '0') {
-    clientInfo = clientInfo1
-    const pool = poolFactory(chainId, symbolConfig.pool)
-    await pool.init(clientInfo.client)
-    position = pool.positions.find((p) => p.symbol === symbol)
-  } else if (clientInfo2 && clientInfo2.volume !== '0') {
+  let symbolInfo = { markPrice: '', curIndexPrice: '' }
+  if (clientInfo2 && clientInfo2.volume !== '0') {
     clientInfo = clientInfo2
     symbol = symbolConfig.powerSymbol.symbol
     const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
     await pool.init(clientInfo2.client)
-    position = pool.positions.find((p) => p.symbol === symbolConfig.powerSymbol.symbol)
+    position = pool.positions.find((p) => p.symbol === symbol)
+    symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
+  } else {
+    clientInfo = clientInfo1
+    const pool = poolFactory(chainId, symbolConfig.pool)
+    await pool.init(clientInfo.client)
+    if (pool.positions && pool.positions.length > 1) {
+      position = pool.positions.find((p) => p.symbol === symbol)
+    }
+    symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
   }
   if (clientInfo) {
     return {
       volume: deriSymbolScaleOut(symbol, clientInfo.volume),
       symbol: normalizeDeriSymbol(symbol),
       pnl: position.dpmmTraderPnl,
+      markPrice: symbolInfo.markPrice,
+      indexPrice: symbolInfo.curIndexPrice,
     }
   }
   return {
     symbol,
     volume: '',
     pnl: '',
+    markPrice: symbolInfo.markPrice,
+    indexPrice: symbolInfo.curIndexPrice,
   }
 }, {})
 

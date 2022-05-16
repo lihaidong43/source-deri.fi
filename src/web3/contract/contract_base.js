@@ -26,37 +26,37 @@ export class ContractBase {
           } else {
             this.web3 = await getWeb3(this.chainId);
           }
-          break;
+          if (this.web3) {
+            this.contract = new this.web3.eth.Contract(
+              this.contractAbi,
+              this.contractAddress
+            );
+            return
+          }
         } catch (err) {
-          debug() && console.log(err)
-          retry = retry - 1
+          // debug() && console.log(err)
         }
+        retry = retry - 1
       }
-      if (!this.web3 && retry === 0) {
-        throw new Error(`Contract init(): cannot get web3 provider with chainId(${this.chainId})`)
-      } else {
-        this.contract = new this.web3.eth.Contract(
-          this.contractAbi,
-          this.contractAddress
-        );
-      }
+      throw new Error(`Contract init(): cannot get web3 provider with chainId(${this.chainId})`)
     }
   }
 
   async _call(method, args = []) {
     let res
-    let retry = 2
+    let retry = 3
     while (retry > 0) {
       try {
         await this._init()
         res = await this.contract.methods[method](...args).call();
         break
       } catch(err) {
-        debug() && console.log(err)
+        debug() && console.log(`_call ${method}(${args.join(',')})`, err)
         retry -= 1
         // remove web3 instance to re-init
-        if (retry === 1) {
-         await this.web3._update.bind(this.web3)();
+        if (retry === 1 && this.web3) {
+          // this.web3 = null
+          await this.web3._update.bind(this.web3)();
         }
       }
     }
