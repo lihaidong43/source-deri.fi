@@ -6,7 +6,7 @@ export default function Portal({ collect, setCollect }) {
       <div className='titel-link'>
         <div className="titel-des">DERI.FI - PORTAL FOR ALL DERI PROJECTS</div>
         <div className='link-btn'>
-          <div className='bit-it'>BITit</div>
+          <div className='bit-it'>BETit</div>
           <a href="https://deri.io/">
             <div className='deri-io'>DERI.IO</div>
           </a>
