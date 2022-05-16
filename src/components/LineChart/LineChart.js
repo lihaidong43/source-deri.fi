@@ -5,7 +5,6 @@ const oracleUrl = process.env.REACT_APP_ORACLE_HTTP_URL
 
 export default function LineChart({ symbol,color }) {
   const [data, setData] = useState([])
-  const [domain, setDomain] = useState([])
   const now = new Date().getTime();
   const from = parseInt((now - 1000 * 60 * 60 * 24) / 1000);
   const to = parseInt(now / 1000);
@@ -22,15 +21,6 @@ export default function LineChart({ symbol,color }) {
     if(res.status === 200 && res.data.data){
       const data = res.data.data.map(d => ({value : d.close,time : new Date(d.time).getHours()}))
       setData(data)
-      let min = Math.min.apply(Math, data.map(function (o) {
-          return o.value.toFixed(2)
-        }
-      ))
-      let max = Math.max.apply(Math, data.map(function (o) {
-          return o.value.toFixed(2)
-        }
-      ))
-      setDomain([min,max])
     }
   }
 
@@ -48,7 +38,7 @@ export default function LineChart({ symbol,color }) {
           </linearGradient>
         </defs>
         <XAxis dataKey="time" hide={true} />
-        <YAxis dataKey='value' hide={true} domain={domain}/>
+        <YAxis dataKey='value' type="number" hide domain={['dataMin - 100', 'dataMax + 100']}/>
         <Area type="monotone" dataKey="value" stroke={color} fillOpacity={0.5} strokeWidth={3} fill={`url(#${color})`} />
       </AreaChart>
     </ResponsiveContainer>
