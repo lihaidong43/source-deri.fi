@@ -1,6 +1,6 @@
 // for debug use
 export const debug = () => {
-  if (!!process.env.DEBUG && process.env.DEBUG.toUpperCase() === "TRUE") {
+  if (typeof process === 'object' && process.env.DEBUG && process.env.DEBUG.toUpperCase() === "TRUE") {
     return true
   }
   return false
