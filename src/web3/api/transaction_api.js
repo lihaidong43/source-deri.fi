@@ -5,12 +5,12 @@ import { debug } from "../utils/env"
 import { bg, fromWei, toWei } from "../utils/bignumber"
 import { checkAddress } from "../utils/chain"
 import { getBrokerAddress, getBToken, getPoolConfig, getSymbol } from "../utils/config"
-import { MAX_UINT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
+import { MAX_INT256_DIV_ONE, MAX_UINT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
 import { getSymbolsOracleInfo } from "../utils/oracle"
 import { checkToken, nativeCoinSymbols } from "../utils/symbol"
 
 const getPriceLimit = (volume) => {
-  return bg(volume).gt(0) ? MAX_UINT256_DIV_ONE : '0'
+  return bg(volume).gt(0) ? MAX_INT256_DIV_ONE: '0'
 }
 const formatTradeEvent = async(res) => {
   const eventName = res.events['OpenBet'] ? 'OpenBet' : 'CloseBet'
@@ -109,12 +109,12 @@ export const closeBet = txApi(async({chainId, symbol, accountAddress, isNodeEnv=
     acc.push(s)
     return acc
   }, [])
+  const pool = poolFactory(chainId, symbolConfig.pool)
   const [oracleSignatures, volumes] = await Promise.all([
     getSymbolsOracleInfo(chainId, oracleSymbols.map((s) => s.symbol)),
     broker.getBetVolumes(accountAddress, poolConfig.pool, [symbol]),
     pool.init()
   ])
-  const pool = poolFactory(chainId, symbolConfig.pool)
   if (bg(volumes[0]).eq(0)) {
     throw new Error(`account ${accountAddress} has no position on symbol(${symbol})`)
   }
