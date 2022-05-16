@@ -51,7 +51,10 @@ export const toTxErrorResponse = async(err, opts) => {
   return {
     success: false,
     response: {
-      error: reason || message,
+      error: {
+        code: '',
+        message: reason || message,
+      },
       transactionHash,
     }
   }
