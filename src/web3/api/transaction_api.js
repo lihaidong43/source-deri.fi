@@ -4,7 +4,7 @@ import { txApi } from "../utils/api"
 import { debug } from "../utils/env"
 import { bg, fromWei, toWei } from "../utils/bignumber"
 import { checkAddress } from "../utils/chain"
-import { getBrokerAddress, getBToken, getPoolConfig, getSymbol } from "../utils/config"
+import { getBrokerAddress, getBToken, getPoolConfig, getSymbol, getSymbolList } from "../utils/config"
 import { MAX_INT256_DIV_ONE, MAX_UINT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
 import { getSymbolsOracleInfo } from "../utils/oracle"
 import { checkToken, nativeCoinSymbols } from "../utils/symbol"
@@ -100,7 +100,15 @@ export const closeBet = txApi(async({chainId, symbol, accountAddress, isNodeEnv=
   symbol = checkToken(symbol)
   const brokerAddress = getBrokerAddress(chainId)
   const broker = BrokerImplementationFactory(chainId, brokerAddress, { isNodeEnv })
-  const symbolConfig = getSymbol(chainId, symbol)
+  // extend symbols
+  const symbols = getSymbolList(chainId).reduce((acc, s) => {
+    acc.push(s)
+    if (s.powerSymbol) {
+      acc.push(s.powerSymbol)
+    }
+    return acc
+  }, [])
+  const symbolConfig = symbols.find((s) => s.symbol === symbol)
   const poolConfig = getPoolConfig(chainId, symbolConfig.pool)
   const oracleSymbols = poolConfig.symbols.reduce((acc, s) => {
     if (!!s.powerSymbol) {
