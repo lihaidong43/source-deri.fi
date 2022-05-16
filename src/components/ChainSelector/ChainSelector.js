@@ -51,7 +51,7 @@ const Wrapper = styled.div`
     }
   }
 `  
-function ChainSelector(){
+function ChainSelector({collect}){
   const [bgColor, setBgColor] = useState('rgba(255, 255, 255, 0.2)');
   const [isScroll, setIsScroll] = useState(false);
   const [isShow, setIsShow] = useState(false)
@@ -68,7 +68,8 @@ function ChainSelector(){
   },[wallet])
 
   const handler = useCallback(() => {
-    if(isStartScroll()) {
+    let offset = collect ? 138 : 202
+    if(isStartScroll(offset)) {
       setIsScroll(true)
       setBgColor('#FFAF0D')
     } else {

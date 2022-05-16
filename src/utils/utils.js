@@ -1,75 +1,75 @@
 
 import Cookies from 'js-cookie'
-import { COOKIE_DERI_DOMAIN, FUTURES ,POWER} from './Constants'
-import { BigNumber as bg} from 'bignumber.js';
+import { COOKIE_DERI_DOMAIN, FUTURES, POWER } from './Constants'
+import { BigNumber as bg } from 'bignumber.js';
 import { DeriEnv } from '../web3/utils/env';
 
-export function setCookie(name,value,expires = 365 ,domain = COOKIE_DERI_DOMAIN,path = '/'){
-  if(name && value){
-    Cookies.set(name,value,{expires : expires,domain : domain,path : path})
+export function setCookie(name, value, expires = 365, domain = COOKIE_DERI_DOMAIN, path = '/') {
+  if (name && value) {
+    Cookies.set(name, value, { expires: expires, domain: domain, path: path })
   }
 }
 
-export function getCookie(name){
+export function getCookie(name) {
   return Cookies.get(name)
 }
 
-export function removeCookie(name,domain = COOKIE_DERI_DOMAIN, path = '/'){
-  Cookies.remove(name,{domain,path})
+export function removeCookie(name, domain = COOKIE_DERI_DOMAIN, path = '/') {
+  Cookies.remove(name, { domain, path })
 }
 //反科学计数法
 export function toPlainString(num) {
-  return (''+ +num).replace(/(-?)(\d*)\.?(\d*)e([+-]\d+)/,
-    function(a,b,c,d,e) {
+  return ('' + +num).replace(/(-?)(\d*)\.?(\d*)e([+-]\d+)/,
+    function (a, b, c, d, e) {
       return e < 0
-        ? b + '0.' + Array(1-e-c.length).join(0) + c + d
-        : b + c + d + Array(e-d.length+1).join(0);
+        ? b + '0.' + Array(1 - e - c.length).join(0) + c + d
+        : b + c + d + Array(e - d.length + 1).join(0);
     });
 }
 
 
-export function formatNumber(number,decimal){
+export function formatNumber(number, decimal) {
   let effectiveDecimal = decimal
   let value = number;
-  if(/\d+\.0*[1-9]+/.test(value)  && (+bg(value).toFixed((decimal || 2))) === 0){
+  if (/\d+\.0*[1-9]+/.test(value) && (+bg(value).toFixed((decimal || 2))) === 0) {
     effectiveDecimal = countDecimal(Math.abs(value)) + 2
   }
   value = bg(value).toFixed(effectiveDecimal)
 }
 
 
-export function countDecimal(n){
-  return -Math.floor( Math.log10(n) + 1);
+export function countDecimal(n) {
+  return -Math.floor(Math.log10(n) + 1);
 }
 
-export function formatAddress(address){
-  return address && `${address.substr(0,6)}...${address.substr(-4)}`
+export function formatAddress(address) {
+  return address && `${address.substr(0, 6)}...${address.substr(-4)}`
 }
 
-export function isElementInViewport (el) {
+export function isElementInViewport(el) {
   var rect = el ? el.getBoundingClientRect() : {}
   return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
   );
 }
 
 export function isStartScroll(offset = 82) {
-  const st = window.pageYOffset || document.documentElement.scrollTop; 
+  const st = window.pageYOffset || document.documentElement.scrollTop;
   return st > offset ? true : false
 }
 
-export function eqInNumber(str1,str2){
+export function eqInNumber(str1, str2) {
   return (+str1) === (+str2)
 }
 
-export function importAll(r,config = {}){
+export function importAll(r, config = {}) {
   r.keys().forEach(key => {
     const path = key.split('.')
     const env = path[2]
-    if(!config[env]) {
+    if (!config[env]) {
       config[env] = {}
     }
     config[env] = r(key)
@@ -77,12 +77,12 @@ export function importAll(r,config = {}){
   return config;
 }
 
-export function getEnv(){
+export function getEnv() {
   return process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 }
 
 
-export async function  switchNetwork(chain,successCb,errorCb) {
+export async function switchNetwork(chain, successCb, errorCb) {
   const chainId = `0x${(parseInt(chain.chainId)).toString(16)}`
   try {
     await window.ethereum.request({
@@ -100,46 +100,46 @@ export async function  switchNetwork(chain,successCb,errorCb) {
       } catch (addError) {
         console.error('err', addError)
       }
-    } else if(error.code === 4001){
+    } else if (error.code === 4001) {
       errorCb && errorCb(40001)
-    } 
+    }
   }
 }
 
-export function hasParent(parent,current){
-  if(parent === current){
+export function hasParent(parent, current) {
+  if (parent === current) {
     return true
-  } else if(current.parentElement){
-    return hasParent(parent,current.parentElement)
+  } else if (current.parentElement) {
+    return hasParent(parent, current.parentElement)
   }
   return false
 }
 
-export function getMarkpriceSymbol(symbolInfo){
-   if(symbolInfo.category === FUTURES){
-    if(DeriEnv.get() === 'dev') {
-      if(/ARBI/i.test(symbolInfo.chain)) {
-        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase() 
+export function getMarkpriceSymbol(symbolInfo) {
+  if (symbolInfo.category === FUTURES) {
+    if (DeriEnv.get() === 'dev') {
+      if (/ARBI/i.test(symbolInfo.chain)) {
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase()
       }
-      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase() 
+      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
     } else {
-      if(/ARBI/i.test(symbolInfo.chain)){
+      if (/ARBI/i.test(symbolInfo.chain)) {
         return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
       }
-    } 
+    }
     return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
-  } else if(symbolInfo.category === POWER) {
-     if(DeriEnv.get() === 'dev'){
-       if(/ARBI/i.test(symbolInfo.chain)) {
+  } else if (symbolInfo.category === POWER) {
+    if (DeriEnv.get() === 'dev') {
+      if (/ARBI/i.test(symbolInfo.chain)) {
         return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase()
-       } else {
+      } else {
         return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
-       }
-     } else {
-      if(/ARBI/i.test(symbolInfo.chain)){
+      }
+    } else {
+      if (/ARBI/i.test(symbolInfo.chain)) {
         return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
-      } 
-    } 
+      }
+    }
     return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
   }
 }

@@ -70,7 +70,7 @@ const Wrapper = styled.div`
 }
 `
 
-export default function Header ({lang}) {
+export default function Header ({lang,collect}) {
   const [isFixed, setIsFixed] = useState(false);
   const [btnMainColor, setBtnMainColor] = useState('#FFAB00');
   const clazz = classNames('header',{
@@ -78,7 +78,8 @@ export default function Header ({lang}) {
     fadeOut : !isFixed
   })
   const handler = useCallback(() => {
-    if (isStartScroll()){
+    let offset = collect ? 138 : 202
+    if (isStartScroll(offset)){
       setIsFixed(true)
       setBtnMainColor('#FF7913')
     } else {
@@ -92,14 +93,14 @@ export default function Header ({lang}) {
     return () => {
       document.removeEventListener('scroll',handler)
     }
-  },[])
+  },[collect])
 
   return (
     <Wrapper className={clazz}>
       <div className="left">
         <span className="f-name">{lang['bet'].toUpperCase()}</span><span className="l-name">{lang['it']}</span></div>
       <div className="right">
-        <ChainSelector bgColor={btnMainColor}/>
+        <ChainSelector bgColor={btnMainColor} collect={collect}/>
         <WalletConnector lang={lang} bgColor={btnMainColor}/>
       </div>
     </Wrapper>

@@ -16,6 +16,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [bToken, setBToken] = useState()
   const [balance, setBalance] = useState()
   const [disabled, setDisabled] = useState(true)
+  const [inputDisabled, setInputDisabled] = useState(true)
   const wallet = useWallet();
   const chains = useChain()
   const chain = chains.find((item) => +item.chainId === +wallet.chainId)
@@ -165,6 +166,12 @@ export default function Card({ info, lang, bTokens, getLang }) {
     }
   }, [amount])
 
+  useEffect(() => {
+    if (balance && +balance > 0) {
+      setInputDisabled(false)
+    }
+  }, [balance])
+
   return (
     <div className={classNames('card-box', info.unit)}>
       <div className='icon-name'>
@@ -202,13 +209,13 @@ export default function Card({ info, lang, bTokens, getLang }) {
             </div>
           </div>
           :
-          <Input value={amount} onChange={onChange} setBalance={setBalance} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
+          <Input value={amount} onChange={onChange} inputDisabled={inputDisabled} setBalance={setBalance} balance={balance} bToken={bToken} setBToken={setBToken} bTokens={bTokens} lang={lang} />
         }
       </div>
       <div className='btn-box'>
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
-            <LineChart symbol={info.symbol} color={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
+            <LineChart symbol={info.markpriceSymbol} color={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
             <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
