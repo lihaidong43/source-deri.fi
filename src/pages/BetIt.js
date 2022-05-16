@@ -8,6 +8,8 @@ import { useState, useEffect, useCallback } from "react";
 import { isStartScroll } from "../utils/utils";
 import DeriNumberFormat from "../utils/DeriNumberFormat";
 import usePool from "../hooks/usePool";
+import leftBg from "../assets/img/bg-icon-left.png"
+import rightBg from "../assets/img/bg-icon-right-buttom.png"
 export default function BetIt({ lang, getLang }) {
   const [totalPnl, setTotalPnl] = useState()
   const [isFixed, setIsFixed] = useState(false)
@@ -63,38 +65,40 @@ export default function BetIt({ lang, getLang }) {
   return (
     <>
       <Portal collect={collect} setCollect={setCollect}></Portal>
-      <div className="betit">
-      {/* <div className={isFixed ? "bg-img-color hide-three" : collect ? "bg-img-color bg-collect" : "bg-img-color"} >
-      </div> */}
-      <Header lang={lang} collect={collect}></Header>
-      <div className="main-body">
-        <div className='title-box'>
-          <div className='title-des'>
-            <div className='title-text'>
-              {lang['title-one']}
-            </div>
-            <div className='title-text-des'>
-              {lang['title-two']}
+      <div className={isFixed ? "betit bg-hide" : "betit"}>
+        <div className={isFixed ? "bg-img-color hide-three" : collect ? "bg-img-color bg-collect" : "bg-img-color bg-collected"} >
+        </div>
+        <img src={leftBg} className='left-icon' />
+        <img src={rightBg} className='right-icon' />
+        <Header lang={lang} collect={collect}></Header>
+        <div className="main-body">
+          <div className='title-box'>
+            <div className='title-des'>
+              <div className='title-text'>
+                {lang['title-one']}
+              </div>
+              <div className='title-text-des'>
+                {lang['title-two']}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className='total-pnl-box'>
-          <div className='total-pnl'>
-            <span>{lang['total-pnl']}:</span>
-            <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
+          <div className='total-pnl-box'>
+            <div className='total-pnl'>
+              <span>{lang['total-pnl']}:</span>
+              <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
+            </div>
           </div>
-        </div>
 
-        <div className='card-list'>
-          {symbols && symbols.map((item, index) => {
-            return (
-              <Card info={item} bTokens={bTokens} lang={lang} key={index} getLang={getLang} />
-            )
-          })}
+          <div className='card-list'>
+            {symbols && symbols.map((item, index) => {
+              return (
+                <Card info={item} bTokens={bTokens} lang={lang} key={index} getLang={getLang} />
+              )
+            })}
+          </div>
         </div>
       </div>
-    </div>
     </>
   )
 }

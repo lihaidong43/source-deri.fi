@@ -34,12 +34,35 @@
     }
   }
 }
-.collect{
+.portal-header.collect{
+  animation: headerOpen  0.5s;
+}
+.portal-header.collected{
+  animation : headerClose 0.5s ; 
   height: 56px;
+}
+.collected{
   .link-btn{
     margin: 0;
   }
   .titel-des{
     display: none;
+  }
+}
+
+@keyframes headerClose{
+  from {
+    height : 120px;
+  }
+  to {
+    height : 56px;
+  }
+}
+@keyframes headerOpen{
+  from {
+    height : 56px;
+  }
+  to {
+    height : 120px;
   }
 }

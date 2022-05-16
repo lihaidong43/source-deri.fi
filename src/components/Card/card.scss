@@ -37,6 +37,7 @@ $Color: #F49B33,
   padding: 32px 0 0 36px;
   border: 1px solid transparent;
   cursor: pointer;
+  margin-left: 42px;
 
   .icon-name {
     display: flex;
@@ -139,7 +140,11 @@ $Color: #F49B33,
     flex-direction: column;
     justify-content: end;
     height: 237px;
-
+    .line-chart{
+      width: 376px;
+      position: relative;
+      right: 33px;
+    }
     .btn {
       margin-top: 19px;
       background-repeat: no-repeat;
@@ -150,47 +155,11 @@ $Color: #F49B33,
       color: #999999;
       background-color: #FFFFFF;
     }
-
-    // .up-btn {
-    //   background-image: url('../../assets/img/up.svg');
-    //   background-position: 125px;
-
-    //   &:hover {
-    //     background-image: url('../../assets/img/up-hover.svg');
-    //   }
-
-    //   &.disabled {
-    //     background-image: url('../../assets/img/up-disable.svg');
-    //   }
-    // }
-
-    // .down-btn {
-    //   background-image: url('../../assets/img/down.svg');
-    //   background-position: 110px;
-
-    //   &:hover {
-    //     background-image: url('../../assets/img/down-hover.svg');
-    //   }
-
-    //   &.disabled {
-    //     background-image: url('../../assets/img/down-disable.svg');
-    //   }
-    // }
-
-    // .boosted-btn {
-    //   background-image: url('../../assets/img/boosted-up.svg'), url('../../assets/img/boosted-hint.svg');
-    //   background-position: 90px, 195px;
-
-    //   &:hover {
-    //     background-image: url('../../assets/img/boosted-up-hover.svg'), url('../../assets/img/boosted-hint-hover.svg');
-    //   }
-
-    //   &.disabled {
-    //     background-image: url('../../assets/img/boosted-up-disable.svg'), url('../../assets/img/boosted-hint-disable.svg');
-    //   }
-    // }
   }
 
+}
+.card-box:nth-child(3n+1){
+  margin-left: 0px;
 }
 
 @for $i from 1 through length($className) {
@@ -216,7 +185,7 @@ $Color: #F49B33,
     width: 336px;
     height: 584px;
     padding: 27px 0 0 28px;
-
+    margin-left: 0px;
     .input-box {
       width: 288px;
       margin-top: 14px;
@@ -231,7 +200,8 @@ $Color: #F49B33,
       margin-top: 27px;
       .line-chart{
         width: 336px;
-        margin-right: 32px;
+        position: relative;
+        right: 28px;
       }
       .btn {
         width: 288px;
@@ -250,6 +220,9 @@ $Color: #F49B33,
       }
     }
   }
+  .card-box:nth-child(2n){
+    margin-left: 20px;
 
+  }
 
 }

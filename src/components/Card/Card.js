@@ -46,10 +46,10 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
 
   const betClose = async () => {
-    let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
+    let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
-      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPower && lang['powers']} `, {
+      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPowerSymbol && lang['powers']} `, {
         timeout: 8000,
         isTransaction: true,
         transactionHash: res.response.data.transactionHash,
@@ -147,21 +147,24 @@ export default function Card({ info, lang, bTokens, getLang }) {
   useEffect(() => {
     if (bTokens.length) {
       setBToken(bTokens[0].bTokenSymbol)
+      setBetInfo({})
     }
   }, [bTokens])
   useEffect(() => {
-    if (+amount <= +balance && amount) {
+    if (+amount <= +balance && amount && betInfo.markPrice) {
       setDisabled(false)
     } else {
       setDisabled(true)
     }
-  }, [amount])
+  }, [amount,betInfo])
 
   useEffect(() => {
-    if (balance && +balance > 0) {
+    if (balance && +balance > 0 && betInfo.markPrice) {
       setInputDisabled(false)
+    }else{
+      setInputDisabled(true)
     }
-  }, [balance])
+  }, [balance,betInfo])
 
   return (
     <div className={classNames('card-box', info.unit)}>
