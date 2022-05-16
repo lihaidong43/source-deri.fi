@@ -29,6 +29,8 @@ describe('brokerImplementation', () => {
   it('bets', async () => {
     const res = await broker.bets(accountAddress, poolAddress, stringToId(symbolId1))
     expect(res).toEqual({ asset: "0x0000000000000000000000000000000000000000", client: "0x0000000000000000000000000000000000000000", volume: "0" })
+    // const res = await broker.bets('', '', stringToId('BTC^2'))
+    // expect(res).toEqual({ asset: "0x0000000000000000000000000000000000000000", client: "0x0000000000000000000000000000000000000000", volume: "0" })
   }, TIMEOUT)
   it('clientImplementation', async () => {
     const res = await broker.clientImplementation()

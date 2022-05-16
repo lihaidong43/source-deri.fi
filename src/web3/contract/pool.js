@@ -177,11 +177,12 @@ export class Pool {
     if (symbol) {
       let step = 50, stopValue = bg(margin).times(0.01).toString()
       let low, high, volume;
+      const price = (isPowerSymbol(symbol) || isOptionSymbol(symbol)) ? symbol.theoreticalPrice : symbol.curIndexPrice
       if (direction === 'long') {
-        low = bg(margin).div(symbol.curIndexPrice).toString()
+        low = bg(margin).div(price).toString()
         high = bg(low).times(2).div(symbol.initialMarginRatio).toString()
       } else {
-        high = bg(margin).div(symbol.curIndexPrice).negated().toString()
+        high = bg(margin).div(price).negated().toString()
         low = bg(high).times(2).div(symbol.initialMarginRatio).toString()
       }
       for (let i = 0; i < step; i++) {
