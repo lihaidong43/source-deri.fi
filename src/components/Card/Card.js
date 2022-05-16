@@ -59,7 +59,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: info.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
-      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit}`, {
+      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPower && lang['powers']} `, {
         timeout: 8000,
         isTransaction: true,
         transactionHash: res.response.data.transactionHash,
@@ -70,7 +70,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,
@@ -103,7 +103,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           if (approved.transactionHash === "") {
             return false;
           }
-          alert.error(`Transaction Failed ${approved.response.error.message}`, {
+          alert.error(`Transaction Failed ${approved.response.error}`, {
             timeout: 300000,
             isTransaction: true,
             transactionHash: approved.response.transactionHash,
@@ -129,7 +129,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,

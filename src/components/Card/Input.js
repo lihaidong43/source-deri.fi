@@ -3,12 +3,16 @@ import Icon from '../Icon/Icon';
 import ApiProxy from '../../model/ApiProxy';
 import DeriNumberFormat from '../../utils/DeriNumberFormat';
 import './input.scss'
-export default function Input({ value, lang, onChange, inputDisabled,setBalance,balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
+export default function Input({ value, lang, onChange, inputDisabled, setBalance, balance, focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
   const inputRef = useRef(null);
   const [isShowToken, setIsShowToken] = useState(false)
   const change = e => {
     const { value } = e.target
-    onChange(value)
+    if (value < 0 || isNaN(value)) {
+      onChange("")
+    } else {
+      onChange(value)
+    }
   }
   useEffect(() => {
     inputRef.current.setCustomValidity('')
@@ -23,7 +27,7 @@ export default function Input({ value, lang, onChange, inputDisabled,setBalance,
           {lang['bet'].toUpperCase()}
         </div>
         <div className="balance">
-          {lang['balance']}:<DeriNumberFormat value={balance} displayType='text' decimalScale={2} /> 
+          {lang['balance']}:<DeriNumberFormat value={balance} displayType='text' decimalScale={2} />
         </div>
       </div>
       <div className='input-token'>
@@ -39,7 +43,7 @@ export default function Input({ value, lang, onChange, inputDisabled,setBalance,
             {bTokens && bTokens.map((item, index) => {
               return (
                 <div key={index}>
-                  <Icon token={item.bTokenSymbol} width={23} height={23} onClick={() => { setBToken(item.bTokenSymbol);setBalance('') ;setIsShowToken(!isShowToken) }} />
+                  <Icon token={item.bTokenSymbol} width={23} height={23} onClick={() => { setBToken(item.bTokenSymbol); setBalance(''); setIsShowToken(!isShowToken) }} />
                   {bToken === item.bTokenSymbol && <div className='check-bToken'></div>}
                 </div>
               )
