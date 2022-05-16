@@ -1,6 +1,6 @@
 [
   {
-    "name": "bsc_main",
+    "name": "option",
     "chainId": "56",
     "pool": "0x243681B8Cd79E3823fF574e07B2378B8Ab292c1E",
     "zone": "main",
@@ -135,7 +135,7 @@
     ]
   },
   {
-    "name": "bsc_inno",
+    "name": "future_inno",
     "chainId": "56",
     "pool": "0xD2D950e338478eF7FeB092F840920B3482FcaC40",
     "zone": "inno",
@@ -268,7 +268,7 @@
     ]
   },
   {
-    "name": "arbitrum_main",
+    "name": "pool1",
     "chainId": "42161",
     "pool": "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8",
     "zone": "main",
