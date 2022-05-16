@@ -70,7 +70,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,
@@ -103,7 +103,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           if (approved.transactionHash === "") {
             return false;
           }
-          alert.error(`Transaction Failed ${approved.response.error}`, {
+          alert.error(`Transaction Failed ${approved.response.error.message}`, {
             timeout: 300000,
             isTransaction: true,
             transactionHash: approved.response.transactionHash,
@@ -129,7 +129,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,
