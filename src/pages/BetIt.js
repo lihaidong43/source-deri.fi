@@ -80,7 +80,7 @@ export default function BetIt({ lang, getLang }) {
         <div className='card-list'>
           {symbols && symbols.map((item, index) => {
             return (
-              <Card info={item} bTokens={bTokens} lang={lang} getLang={getLang} />
+              <Card info={item} bTokens={bTokens} lang={lang} key={index} getLang={getLang} />
             )
           })}
         </div>

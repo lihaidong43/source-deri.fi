@@ -1,6 +1,6 @@
 import React, { useState, useEffect ,useCallback} from 'react'
 import styled from 'styled-components';
-import { isStartScroll, switchNetwork, hasParent } from '../../utils/utils';
+import { isStartScroll, switchChain, hasParent } from '../../utils/utils';
 import Icon from '../Icon/Icon';
 import { useWallet } from 'use-wallet';
 import useChain from '../../hooks/useChain';
@@ -60,10 +60,10 @@ function ChainSelector({collect}){
 
   const onSelect = useCallback(async (chain) => {
     if(wallet.isConnected()){
-      switchNetwork(chain,() => setIsShow(false))
+      switchChain(chain,() => setIsShow(false))
     } else {
       await wallet.connect();
-      switchNetwork(chain,() => setIsShow(false))
+      switchChain(chain,() => setIsShow(false))
     }
   },[wallet])
 

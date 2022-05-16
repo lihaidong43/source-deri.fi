@@ -10,6 +10,8 @@ import useChain from '../../hooks/useChain';
 import { useAlert } from 'react-alert'
 import DeriNumberFormat from "../../utils/DeriNumberFormat";
 import LineChart from "../LineChart/LineChart";
+import { eqInNumber } from "../../utils/utils";
+import UnderlineText from "../UnderlineText/UnderlineText";
 export default function Card({ info, lang, bTokens, getLang }) {
   const [amount, setAmount] = useState()
   const [betInfo, setBetInfo] = useState({})
@@ -19,28 +21,27 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [inputDisabled, setInputDisabled] = useState(true)
   const wallet = useWallet();
   const chains = useChain()
-  const chain = chains.find((item) => +item.chainId === +wallet.chainId)
+  const chain = chains.find((item) => eqInNumber(item.chainId, wallet.chainId))
   const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
   }
-  const betit = useCallback(() => {
-    ApiProxy.request('openBet', {
-      write: true,
-      subject: 'open Bet',
-      amount: '100',
-      direction: 'long',
-      chainId: wallet.chainId,
-      accountAddress: wallet.account,
-      bTokenSymbol: 'ETH'
-    })
-  })
 
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
     if (res.symbol) {
       setBetInfo(res)
     }
+    return res
+  }
+
+  const getBetInfoTimeOut =  (action) => {
+    let timer = window.setTimeout(async () => {
+      let res = await action();
+      if (res) {
+        getBetInfoTimeOut(action);
+      }
+    }, 3000)
   }
 
   const getIsApprove = async () => {
@@ -102,11 +103,11 @@ export default function Card({ info, lang, bTokens, getLang }) {
           if (approved.transactionHash === "") {
             return false;
           }
-          alert.error(`Transaction Failed ${approved.error}`, {
+          alert.error(`Transaction Failed ${approved.response.error.message}`, {
             timeout: 300000,
             isTransaction: true,
-            transactionHash: approved.transactionHash,
-            link: `${chain.viewUrl}/tx/${approved.transactionHash}`,
+            transactionHash: approved.response.transactionHash,
+            link: `${chain.viewUrl}/tx/${approved.response.transactionHash}`,
             title: 'Approve Failed'
           })
           return false;
@@ -128,7 +129,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,
@@ -142,9 +143,8 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
   useEffect(() => {
     if (wallet.chainId && wallet.account && info) {
-      let interval = window.setInterval(() => { getBetInfo() }, 1000 * 3);
+      getBetInfoTimeOut(getBetInfo)
       getBetInfo()
-      return () => clearInterval(interval);
     }
   }, [wallet, info])
 
@@ -183,7 +183,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       </div>
       <div className='price-box'>
         <div className='symbol-price'>
-          $<DeriNumberFormat value={info.price} decimalScale={2} height={30} />
+          $<DeriNumberFormat value={betInfo.markPrice} decimalScale={2} height={30} />
         </div>
         <div className='price-title'>
           {lang['current-price']}
@@ -195,7 +195,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {info.leverage} X
         </div>
         <div className='leverage-title'>
-          {lang['leverage']}  <Icon token="leverage" />
+          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} > <Icon token="leverage" /></UnderlineText>
         </div>
       </div>
       <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
@@ -221,7 +221,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           : <>
             <Button label={lang['up']} onClick={() => openBet("up")} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
             <Button label={lang['down']} onClick={() => openBet("down")} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
-            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip="aa" tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
+            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip={getLang('boosted-up-tip',{symbol:info.unit,powers:info.powerSymbol.symbol})} tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
           </>}
       </div>
 

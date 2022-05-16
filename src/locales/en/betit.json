@@ -12,7 +12,7 @@
   "down":"DOWN",
   "close":"CLOSE",
   "boosted-up":"BOOSTED UP",
-  "boosted-up-tip":"Long ${symbol} using Deri Protocol’s ${powers} to get protected downside and unlimited upside.",
+  "boosted-up-tip":"Long ${symbol} using Deri Protocol’s m${powers} to get protected downside and unlimited upside.",
   "balance":"BALANCE",
   "entered":"Entered",
   "select-coin":"Select coin",

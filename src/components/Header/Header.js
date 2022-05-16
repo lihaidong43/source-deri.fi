@@ -52,11 +52,11 @@ const Wrapper = styled.div`
   
 @keyframes headerFadein {
   from {
-    opacity: 0;
+    // opacity: 0;
     height : 0px;
   }
   to {
-    opacity: 1;
+    // opacity: 1;
     height : 96px;
   }
 }
