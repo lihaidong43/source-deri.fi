@@ -82,7 +82,7 @@ export function getEnv(){
 }
 
 
-export async function  switchNetwork(chain,successCb,errorCb) {
+export async function  switchChain(chain,successCb,errorCb) {
   const chainId = `0x${(parseInt(chain.chainId)).toString(16)}`
   try {
     await window.ethereum.request({
@@ -142,4 +142,7 @@ export function getMarkpriceSymbol(symbolInfo){
     } 
     return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
   }
+}
+export function isMobile(){
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 }
