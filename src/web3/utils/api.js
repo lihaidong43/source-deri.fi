@@ -20,13 +20,23 @@ export const toErrorResponse = (error, defaultValue) => {
 
 export const toTxErrorResponse = async(err, opts) => {
   const { chainId, onReject } = opts
+  let reason = '', transactionHash = '';
+  const message = err.message || `Transaction failed: ${err.toString()}`;
   if (err.code && typeof err.code === 'number') {
     onReject()
-  }
 
-  const message = err.message || `Transaction failed: ${err.toString()}`;
-  let reason = '', transactionHash = '';
-  if (err.receipt) {
+    // metamask gasPrice error
+    if (err.message) {
+    const result = err.message.match(/(\{.*\})/)
+      if (result) {
+        const data = JSON.parse(result[0])
+        if (data.value && data.value.data && data.value.data.message) {
+          reason = data.value.data.message
+        }
+      }
+    }
+  } else if (err.receipt) {
+    // tx receipt error
     transactionHash = err.receipt.transactionHash
     const blockNumber = err.receipt.blockNumber
     try {
