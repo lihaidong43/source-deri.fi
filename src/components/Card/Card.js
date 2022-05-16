@@ -10,6 +10,8 @@ import useChain from '../../hooks/useChain';
 import { useAlert } from 'react-alert'
 import DeriNumberFormat from "../../utils/DeriNumberFormat";
 import LineChart from "../LineChart/LineChart";
+import { eqInNumber } from "../../utils/utils";
+import UnderlineText from "../UnderlineText/UnderlineText";
 export default function Card({ info, lang, bTokens, getLang }) {
   const [amount, setAmount] = useState()
   const [betInfo, setBetInfo] = useState({})
@@ -19,22 +21,11 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [inputDisabled, setInputDisabled] = useState(true)
   const wallet = useWallet();
   const chains = useChain()
-  const chain = chains.find((item) => +item.chainId === +wallet.chainId)
+  const chain = chains.find((item) => eqInNumber(item.chainId,wallet.chainId))
   const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
   }
-  const betit = useCallback(() => {
-    ApiProxy.request('openBet', {
-      write: true,
-      subject: 'open Bet',
-      amount: '100',
-      direction: 'long',
-      chainId: wallet.chainId,
-      accountAddress: wallet.account,
-      bTokenSymbol: 'ETH'
-    })
-  })
 
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
@@ -195,7 +186,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {info.leverage} X
         </div>
         <div className='leverage-title'>
-          {lang['leverage']}  <Icon token="leverage" />
+          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} > <Icon token="leverage" /></UnderlineText>
         </div>
       </div>
       <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
