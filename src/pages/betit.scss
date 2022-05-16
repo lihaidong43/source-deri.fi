@@ -6,9 +6,9 @@
 .betit {
   .bg-img-color {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 120px) ;
     position: fixed;
-    top: 0;
+    top: 120px;
     z-index: -1;
     background: url('../assets/img/three-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
     background-repeat: no-repeat;
@@ -18,6 +18,12 @@
     background: url('../assets/img/two-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    height:100vh;
+    top: 0;
+  }
+  .bg-collect{
+    height: calc(100vh - 56px) ;
+    top: 56px;
   }
 
   .main-body {

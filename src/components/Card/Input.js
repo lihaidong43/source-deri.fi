@@ -3,7 +3,7 @@ import Icon from '../Icon/Icon';
 import ApiProxy from '../../model/ApiProxy';
 import DeriNumberFormat from '../../utils/DeriNumberFormat';
 import './input.scss'
-export default function Input({ value, lang, onChange, setBalance,balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
+export default function Input({ value, lang, onChange, inputDisabled,setBalance,balance,focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
   const inputRef = useRef(null);
   const [isShowToken, setIsShowToken] = useState(false)
   const change = e => {
@@ -27,7 +27,7 @@ export default function Input({ value, lang, onChange, setBalance,balance,focus,
         </div>
       </div>
       <div className='input-token'>
-        <input placeholder={placeholder} type='number' onBlur={onBlur} onFocus={onFocus} disabled={disabled} value={value} ref={inputRef} onChange={change} readOnly={readOnly} />
+        <input placeholder={placeholder} disabled={inputDisabled} type='number' onBlur={onBlur} onFocus={onFocus} disabled={disabled} value={value} ref={inputRef} onChange={change} readOnly={readOnly} />
         <div className='baseToken'>
           <Icon token={bToken} width="22" height="22" />  {bToken} <Icon token="select-token" onClick={() => { setIsShowToken(!isShowToken) }} />
         </div>
