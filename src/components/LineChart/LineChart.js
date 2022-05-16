@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AreaChart,Area,XAxis,YAxis, ResponsiveContainer } from 'recharts'
-import { getMarkpriceSymbol } from '../../utils/utils';
 const oracleUrl = process.env.REACT_APP_ORACLE_HTTP_URL
 
 export default function LineChart({ symbol,color }) {
@@ -13,13 +12,13 @@ export default function LineChart({ symbol,color }) {
     const url = `${oracleUrl}/get_kline`
     const res = await axios.get(url,{
       params : {
-        symbol : getMarkpriceSymbol(symbol),
+        symbol : symbol,
         time_type: 'hour',
         from : from ,
         to : to 
       }
     })
-    if(res.status === 200){
+    if(res.status === 200 && res.data.data){
       const data = res.data.data.map(d => ({value : d.close,time : new Date(d.time).getHours()}))
       setData(data)
     }

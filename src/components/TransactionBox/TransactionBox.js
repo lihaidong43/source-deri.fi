@@ -75,6 +75,9 @@ const StatusBarWrapper = styled.div`
         background: rgba(196, 196, 196, 0.2);
         border: 1.5px solid rgba(176, 183, 195, 0.5);
         color : #C8C8C8;
+        .main {
+          width : auto;
+        }
         .spinner {
           display :none;
         }
@@ -141,7 +144,7 @@ const StatusBarWrapper = styled.div`
           background: rgba(196, 196, 196, 0.2);
           border: 1.5px solid rgba(176, 183, 195, 0.5);
           color : #C8C8C8;
-          img {
+          .spinner,img {
             display :none;
           }
         }
@@ -178,38 +181,37 @@ const StatusBarWrapper = styled.div`
 `
 
 
-function ApproveStatus({isApproved,approved,direction,status}){
-  const [statusIcon, setStatusIcon] = useState()
+function ApproveStatus({approved,direction,status}){
+  const [transStatusIcon, setTransStatusIcon] = useState()
+  const [approveStatusIcon, setApproveStatusIcon] = useState()
+  const [approveLabel, setApproveLabel] = useState('APPROVE')
+
 
   const statusBarClass = classNames('status-bar',status,{
     approving : approved === false,
     approved : approved === true
   })
 
-  // useEffect(() => {
-  //   if(isApproved !== undefined && approved !== undefined){
-  //     if(isApproved === false && approved === false){
-  //       setContent(<Label text='APPROVE' bgColor='#FFAB00' icon={<Loading/>}/>)
-  //     } else if(isApproved === false && approved === true) {
-  //       setContent(<Label text='APPROVE' bgColor='#FFAB00' icon={<Loading/>}/>)
-  //     } else if(isApproved === true && approved === false){
-  //       setContent(<Label text='APPROVE' bgColor='#FFAB00' icon={<Loading/>}/>)
-  //     } else if(isApproved === true && approved === true){
-  //       setContent(<Label text='APPROVE' bgColor='#FFAB00' icon={<Loading/>}/>)
-  //     }
-  //   } else {
-  //     setContent(<Label text={direction} bgColor={`rgb(${rgb})`} icon={<Loading/>}/>)
-  //   }
-
-  // }, [isApproved,approved])
-
   useEffect(() => {
     if(status === 'pending') {
-      setStatusIcon(<Loading/>)
+      if(approved) {
+        setApproveStatusIcon('trans-disabled-success');
+        setTransStatusIcon(<Loading/>)
+      } else {
+        setApproveStatusIcon(<Loading/>);
+        setTransStatusIcon(<Loading/>)
+      }
     } else if(status === 'success') {
-      setStatusIcon('trans-success');
+      if(approved) {
+        setApproveStatusIcon('trans-success');
+        setTransStatusIcon('trans-success');
+      }  else {
+        setTransStatusIcon('trans-success');
+      }
     } else {
-      setStatusIcon('reject-close')
+      setTransStatusIcon('reject-close')
+      setApproveStatusIcon('reject-close');
+      setApproveLabel('REJECT')
     }
 
   }, [status])
@@ -217,9 +219,9 @@ function ApproveStatus({isApproved,approved,direction,status}){
 
   return(
       <StatusBarWrapper className={statusBarClass}>
-        <Label text='APPROVE' className='approve-label'  width='94' height='30' icon={statusIcon}/>
+        <Label text={approveLabel} className='approve-label'  width='94' height='30' icon={approveStatusIcon}/>
         <ProcessBar className='process-bar-wrapper' percent='50%' width='120px'/>
-        <Label text={direction} className='direction-label' icon={statusIcon} width='90' height='30'/>
+        <Label text={direction} className='direction-label' icon={transStatusIcon} width='90' height='30'/>
       </StatusBarWrapper>
     )
 }
