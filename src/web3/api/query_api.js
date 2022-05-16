@@ -64,10 +64,17 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
     await pool.init(clientInfo2.client)
     position = pool.positions.find((p) => p.symbol === symbolConfig.powerSymbol.symbol)
   }
+  if (clientInfo) {
+    return {
+      volume: deriSymbolScaleOut(symbol, clientInfo.volume),
+      symbol: normalizeDeriSymbol(symbol),
+      pnl: position.dpmmTraderPnl,
+    }
+  }
   return {
-    volume: deriSymbolScaleOut(symbol, clientInfo.volume) ,
-    symbol:  normalizeDeriSymbol(symbol),
-    pnl:  position.dpmmTraderPnl,
+    symbol,
+    volume: '',
+    pnl: '',
   }
 }, {})
 
