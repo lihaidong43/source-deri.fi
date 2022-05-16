@@ -98,7 +98,7 @@ function ChainSelector({collect}){
 
 
   return (
-    <Wrapper className='network-select' bgColor={bgColor}>
+    <Wrapper className='network-select' bgColor={'#FFAB00'}>
       <div className='nw-wrapper'>
         {chains.map((chain,index) => {
           const itemClass = classNames('nw-item',{
@@ -107,7 +107,7 @@ function ChainSelector({collect}){
           return index === 0 
             ?
               (<div className='nw-item' onClick={() => setIsShow(!isShow)} key={index}>
-                <Icon token={isScroll ? `${chain.icon}-LIGHT` : chain.icon} width='20'/>
+                <Icon token={`${chain.icon}-LIGHT`} width='20'/>
                 <div className='name'>{chain.name}</div>
                 <Icon  width='16' token={'arrow-down'}/>
               </div>)
@@ -117,11 +117,6 @@ function ChainSelector({collect}){
               <div className='name'>{chain.name}</div>
             </div>)
         })}
-        {/* <div className='nw-item cur-network' >
-          <Icon token={nowIcon} width='20'/>
-          <div className='name'>{NETWORK_MAP[curNetwork.name] || curNetwork.name}</div>
-          <Icon  width='16' token={isShow ? 'arrow-up' : 'arrow-down'}/>
-        </div> */}
       </div>
     </Wrapper>
   )
