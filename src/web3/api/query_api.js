@@ -1,3 +1,4 @@
+import assert from "assert";
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
 import { poolFactory } from "../contract/pool";
 import { queryApi } from "../utils/api";
@@ -54,20 +55,30 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
   let position = { dpmmTraderPnl: '0', traderPnl: '0' }
   let symbolInfo = { markPrice: '', curIndexPrice: '' }
-  let isPowerSymbol = false
+  let isPowerSymbol = false, originSymbol = symbol
   if (clientInfo2 && clientInfo2.volume !== '0') {
+    // update
     clientInfo = clientInfo2
     symbol = symbolConfig.powerSymbol.symbol
     isPowerSymbol = true
+    // pool is the powerSymbol's pool
     const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
-    await pool.init(clientInfo2.client)
-    position = pool.positions.find((p) => p.symbol === symbol)
-    symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
+    // originPool is the pool of the future symbol
+    const originPool = poolFactory(chainId, symbolConfig.pool)
+    await Promise.all([
+       pool.init(clientInfo2.client),
+       originPool.init(),
+    ])
+    if (pool.positions.map((s) => s.symbol).includes(symbol)) {
+      position = pool.positions.find((p) => p.symbol === symbol)
+    }
+    symbolInfo = originPool.symbols.find((p) => p.symbol === originSymbol)
   } else {
+    // update
     clientInfo = clientInfo1
     const pool = poolFactory(chainId, symbolConfig.pool)
     await pool.init(clientInfo.client)
-    if (pool.positions && pool.positions.length > 0) {
+    if (pool.positions.map((s) => s.symbol).includes(symbol)) {
       position = pool.positions.find((p) => p.symbol === symbol)
     }
     symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
@@ -124,7 +135,14 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
 
 export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
-  const symbols = getSymbolList(chainId)
+  const symbols = getSymbolList(chainId).reduce((acc, s) => {
+    acc.push(s)
+    if (s.powerSymbol) {
+      acc.push(s.powerSymbol)
+    }
+    return acc
+  }, [])
+
   const brokerAddress = getBrokerAddress(chainId)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   const res = await Promise.all(symbols.map((s) => {
