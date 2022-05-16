@@ -189,7 +189,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {info.leverage} X
         </div>
         <div className='leverage-title'>
-          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} > <Icon token="leverage" /></UnderlineText>
+          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} key={info.symbol} > <Icon token="leverage" /></UnderlineText>
         </div>
       </div>
       <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>

@@ -56,11 +56,11 @@ export default function UnderlineText({bottomLine, text, id = String(new Date().
   const onMouseLeave = useCallback(() => {
     showTooltip(false);
     setTimeout(() => showTooltip(true), 50);
-  })
+  },[])
 
   return (
     <Wrapper className={className} block={block} isWin={isWindows} bottomLine={bottomLine}>
-      <div className='text' data-for={id} onMouseEnter={() => showTooltip(true)} onMouseLeave={onMouseLeave}
+      <div className='text' data-for={id}
         data-tip={ html ? ReactDOMServer.renderToString(element) : tip} data-event-off='click' data-event={isMobile() ? 'click' : tiggerEvent} data-html={html} >
         {text || children}
       </div>

@@ -7,7 +7,9 @@ export default function WalletConnector({lang,bgColor = '#FFAB00'}){
   const [bntColor, setBntColor] = useState('#FFAB00');
   const wallet = useWallet()
   const connect = useCallback(() => {
-    wallet.connect();
+    if(!wallet.isConnected()){
+      wallet.connect();
+    }
   },[wallet])
 
   useEffect(() => {

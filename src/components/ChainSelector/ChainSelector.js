@@ -113,7 +113,7 @@ function ChainSelector({collect}){
               </div>)
           : 
             (<div className={itemClass} onClick={e => onSelect(chain)} key={index}>
-              <Icon token={isScroll ? `${chain.icon}-LIGHT` : chain.icon} width='20'/>
+              <Icon token={`${chain.icon}-LIGHT`} width='20'/>
               <div className='name'>{chain.name}</div>
             </div>)
         })}
