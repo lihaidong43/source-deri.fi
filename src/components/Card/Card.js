@@ -13,7 +13,7 @@ import LineChart from "../LineChart/LineChart";
 import { eqInNumber } from "../../utils/utils";
 import UnderlineText from "../UnderlineText/UnderlineText";
 export default function Card({ info, lang, bTokens, getLang }) {
-  const [amount, setAmount] = useState()
+  const [amount, setAmount] = useState(100)
   const [betInfo, setBetInfo] = useState({})
   const [bToken, setBToken] = useState()
   const [balance, setBalance] = useState()

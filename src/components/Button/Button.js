@@ -89,7 +89,7 @@ export default function Button({ label, fontColor = '#E0ECFF', type = PRIMARY, b
       onMouseOut={() => { setIsHover(false) }}
       radius={radius}
       height={height} className={clazz} style={{ ...styles }} onClick={click}>
-      {icon && <Icon token={disabled ? disabledIcon ? disabledIcon : icon : isHover ? hoverIcon ? hoverIcon : icon : pending ? hoverIcon ? hoverIcon : icon : icon} />}{label}  {tip && <UnderlineText tip={tip}> <Icon token={disabled ? disabledTipIcon ? disabledTipIcon : tipIcon : isHover ? hoverTipIcon ? hoverTipIcon : tipIcon : pending ? hoverTipIcon ? hoverTipIcon : tipIcon : tipIcon} /> </UnderlineText>}{pending && <Loading borderColor="#FFFFFF" bgColor="rgba(255, 255, 255, 0.3)" />}
+      {icon && <Icon token={disabled ? disabledIcon ? disabledIcon : icon : isHover ? hoverIcon ? hoverIcon : icon : pending ? hoverIcon ? hoverIcon : icon : icon} />}{label}  {tip && <UnderlineText multiline={true} tip={tip}> <Icon token={disabled ? disabledTipIcon ? disabledTipIcon : tipIcon : isHover ? hoverTipIcon ? hoverTipIcon : tipIcon : pending ? hoverTipIcon ? hoverTipIcon : tipIcon : tipIcon} /> </UnderlineText>}{pending && <Loading borderColor="#FFFFFF" bgColor="rgba(255, 255, 255, 0.3)" />}
     </Wrapper>
   )
 }
