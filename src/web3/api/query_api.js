@@ -1,3 +1,4 @@
+import assert from "assert";
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
 import { poolFactory } from "../contract/pool";
 import { queryApi } from "../utils/api";
@@ -134,7 +135,14 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
 
 export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
-  const symbols = getSymbolList(chainId)
+  const symbols = getSymbolList(chainId).reduce((acc, s) => {
+    acc.push(s)
+    if (s.powerSymbol) {
+      acc.push(s.powerSymbol)
+    }
+    return acc
+  }, [])
+
   const brokerAddress = getBrokerAddress(chainId)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   const res = await Promise.all(symbols.map((s) => {
