@@ -36,7 +36,7 @@ const Wrapper = styled(ReactTooltip)`
 const Tooltip = React.forwardRef((props,ref) =>{
   const {effect = 'solid' ,place = 'bottom',className = 'tooltip',type = 'info',globalEventOff= 'click',padding,backgroundColor = '#FFFFF',color,...rest} = props
   return(
-    <Wrapper {...rest} ref={ref} effect={effect} place={place} className={className} type={type}  color={color} backgroundColor={backgroundColor} padding={padding} clickable width={props.width}>
+    <Wrapper {...rest} ref={ref} effect={effect} place={place} globalEventOff ='click' className={className} type={type}  color={color} backgroundColor={backgroundColor} padding={padding} clickable width={props.width}>
       {props.children}
     </Wrapper>
   )

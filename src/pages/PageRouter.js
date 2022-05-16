@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react';
 
 // const Home = LoadableComponent(() => import('./Home/Home'))
 const BetIt = LoadableComponent(() => import('./BetIt'))
+const Test = LoadableComponent(() => import('./Test'))
 
 function PageRouter({intl}){
   const getLang = (page,key,params,options) => {
@@ -14,8 +15,9 @@ function PageRouter({intl}){
   const { dict } = intl
   return (
     <Routes>
-      <Route exact path='/betit' element={<BetIt lang={dict['betit']} getLang={getLang} />}></Route>
-      <Route exact path='/' element={<Navigate to='/betit'/>} />
+      <Route exact path='/betit' element={<BetIt lang={dict['betit']} getLang={(key,params,options) => getLang('betit',key,params,options)} />}></Route>
+      {/* <Route exact path='/test' element={<Test />} /> */}
+      <Route exact path='/' element={<Navigate to='/betit'/>}></Route>
     </Routes>
   )
 }
