@@ -2,7 +2,7 @@
   {
     "chainId": "97",
     "chain" : "BSC",
-    "name": "bsctestnet_inno",
+    "name": "future_inno",
     "default" : true,
     "symbols": [
       {
