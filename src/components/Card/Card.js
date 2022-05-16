@@ -160,7 +160,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
     }
   }, [bTokens])
   useEffect(() => {
-    if (+amount <= +balance && amount && betInfo.markPrice) {
+    if (+amount <= +balance && +amount && betInfo.markPrice) {
       setDisabled(false)
     } else {
       setDisabled(true)

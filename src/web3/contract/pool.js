@@ -91,6 +91,11 @@ export class Pool {
       this._updateTdInfo(tdInfo, accountAddress)
       this._updateTimestamp()
       return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
+    } else {
+      // default
+      this.positions = []
+      this.margins  = []
+      this.assets = []
     }
     return { pool: this.poolAddress, symbols: this.symbols, bTokens: this.bTokens }
   }
