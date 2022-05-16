@@ -1,8 +1,13 @@
 import './portal.scss'
 import Icon from '../Icon/Icon'
+import classNames from "classnames"
 export default function Portal({ collect, setCollect }) {
+  const clazz = classNames('portal-header',{
+    collect : !collect,
+    collected : collect
+  })
   return (
-    <div className={collect ? "portal-header collect" : "portal-header"}>
+    <div className={clazz}>
       <div className='titel-link'>
         <div className="titel-des">DERI.FI - PORTAL FOR ALL DERI PROJECTS</div>
         <div className='link-btn'>

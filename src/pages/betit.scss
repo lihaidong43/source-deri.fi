@@ -4,8 +4,21 @@
 }
 
 .betit {
-  background: url('../assets/img/three-icon.png'), linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
-
+  background: url('../assets/img/bg-icon-right-top.png') no-repeat ;
+  background-position: right top;
+  position: relative;
+  .left-icon,.right-icon{
+    position: absolute;
+    z-index: -1;
+  }
+  .left-icon{
+    top:26%;
+    left: 0;
+  }
+  .right-icon{
+    right: 0;
+    top: 63%;
+  }
   .bg-img-color {
     width: 100vw;
     height: calc(100vh - 120px) ;
@@ -18,10 +31,31 @@
     height:100vh;
     top: 0;
   }
+  .bg-collected{
+    animation: BgOpen 0.5s;
+  }
   .bg-collect{
     height: calc(100vh - 56px) ;
+    align-items: BgClose 0.5s;
     top: 56px;
   }
+
+@keyframes BgClose{
+  from {
+    top : 120px;
+  }
+  to {
+    top : 56px;
+  }
+}
+@keyframes BgOpen{
+  from {
+    top : 56px;
+  }
+  to {
+    top : 120px;
+  }
+}
 
   .main-body {
     width: 100%;
@@ -76,15 +110,18 @@
       width: 1221px;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
       margin: 0 auto;
     }
   }
 
 }
+.bg-hide{
+  background:transparent;
+}
 
 @media only screen and (min-width : 760px) and (max-width:1339px) {
   .betit {
+    background:transparent;
     .bg-img-color {
       background: linear-gradient(180deg, #FF6B00 0%, rgba(255, 107, 0, 0) 69.44%);
     }
