@@ -35,16 +35,21 @@
   },
   {
     "chainId": "421611",
-    "chain" : "arbi",
-    "name": "arbitrumtestnet_main",
+    "chain" : "ARBI",
+    "name": "pool1",
     "symbols": [
       {
         "symbol": "BTCUSD",
-        "order" : 1
+        "powerSymbol": {
+          "symbol": "BTC^2",
+          "displaySymbol": "mBTC^2"
+        }
       },
       {
         "symbol": "ETHUSD",
-        "order" : 1
+        "powerSymbol": {
+          "displaySymbol": "mETH^2"
+        }
       }
     ]
   }

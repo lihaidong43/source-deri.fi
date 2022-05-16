@@ -60,7 +60,7 @@ export default function usePool(){
       if(c){
         setConfig(c)
       }
-    } else {
+    } else if(wallet.status === 'disconnected'){
       const c  = configsRef.current.find(c => c.default);
       setConfig(c);
     }
