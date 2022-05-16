@@ -36,20 +36,20 @@ export default function LineChart({ symbol,color }) {
 
   useEffect(() => {
     loadData();
-  }, [])
+  }, [symbol,color])
 
   return (data ?
     <ResponsiveContainer height={97}>
       <AreaChart width={376} data={data}>
         <defs>
-          <linearGradient id="colorArea" x1="0" y1="1" x2="0" y2="0" >
+          <linearGradient id={color} x1="0" y1="1" x2="0" y2="0" >
             <stop offset="10%" stopColor={color} stopOpacity={0.1} />
             <stop offset="90%" stopColor={color} stopOpacity={0.3} />
           </linearGradient>
         </defs>
         <XAxis dataKey="time" hide={true} />
         <YAxis dataKey='value' hide={true} domain={domain}/>
-        <Area type="monotone" dataKey="value" stroke={color} fillOpacity={0.5} strokeWidth={3} fill="url(#colorArea)" />
+        <Area type="monotone" dataKey="value" stroke={color} fillOpacity={0.5} strokeWidth={3} fill={`url(#${color})`} />
       </AreaChart>
     </ResponsiveContainer>
     : null)

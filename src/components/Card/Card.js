@@ -46,7 +46,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
 
   const betClose = async () => {
-    let params = { includeResponse: true, write: true, subject: 'close', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
+    let params = { includeResponse: true, write: true, subject: 'CLOSE', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
       alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPowerSymbol && lang['powers']} `, {
@@ -189,7 +189,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {info.leverage} X
         </div>
         <div className='leverage-title'>
-          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} > <Icon token="leverage" /></UnderlineText>
+          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} id='leverage-tip' > <Icon token="leverage" /></UnderlineText>
         </div>
       </div>
       <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
