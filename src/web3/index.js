@@ -10,7 +10,7 @@ export {
 export {
   isUnlocked,
   getBetInfo,
-  getBetsInfo,
+  // getBetsInfo,
   getWalletBalance,
   getBetsPnl,
 } from './api/query_api'
