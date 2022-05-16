@@ -24,11 +24,11 @@ export default function BetIt({ lang, getLang }) {
       setIsFixed(false)
     }
     let top = collect ? 56 : 120
-    if(!isStartScroll(top)){
+    if (!isStartScroll(top)) {
       const st = window.pageYOffset || document.documentElement.scrollTop;
       console.log("st", st)
-      bgTop.style.top =  top - st +"px"
-    }else{
+      bgTop.style.top = top - st + "px"
+    } else {
       bgTop.style.top = "0px"
     }
   })
@@ -39,7 +39,16 @@ export default function BetIt({ lang, getLang }) {
   }
 
   useEffect(() => {
+    let bgTop = document.getElementsByClassName('bg-img-color')[0]
     document.addEventListener('scroll', handler, false);
+    let top = collect ? 56 : 120
+    if (!isStartScroll(top)) {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      console.log("st", st)
+      bgTop.style.top = top - st + "px"
+    } else {
+      bgTop.style.top = "0px"
+    }
     return () => {
       document.removeEventListener('scroll', handler)
     }
