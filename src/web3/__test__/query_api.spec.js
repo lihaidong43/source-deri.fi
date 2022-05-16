@@ -35,11 +35,17 @@ describe('query api', () => {
   //   expect(res.response.data).toEqual([])
   // }, TIMEOUT)
 
-  it('getBetsInfo', async () => {
-    const res = await getBetsInfo({ chainId, accountAddress, symbols: [symbol1, symbol2] })
+  it('getBetInfo with arbi', async () => {
+    const res = await getBetInfo({ chainId: '421611', accountAddress, symbol: "BTCUSD"})
     expect(res.success).toEqual(true)
     expect(res.response.data).toEqual([])
   }, TIMEOUT)
+
+  // it('getBetsInfo', async () => {
+  //   const res = await getBetsInfo({ chainId, accountAddress, symbols: [symbol1, symbol2] })
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual([])
+  // }, TIMEOUT)
 
   // it('getWalletBalance BNB', async () => {
   //   const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'BNB'})
@@ -47,17 +53,17 @@ describe('query api', () => {
   //   expect(res.response.data).toEqual([])
   // }, TIMEOUT)
 
-  it('getWalletBalance CAKE bsc', async () => {
-    const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
-    expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual([])
-  }, TIMEOUT)
+  // it('getWalletBalance CAKE bsc', async () => {
+  //   const res = await getWalletBalance({ chainId, accountAddress, bTokenSymbol: 'CAKE'})
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual([])
+  // }, TIMEOUT)
 
-  it('getWalletBalance arbi', async () => {
-    const res = await getWalletBalance({ chainId: '421611', accountAddress, bTokenSymbol: 'USDC' })
-    expect(res.success).toEqual(true)
-    expect(res.response.data).toEqual([])
-  }, TIMEOUT)
+  // it('getWalletBalance arbi', async () => {
+  //   const res = await getWalletBalance({ chainId: '421611', accountAddress, bTokenSymbol: 'USDC' })
+  //   expect(res.success).toEqual(true)
+  //   expect(res.response.data).toEqual([])
+  // }, TIMEOUT)
 
   // it('getTotalPnl', async () => {
   //   const res = await getBetsPnl({ chainId, accountAddress })

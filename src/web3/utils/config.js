@@ -109,9 +109,9 @@ export const getSymbol = (chainId, symbolName) => {
 
 export const getBrokerAddress = (chainId) => {
   const configList = getPoolConfigList(DeriEnv.get())
-  const brokerList = configList.map((c) => c.broker).filter((c) => c != null)
-  if (brokerList.length > 0 && brokerList[0] !== ZERO_ADDRESS) {
-    return brokerList[0]
+  const config = configList.find((c) => c.chainId === chainId)
+  if (config) {
+    return config.broker
   }
   throw new Error(`Cannot find broker address: chainId(${chainId})`)
 }

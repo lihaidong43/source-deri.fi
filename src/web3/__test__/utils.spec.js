@@ -18,6 +18,13 @@ describe('utils', () => {
     expect(blockNumber).toBeGreaterThan(17713297)
     expect(blockNumber).toBeLessThan(177132970)
   }, TIMEOUT)
+  it('getWeb3 arbi', async () => {
+    const [web3] = await Promise.all([
+      getWeb3(421611),
+    ])
+    const blockNumber = await web3.eth.getBlockNumber()
+    expect(blockNumber).toBeLessThan(177132970)
+  }, TIMEOUT)
   it('getPoolConfigList', () => {
     const res = getPoolConfigList({chainId: '97'})
     expect(res.length).toEqual(1)
@@ -49,6 +56,7 @@ describe('utils', () => {
       "symbol": "SOLUSDT",
       "symbolId": "0x3db5e9fb22b6f66ce6550ab2b9d3872f875f575780c6abb9c95f9ce03845a83e",
       "unit": "SOL",
+      "powerSymbol": null,
     })
   })
 })

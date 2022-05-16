@@ -138,7 +138,8 @@
           "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
           "symbolId": "0x65e24fbf23a06751b86161d24e5f25b579daa4c55aa798f102a40243baf81293",
           "symbol": "BTC^2",
-          "category": "power"
+          "category": "power",
+          "zone": "inno"
         }
       },
       {
@@ -152,7 +153,8 @@
           "pool": "0xAADA94FcDcD7FCd7488C8DFc8eddaac81d7F71EE",
           "symbolId": "0x5616d0a0d05adc200b8ea37c1801762baca26da49260fa2a9ca11179cb6b7017",
           "symbol": "ETH^2",
-          "category": "power"
+          "category": "power",
+          "zone": "inno"
         }
       }
     ]
@@ -164,7 +166,7 @@
     "zone": "main",
     "version": "v3",
     "versionId": "v3",
-    "broker": "0x0000000000000000000000000000000000000000",
+    "broker": "0xBCf6573C113A2bCcFd00631008618Ad4ADF0E7c7",
     "symbolManager": "0xeebdD97439B9a3Ca84363190124c43c49CDca3F6",
     "b0Token": "USDC",
     "bTokens": [
@@ -212,7 +214,8 @@
           "chainId": "421611",
           "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
           "symbolId": "0x65e24fbf23a06751b86161d24e5f25b579daa4c55aa798f102a40243baf81293",
-          "symbol": "BTC^2"
+          "symbol": "BTC^2",
+          "zone": "main"
         }
       },
       {
@@ -225,7 +228,8 @@
           "chainId": "421611",
           "pool": "0x296A1CDdE93a99B4591486244f7442E25CA596a6",
           "symbolId": "0x5616d0a0d05adc200b8ea37c1801762baca26da49260fa2a9ca11179cb6b7017",
-          "symbol": "ETH^2"
+          "symbol": "ETH^2",
+          "zone": "main"
         }
       }
     ]

@@ -44,14 +44,20 @@ export const getWeb3 = factory(async (chainId = '_') => {
     let web3 = new Web3();
     web3._chainId = chainId
     web3._update = async function(){
-      const url = await getLatestProvider(getChainConfig(chainId).providers)
+      const providers = getChainConfig(chainId).providers
+      let url = ''
+      if (providers.length === 1) {
+        url = providers[0]
+      } else {
+        url = await getLatestProvider()
+      }
       debug() && console.log(`--- using provider for chain(${chainId}): ${url}`);
       this.setProvider(url)
       return this
     }
     return await web3._update()
   }
-}, 'getWeb3');
+}, 'getWeb3')
 
 export const getWeb3WithSigner = async (chainId) => {
   //if (typeof TextEncoder === 'function') {
