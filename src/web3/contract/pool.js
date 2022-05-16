@@ -1,3 +1,4 @@
+import { throws } from "assert"
 import { getDeriLensAddress} from "../config"
 import { bg, max } from "../utils/bignumber"
 import { isArbiChain, isBSCChain } from "../utils/chain"
@@ -93,9 +94,10 @@ export class Pool {
       return { pool: this.poolAddress, account: this[accountAddress], symbols: this.symbols, bTokens: this.bTokens }
     } else {
       // default
-      this.positions = []
-      this.margins  = []
-      this.assets = []
+      this[accountAddress] = this[accountAddress] || {}
+      this[accountAddress].positions = this[accountAddress].positions || []
+      this[accountAddress].margins = this[accountAddress].margins || []
+      this[accountAddress].assets = this[accountAddress].assets || []
     }
     return { pool: this.poolAddress, symbols: this.symbols, bTokens: this.bTokens }
   }
@@ -500,9 +502,9 @@ export class Pool {
       this.margins = []
     }
     if (tdInfo.positions.length > 0) {
-      this.positions = tdInfo.positions;
+      this[accountAddress].positions = tdInfo.positions;
     } else {
-      this.positions = []
+      this[accountAddress].positions = []
     }
     //this.account.xvsBalance = await this.xvsToken.balanceOf(accountAddress)
     this[accountAddress].margin =
@@ -518,8 +520,8 @@ export class Pool {
       traderPnl = '0',
       dpmmTraderPnl = '0',
       res = [];
-    if (Array.isArray(this.positions) && this.positions.length > 0) {
-      this.positions = this.positions.map((p) => {
+    if (Array.isArray(this[accountAddress].positions) && this[accountAddress].positions.length > 0) {
+      this[accountAddress].positions = this[accountAddress].positions.map((p) => {
         const symbol = this.symbols.find((s) => p.symbol === s.symbol);
         // console.log(symbol.symbol)
         if (symbol) {
@@ -604,7 +606,7 @@ export class Pool {
         }
         return p;
       });
-      res = this.positions;
+      res = this[accountAddress].positions;
     }
     if (accountAddress != ZERO_ADDRESS) {
       this[accountAddress].fundingAccrued = fundingAccrued.toString()

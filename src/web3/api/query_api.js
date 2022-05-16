@@ -69,8 +69,8 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
        pool.init(clientInfo2.client),
        originPool.init(),
     ])
-    if (pool.positions.map((s) => s.symbol).includes(symbol)) {
-      position = pool.positions.find((p) => p.symbol === symbol)
+    if (pool[clientInfo.client].positions.map((s) => s.symbol).includes(symbol)) {
+      position = pool[clientInfo.client].positions.find((p) => p.symbol === symbol)
     }
     symbolInfo = originPool.symbols.find((p) => p.symbol === originSymbol)
   } else {
@@ -78,8 +78,8 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
     clientInfo = clientInfo1
     const pool = poolFactory(chainId, symbolConfig.pool)
     await pool.init(clientInfo.client)
-    if (pool.positions.map((s) => s.symbol).includes(symbol)) {
-      position = pool.positions.find((p) => p.symbol === symbol)
+    if (pool[clientInfo.client].positions.map((s) => s.symbol).includes(symbol)) {
+      position = pool[clientInfo.client].positions.find((p) => p.symbol === symbol)
     }
     symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
   }
