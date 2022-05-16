@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import {UseWalletProvider} from 'use-wallet'
@@ -12,8 +12,8 @@ import Intl from './model/Intl';
 
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
       <UseWalletProvider {...USE_WALLET_OPTIONS}>
@@ -24,7 +24,8 @@ root.render(
         </Provider>
       </UseWalletProvider>
     </HashRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
