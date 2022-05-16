@@ -52,11 +52,11 @@ export default function BetIt({ lang, getLang }) {
     }
   }, [wallet])
   return (
-    <div className="betit">
+    <>
       <Portal collect={collect} setCollect={setCollect}></Portal>
-      <div className={isFixed ? "bg-img-color hide-three" : collect ? "bg-img-color bg-collect" : "bg-img-color"} >
-
-      </div>
+      <div className="betit">
+      {/* <div className={isFixed ? "bg-img-color hide-three" : collect ? "bg-img-color bg-collect" : "bg-img-color"} >
+      </div> */}
       <Header lang={lang} collect={collect}></Header>
       <div className="main-body">
         <div className='title-box'>
@@ -86,5 +86,6 @@ export default function BetIt({ lang, getLang }) {
         </div>
       </div>
     </div>
+    </>
   )
 }
