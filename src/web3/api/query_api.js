@@ -5,7 +5,7 @@ import { bg, fromWei } from "../utils/bignumber";
 import { checkAddress } from "../utils/chain";
 import { getBrokerAddress, getBToken, getSymbol, getSymbolList } from "../utils/config";
 import { debug } from "../utils/env";
-import { checkToken, nativeCoinSymbols, stringToId } from "../utils/symbol";
+import { checkToken, deriSymbolScaleOut, nativeCoinSymbols, normalizeDeriSymbol, stringToId } from "../utils/symbol";
 import { getWeb3 } from "../utils/web3";
 
 export const getWalletBalance = queryApi(async ({ chainId, bTokenSymbol, accountAddress }) => {
@@ -41,29 +41,32 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   const symbolConfig = getSymbol(chainId, symbol)
   const broker = BrokerImplementationFactory(chainId, brokerAddress)
   // const clientInfo = await broker.bets(accountAddress, symbolInfo.pool, stringToId(symbol))
-  let clientInfo, clientInfo2
+  let clientInfo, clientInfo1, clientInfo2
   if (symbolConfig.powerSymbol) {
-    [clientInfo, clientInfo2] = await Promise.all([
+    [clientInfo1, clientInfo2] = await Promise.all([
       broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol)),
       broker.bets(accountAddress, symbolConfig.powerSymbol.pool, stringToId(symbolConfig.powerSymbol.symbol)),
     ])
   } else {
-    clientInfo = await broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol))
+    clientInfo1 = await broker.bets(accountAddress, symbolConfig.pool, stringToId(symbol))
   }
   //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
   let position = { dpmmTraderPnl: '0', traderPnl: '0' }
-  if (clientInfo.volume !== '0') {
+  if (clientInfo1 && clientInfo1.volume !== '0') {
+    clientInfo = clientInfo1
     const pool = poolFactory(chainId, symbolConfig.pool)
     await pool.init(clientInfo.client)
     position = pool.positions.find((p) => p.symbol === symbol)
-  } else if (clientInfo2.volume !== '0') {
+  } else if (clientInfo2 && clientInfo2.volume !== '0') {
+    clientInfo = clientInfo2
+    symbol = symbolConfig.powerSymbol.symbol
     const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
     await pool.init(clientInfo2.client)
     position = pool.positions.find((p) => p.symbol === symbolConfig.powerSymbol.symbol)
   }
   return {
-    symbol,
-    volume: clientInfo.volume,
+    volume: deriSymbolScaleOut(symbol, clientInfo.volume) ,
+    symbol:  normalizeDeriSymbol(symbol),
     pnl:  position.dpmmTraderPnl,
   }
 }, {})
