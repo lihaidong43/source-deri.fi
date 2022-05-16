@@ -54,9 +54,11 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
   //const volumes = await  broker.getBetVolumes(accountAddress, symbolInfo.pool, [symbol])
   let position = { dpmmTraderPnl: '0', traderPnl: '0' }
   let symbolInfo = { markPrice: '', curIndexPrice: '' }
+  let isPowerSymbol = false
   if (clientInfo2 && clientInfo2.volume !== '0') {
     clientInfo = clientInfo2
     symbol = symbolConfig.powerSymbol.symbol
+    isPowerSymbol = true
     const pool = poolFactory(chainId, symbolConfig.powerSymbol.pool)
     await pool.init(clientInfo2.client)
     position = pool.positions.find((p) => p.symbol === symbol)
@@ -70,62 +72,55 @@ export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) =>
     }
     symbolInfo = pool.symbols.find((p) => p.symbol === symbol)
   }
-  if (clientInfo) {
-    return {
-      volume: deriSymbolScaleOut(symbol, clientInfo.volume),
-      symbol: normalizeDeriSymbol(symbol),
-      pnl: position.dpmmTraderPnl,
-      markPrice: symbolInfo.markPrice,
-      indexPrice: symbolInfo.curIndexPrice,
-    }
-  }
   return {
+    volume: deriSymbolScaleOut(symbol, clientInfo.volume),
     symbol,
-    volume: '',
-    pnl: '',
+    displaysymbol: normalizeDeriSymbol(symbol),
+    pnl: position.dpmmTraderPnl,
     markPrice: symbolInfo.markPrice,
     indexPrice: symbolInfo.curIndexPrice,
+    isPowerSymbol,
   }
 }, {})
 
-export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols }) => {
-  accountAddress = checkAddress(accountAddress)
-  symbols = symbols.map((s) => checkToken(s))
-  const brokerAddress = getBrokerAddress(chainId)
-  const symbolsInfo = symbols.map((s) => getSymbol(chainId, s))
-  const poolsInfo = symbolsInfo.reduce((acc, symbol) => {
-    if (acc.map((p) => p.pool).includes(symbol.pool)) {
-      const pool = acc.find((p) => p.pool === symbol.pool)
-      pool.symbols.push(symbol.symbol)
-    } else {
-      acc.push({
-        pool: symbol.pool,
-        symbols: [symbol.symbol],
-      })
-    }
-    return acc
-  }, [])
-  const pools = poolsInfo.map((p) => p.pool)
-  const broker = BrokerImplementationFactory(chainId, brokerAddress)
-  const volumes = await Promise.all(
-    pools.map((pool) => broker.getBetVolumes(accountAddress, pool, poolsInfo.find((p) => p.pool === pool).symbols))
-  )
-  pools.forEach((pool, index) => {
-    poolsInfo.find((p) => p.pool === pool).volumes = volumes[index]
-  })
-  let res = symbols.reduce((acc, symbol) => {
-    for (let pool of pools) {
-      const poolInfo = poolsInfo.find((p)=> p.pool === pool)
-      if (poolInfo.symbols[0] === symbol) {
-        const s = poolInfo.symbols.splice(0, 1)
-        const v = poolInfo.volumes.splice(0, 1)
-        acc.push({symbol: s[0], volume: v[0], pnl: '0'})
-      }
-    }
-    return acc
-  }, [])
-  return res
-}, [])
+// export const getBetsInfo = queryApi(async ({ chainId, accountAddress, symbols }) => {
+//   accountAddress = checkAddress(accountAddress)
+//   symbols = symbols.map((s) => checkToken(s))
+//   const brokerAddress = getBrokerAddress(chainId)
+//   const symbolsInfo = symbols.map((s) => getSymbol(chainId, s))
+//   const poolsInfo = symbolsInfo.reduce((acc, symbol) => {
+//     if (acc.map((p) => p.pool).includes(symbol.pool)) {
+//       const pool = acc.find((p) => p.pool === symbol.pool)
+//       pool.symbols.push(symbol.symbol)
+//     } else {
+//       acc.push({
+//         pool: symbol.pool,
+//         symbols: [symbol.symbol],
+//       })
+//     }
+//     return acc
+//   }, [])
+//   const pools = poolsInfo.map((p) => p.pool)
+//   const broker = BrokerImplementationFactory(chainId, brokerAddress)
+//   const volumes = await Promise.all(
+//     pools.map((pool) => broker.getBetVolumes(accountAddress, pool, poolsInfo.find((p) => p.pool === pool).symbols))
+//   )
+//   pools.forEach((pool, index) => {
+//     poolsInfo.find((p) => p.pool === pool).volumes = volumes[index]
+//   })
+//   let res = symbols.reduce((acc, symbol) => {
+//     for (let pool of pools) {
+//       const poolInfo = poolsInfo.find((p)=> p.pool === pool)
+//       if (poolInfo.symbols[0] === symbol) {
+//         const s = poolInfo.symbols.splice(0, 1)
+//         const v = poolInfo.volumes.splice(0, 1)
+//         acc.push({symbol: s[0], volume: v[0], pnl: '0'})
+//       }
+//     }
+//     return acc
+//   }, [])
+//   return res
+// }, [])
 
 export const getBetsPnl = queryApi(async ({ chainId, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
