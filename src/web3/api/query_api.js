@@ -1,4 +1,3 @@
-import assert from "assert";
 import { BrokerImplementationFactory, ERC20Factory } from "../contract/factory";
 import { poolFactory } from "../contract/pool";
 import { queryApi } from "../utils/api";
@@ -8,6 +7,7 @@ import { getBrokerAddress, getBToken, getSymbol, getSymbolList } from "../utils/
 import { debug } from "../utils/env";
 import { checkToken, deriSymbolScaleOut, nativeCoinSymbols, normalizeDeriSymbol, stringToId } from "../utils/symbol";
 import { getWeb3 } from "../utils/web3";
+import { ZERO_ADDRESS } from '../utils/constant'
 
 export const getWalletBalance = queryApi(async ({ chainId, bTokenSymbol, accountAddress }) => {
   accountAddress = checkAddress(accountAddress)
@@ -36,7 +36,11 @@ export const isUnlocked = queryApi(async ({ chainId, bTokenSymbol, accountAddres
 }, '')
 
 export const getBetInfo = queryApi(async ({ chainId, accountAddress, symbol}) => {
-  accountAddress = checkAddress(accountAddress)
+  if (accountAddress) {
+    accountAddress = checkAddress(accountAddress)
+  } else {
+    accountAddress = ZERO_ADDRESS
+  }
   symbol = checkToken(symbol)
   const brokerAddress = getBrokerAddress(chainId)
   const symbolConfig = getSymbol(chainId, symbol)
