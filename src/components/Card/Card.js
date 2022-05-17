@@ -21,7 +21,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [inputDisabled, setInputDisabled] = useState(true)
   const wallet = useWallet();
   const chains = useChain()
-  const chain = chains.find((item) => eqInNumber(item.chainId, wallet.chainId))
+  const chain = chains.find((item) => eqInNumber(item.chainId,wallet.chainId))
   const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
@@ -70,7 +70,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
+      alert.error(`${lang['transaction-failed']} : ${res.response.error}`, {
         timeout: 300000,
         isTransaction: true,
         transactionHash: res.response.transactionHash,
