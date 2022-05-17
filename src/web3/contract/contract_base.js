@@ -47,23 +47,22 @@ export class ContractBase {
     let retry = 3
     while (retry > 0) {
       try {
-        await this._init()
+        if (!this.web3) {
+          await this._init()
+        }
         res = await this.contract.methods[method](...args).call();
-        break
+        return res
       } catch(err) {
         debug() && console.log(`_call ${method}(${args.join(',')})`, err)
-        retry -= 1
         // remove web3 instance to re-init
         if (retry === 1 && this.web3) {
           // this.web3 = null
           await this.web3._update.bind(this.web3)();
         }
       }
+      retry -= 1
     }
-    if (retry === 0 && !res) {
-      throw new Error(`JSON_RPC_CALL_TIMEOUT: poolAddress:${this.contractAddress} ${method}(${args.join(',')})`);
-    }
-    return res
+    throw new Error(`JSON_RPC_CALL_TIMEOUT: poolAddress:${this.contractAddress} ${method}(${args.join(',')})`);
   }
 
   async _estimatedGas(method, args = [], accountAddress) {

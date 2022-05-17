@@ -4,6 +4,9 @@ import Header from './components/Header/Header';
 import BetIt from './pages/BetIt';
 import { inject, observer } from 'mobx-react';
 import PageRouter from './pages/PageRouter';
+import { DeriEnv } from './web3';
+
+DeriEnv.set('prod')
 
 function App({intl}) {
   return (

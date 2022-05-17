@@ -9,8 +9,6 @@ export const sendTxWithPkey = async (web3, contract, methodName, args, pkey) => 
     }
   }
   const account = web3.eth.accounts.wallet.add(`0x${pkey}`)
-  console.log(`>>> using pkey: ${pkey}`)
-  console.log(`>>> account: ${account.address}`)
   // const account = { address: '0xFefC938c543751babc46cc1D662B982bd1636721' }
   const methodCall = contract.methods[methodName](...args)
   const [gasPrice, nonce] = await Promise.all([
