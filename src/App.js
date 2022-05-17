@@ -1,12 +1,19 @@
-import './app.scss';
+import logo from './logo.svg';
+import './App.css';
+import Header from './components/Header/Header';
+import BetIt from './pages/BetIt';
+import { inject, observer } from 'mobx-react';
+import PageRouter from './pages/PageRouter';
+import { DeriEnv } from './web3';
 
+DeriEnv.set('prod')
 
-function App() {
+function App({intl}) {
   return (
-    <div className="app">
-      <h1>start dapp journey with deri protocol</h1>
+    <div className="App">
+      <PageRouter intl={intl}></PageRouter>
     </div>
   );
 }
 
-export default App;
+export default inject("intl")(observer(App));

@@ -1,0 +1,71 @@
+.portal-header{
+  width: 100%;
+  height: 120px;
+  background: #FCCFA7;
+  display: flex;
+  padding: 0 110px;
+  justify-content: space-between;
+  align-items: center;
+  color: #FFFFFF;
+  .down-up{
+    cursor: pointer;
+  }
+  .link-btn{
+    display: flex;
+    align-items: center;
+    margin-top: 21px;
+    a{
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+    .bit-it,.deri-io{
+      width: 179px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #59AE99;
+      background-image: url('../../assets/img/bet-now.svg');
+      background-repeat: no-repeat;
+      background-position: 21px center;
+    }
+    .deri-io{
+      margin-left: 50px;
+      background-color: #93A1B8;
+      background-image: url('../../assets/img/deri-io-go.svg');
+      background-position: 156px center;
+    }
+  }
+}
+.portal-header.collect{
+  animation: headerOpen  0.5s;
+}
+.portal-header.collected{
+  animation : headerClose 0.5s ; 
+  height: 56px;
+}
+.collected{
+  .link-btn{
+    margin: 0;
+  }
+  .titel-des{
+    display: none;
+  }
+}
+
+@keyframes headerClose{
+  from {
+    height : 120px;
+  }
+  to {
+    height : 56px;
+  }
+}
+@keyframes headerOpen{
+  from {
+    height : 56px;
+  }
+  to {
+    height : 120px;
+  }
+}
