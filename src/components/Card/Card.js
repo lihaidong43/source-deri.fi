@@ -28,7 +28,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const getBetInfo = async () => {
-    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
+    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: "0x807193B15A15CfE142C89DD7135b9a3055848Dc9", symbol: info.symbol })
     if (res.symbol) {
       setBetInfo(res)
     }
@@ -41,7 +41,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res) {
         getBetInfoTimeOut(action);
       }
-    }, 3000)
+    }, 6000)
   }
 
   const getIsApprove = async () => {
@@ -160,12 +160,12 @@ export default function Card({ info, lang, bTokens, getLang }) {
     }
   }, [bTokens])
   useEffect(() => {
-    if (+amount <= +balance && +amount && betInfo.markPrice) {
+    if (+amount <= +balance && +amount) {
       setDisabled(false)
     } else {
       setDisabled(true)
     }
-  }, [amount,betInfo])
+  }, [amount,balance])
 
   useEffect(() => {
     if (balance && +balance > 0 && betInfo.markPrice) {
@@ -219,7 +219,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
             <div className='line-chart'><LineChart symbol={info.markpriceSymbol} color={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} /></div>
-            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
+            <Button label={lang['exit']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
             <Button label={lang['up']} onClick={() => openBet("up")} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
