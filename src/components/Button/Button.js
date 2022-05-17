@@ -46,7 +46,7 @@ const Wrapper = styled.div`
       cursor : not-allowed;
     }
   `
-export default function Button({ label, fontColor = '#E0ECFF', type = PRIMARY, bgColor, hoverBgColor, selectedBorderColor, position, defaultBorderColor = '#203B60', borderSize = 1, disabled = false, outline = false, isSelected = false, outlineColor = 'rgba(205, 122, 55, 0.5)', icon, tip, tipIcon, disabledIcon, disabledTipIcon, hoverIcon, hoverTipIcon, onClick, width = 158, fontSize = 14, fontWeight = '600', height = 48, className, styles = {}, radius = 4 }) {
+export default function Button({ label, fontColor = '#E0ECFF', isAlert = false, type = PRIMARY, bgColor, hoverBgColor, selectedBorderColor, position, defaultBorderColor = '#203B60', borderSize = 1, disabled = false, outline = false, isSelected = false, outlineColor = 'rgba(205, 122, 55, 0.5)', icon, tip, tipIcon, disabledIcon, disabledTipIcon, hoverIcon, hoverTipIcon, onClick, width = 158, fontSize = 14, fontWeight = '600', height = 48, className, styles = {}, radius = 4 }) {
   const [pending, setPending] = useState(false)
   const [isHover, setIsHover] = useState(false)
   let backgroundColor;
@@ -66,6 +66,9 @@ export default function Button({ label, fontColor = '#E0ECFF', type = PRIMARY, b
       setPending(true);
       const result = await onClick(e);
       setPending(false)
+    }
+    if (isAlert && disabled) {
+      const result = await onClick(e);
     }
   }
   const clazz = classNames(className, {

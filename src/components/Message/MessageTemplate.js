@@ -48,9 +48,9 @@ export default function MessageTemplate({ style, options, message, close }) {
             <div className='message-text'>
               {message}
             </div>
-            <div className={options.type === 'success' ? 'link' : 'link error'}>
+            {options.transactionHash ? <div className={options.type === 'success' ? 'link' : 'link error'}>
               <a target='_blank' href={options.link}>Click here to view transaction {formatAddress(options.transactionHash)}</a>
-            </div>
+            </div> : ""}
           </div>
 
         </div>
