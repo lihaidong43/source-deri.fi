@@ -41,6 +41,12 @@ describe('query api', () => {
     expect(res.response.data).toEqual([])
   }, TIMEOUT)
 
+  it('getBetInfo with arbi without wallet connected', async () => {
+    const res = await getBetInfo({ chainId: '421611', symbol: "BTCUSD"})
+    expect(res.success).toEqual(true)
+    expect(res.response.data).toEqual([])
+  }, TIMEOUT)
+
   // it('getBetsInfo', async () => {
   //   const res = await getBetsInfo({ chainId, accountAddress, symbols: [symbol1, symbol2] })
   //   expect(res.success).toEqual(true)
