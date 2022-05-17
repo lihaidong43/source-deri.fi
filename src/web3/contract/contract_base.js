@@ -1,7 +1,7 @@
 import { debug } from '../utils/env';
 import { getWeb3, getWeb3WithSigner } from '../utils/web3';
 
-const MAX_GAS_AMOUNT = 832731 * 5;
+const MAX_GAS_AMOUNT = 713256 * 3;
 
 const noOp = () => {}
 
@@ -95,9 +95,10 @@ export class ContractBase {
       this._estimatedGas(method, args, accountAddress),
       this.web3.eth.getGasPrice(),
     ]);
-    if (this.chainId.toString() === '56') {
-      gasPrice = gasPrice * 1.002
-    }
+    // fix gasPrice in BNB
+    // if (this.chainId.toString() === '56') {
+    //   gasPrice = gasPrice * 1.002
+    // }
 
     debug() && console.log(`-- method: ${method} from: ${accountAddress} gas: ${gas} gasPrice: ${gasPrice}`)
 
