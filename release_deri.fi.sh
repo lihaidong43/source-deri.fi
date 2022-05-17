@@ -3,13 +3,14 @@
 source ~/.bashrc
 echo PUBLIC_URL=/ > .env.production
 echo REACT_APP_ORACLE_HTTP_URL=https://oraclemainnet.deri.io >> .env.production
+echo REACT_APP_NODE_ENV=production >> .env.production
 yarn build --nomaps 
 repo=/tmp/build/deri.fi
 # rm -rf $repo
 
 if [ ! -d $repo ]; then
-  printf '\e[1;34m%-6s\e[m\n' "app repo is not exit ,clone it from git@github.com:deri-protocol/deri.fi.git" 
-  git clone git@github.com:deri-protocol/deri.fi.git $repo -b main
+  printf '\e[1;34m%-6s\e[m\n' "app repo is not exit ,clone it from git@github.com:deri-protocol/devnet.deri.fi.git" 
+  git clone git@github.com:deri-protocol/devnet.deri.fi.git $repo -b main
 fi
 
 printf '\e[1;34m%-6s\e[m\n' 'git checkout main branch and fetch '
