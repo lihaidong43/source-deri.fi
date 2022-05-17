@@ -12,6 +12,7 @@ import DeriNumberFormat from "../../utils/DeriNumberFormat";
 import LineChart from "../LineChart/LineChart";
 import { eqInNumber } from "../../utils/utils";
 import UnderlineText from "../UnderlineText/UnderlineText";
+import { DeriEnv } from '../../web3'
 let timer;
 export default function Card({ info, lang, bTokens, getLang }) {
   const [amount, setAmount] = useState(100)
@@ -28,16 +29,26 @@ export default function Card({ info, lang, bTokens, getLang }) {
     setAmount(value)
   }
 
-  const isNetwork = ()=>{
-    return chains.find((item)=> eqInNumber(item.chainId,wallet.chainId))
+  const isNetwork = () => {
+    return chains.find((item) => eqInNumber(item.chainId, wallet.chainId))
   }
 
   const getBetInfo = async () => {
-    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
-    if (res.symbol) {
-      setBetInfo(res)
-      return res
+    if (wallet.isConnected()) {
+      let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
+      if (res.symbol) {
+        setBetInfo(res)
+        return res
+      }
+    } else {
+      let chainId = DeriEnv.get() === "prod" ? 56 : 97
+      let res = await ApiProxy.request("getBetInfo", { chainId: chainId, symbol: info.symbol })
+      if (res.symbol) {
+        setBetInfo(res)
+        return res
+      }
     }
+
     return false
   }
 
@@ -90,14 +101,14 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
   const openBet = async (type) => {
     if (!wallet.isConnected()) {
-      alert.error("Connect Wallet", {
+      alert.error("Connect your wallet.", {
         timeout: 300000,
         isTransaction: true,
-        title: 'Connect your wallet.'
+        title: 'Connect Wallet'
       })
       return false
     }
-    if(!isNetwork()){
+    if (!isNetwork()) {
       alert.error("Current network is not supported. ", {
         timeout: 300000,
         isTransaction: true,
@@ -173,7 +184,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
 
   useEffect(() => {
-    if (wallet.chainId && wallet.account && info) {
+    if (info) {
       clearTimeout(timer)
       getBetInfoTimeOut(getBetInfo)
       getBetInfo()
