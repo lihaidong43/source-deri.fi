@@ -9,9 +9,7 @@ import { ZERO_ADDRESS } from './constant';
 export const SECONDS_IN_A_DAY = 86400;  // 60 * 60 * 24
 
 export const getPoolConfigList = ({ env, chainId }) => {
-  if (env) {
-    env = checkEnv(env)
-  }
+  env = checkEnv(env)
   let configList = env === Env.PROD ? poolProdConfig : env === Env.TESTNET ? poolTestnetConfig : poolDevConfig
   if (chainId) {
     chainId = checkChainId(chainId)
