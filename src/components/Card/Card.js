@@ -171,6 +171,13 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
+      if (res.response.error.code = 1001) {
+        alert.error("Increase the input amount to open positions", {
+          timeout: 300000,
+          isTransaction: true,
+          title: "Amount too small"
+        })
+      }
       alert.error(`${lang['transaction-failed']} : ${res.response.error.message}`, {
         timeout: 300000,
         isTransaction: true,
@@ -251,7 +258,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
               {lang['profit']}
             </div>
             <div className={+betInfo.pnl > 0 ? "symbol-pnl-num up-pnl" : "symbol-pnl-num down-pnl"}>
-              {+betInfo.pnl > 0 ? "+" : ""}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} />
+              {+betInfo.pnl > 0 ? "+" : ""}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} allowZero={false} />
             </div>
           </div>
           :
