@@ -171,7 +171,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
       if (res.response.transactionHash === "") {
         return false;
       }
-      if (res.response.error.code = 1001) {
+      if (res.response.error.code === 1001) {
         alert.error("Increase the input amount to open positions", {
           timeout: 300000,
           isTransaction: true,
