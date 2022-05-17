@@ -85,7 +85,7 @@ export default function BetIt({ lang, getLang }) {
 
           <div className='total-pnl-box'>
             <div className='total-pnl'>
-              <span>{lang['total-pnl']}:</span>
+              <span>{lang['total-pnl']}</span>
               <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
             </div>
           </div>

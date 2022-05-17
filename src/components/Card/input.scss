@@ -1,14 +1,18 @@
 .input-box-info {
   border-radius: 15px;
-  height: 90px;
+  height: 80px;
+  position: relative;
+  top: 8px;
   background: #FAFBFC;
 
   .balance-bet {
+    width: 100%;
     font-size: 12px;
     display: flex;
     justify-content: space-between;
     padding: 0 14px;
-
+    position: absolute;
+    top: -8px;
     .bet {
       width: 40px;
       height: 16px;

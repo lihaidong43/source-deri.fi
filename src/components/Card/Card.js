@@ -12,6 +12,7 @@ import DeriNumberFormat from "../../utils/DeriNumberFormat";
 import LineChart from "../LineChart/LineChart";
 import { eqInNumber } from "../../utils/utils";
 import UnderlineText from "../UnderlineText/UnderlineText";
+let timer;
 export default function Card({ info, lang, bTokens, getLang }) {
   const [amount, setAmount] = useState(100)
   const [betInfo, setBetInfo] = useState({})
@@ -27,6 +28,10 @@ export default function Card({ info, lang, bTokens, getLang }) {
     setAmount(value)
   }
 
+  const isNetwork = ()=>{
+    return chains.find((item)=> eqInNumber(item.chainId,wallet.chainId))
+  }
+
   const getBetInfo = async () => {
     let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
     if (res.symbol) {
@@ -37,7 +42,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const getBetInfoTimeOut = (action) => {
-    let timer = window.setTimeout(async () => {
+    timer = window.setTimeout(async () => {
       let res = await action();
       if (res) {
         getBetInfoTimeOut(action);
@@ -84,6 +89,31 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const openBet = async (type) => {
+    if (!wallet.isConnected()) {
+      alert.error("Connect Wallet", {
+        timeout: 300000,
+        isTransaction: true,
+        title: 'Connect your wallet.'
+      })
+      return false
+    }
+    if(!isNetwork()){
+      alert.error("Current network is not supported. ", {
+        timeout: 300000,
+        isTransaction: true,
+        title: 'Wrong Network'
+      })
+      return false
+    }
+
+    if (+amount > +balance) {
+      alert.error("the input amout is greater than your balance.", {
+        timeout: 300000,
+        isTransaction: true,
+        title: 'Invalid Amount'
+      })
+      return false;
+    }
     let isApproved = await getIsApprove()
     let direction = type === "up" || type === "boostedUp" ? "long" : "short"
     let boostedUp = type === "boostedUp" ? true : false
@@ -144,6 +174,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
   useEffect(() => {
     if (wallet.chainId && wallet.account && info) {
+      clearTimeout(timer)
       getBetInfoTimeOut(getBetInfo)
       getBetInfo()
     }
@@ -223,9 +254,9 @@ export default function Card({ info, lang, bTokens, getLang }) {
             <Button label={lang['exit']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
-            <Button label={lang['up']} onClick={() => openBet("up")} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
-            <Button label={lang['down']} onClick={() => openBet("down")} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
-            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip={getLang('boosted-up-tip', { symbol: info.unit, powers: info.powerSymbol.symbol })} tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
+            <Button label={lang['up']} onClick={() => openBet("up")} isAlert={true} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
+            <Button label={lang['down']} onClick={() => openBet("down")} isAlert={true} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
+            {info.powerSymbol && <Button label={lang['boosted-up']} isAlert={true} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip={getLang('boosted-up-tip', { symbol: info.unit, powers: info.powerSymbol.symbol })} tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
           </>}
       </div>
 
