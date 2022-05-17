@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useWallet } from "use-wallet";
 import merge from 'deepmerge'
 import { eqInNumber, getEnv, getMarkpriceSymbol,importAll } from '../utils/utils';
@@ -52,27 +52,35 @@ const configs = merge(poolConfig[env],poolExtConfig[env],{arrayMerge : arrayMerg
 
 export default function usePool(){
   const wallet = useWallet();
-  const [config, setConfig] = useState({});
-  // const configsRef = useRef();
+  const [symbols,setSymbols] = useState([])
+  const [bTokens,setBTokens] = useState([]) 
+
+  const setValues = useCallback((filters) => {
+    if(filters.length > 0){
+      const symbols = filters.reduce((total,item) => total.concat(item.symbols),[])
+                  .sort((s1,s2) => s1.order > s2.order ? 1 : s1.order < s2.order ? -1 : 0)  
+      const bTokens = filters[0].bTokens
+      setSymbols(symbols)
+      setBTokens(bTokens);
+    }
+  },[])
 
   useEffect(() => {
     //如果链接不上或者链接错误的网络，用默认
+    let filters = []
     if(wallet.isConnected()) {
-      let c  = configs.find(c => eqInNumber(c.chainId,wallet.chainId));
-      if(c){
-        setConfig(c)
+      filters  = configs.filter(c => eqInNumber(c.chainId,wallet.chainId));
+      if(filters && filters.length > 0){
+        setValues(filters)
       } else {
-        let c  = configs.find(c => c.default);
-        c = c ? c : configs[0];
-        setConfig(c)
+        filters  = configs.filter(c => c.default);
+        setValues(filters)
       }
     } else if(wallet.status === 'disconnected'){
-      const c  =configs.find(c => c.default);
-      setConfig(c);
+      filters  = configs.filter(c => c.default);
+      setValues(filters)
     }
-
-  }, [wallet.status]);
-  const symbols = config.symbols && config.symbols.sort((s1,s2) => s1.order > s2.order ? 1 : s1.order < s2.order ? -1 : 0)  
-  const bTokens = config.bTokens;
+  }, [wallet]);
+  // config.bTokens;
   return [bTokens,symbols];
 }
