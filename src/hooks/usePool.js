@@ -48,24 +48,30 @@ const arrayMerge = (target,source) => {
   })
 }
 
+const configs = merge(poolConfig[env],poolExtConfig[env],{arrayMerge : arrayMerge})
+
 export default function usePool(){
   const wallet = useWallet();
   const [config, setConfig] = useState({});
-  const configsRef = useRef();
-  configsRef.current = merge(poolConfig[env],poolExtConfig[env],{arrayMerge : arrayMerge})
+  // const configsRef = useRef();
 
   useEffect(() => {
+    //如果链接不上或者链接错误的网络，用默认
     if(wallet.isConnected()) {
-      const c  = configsRef.current.find(c => eqInNumber(c.chainId,wallet.chainId));
+      let c  = configs.find(c => eqInNumber(c.chainId,wallet.chainId));
       if(c){
+        setConfig(c)
+      } else {
+        let c  = configs.find(c => c.default);
+        c = c ? c : configs[0];
         setConfig(c)
       }
     } else if(wallet.status === 'disconnected'){
-      const c  = configsRef.current.find(c => c.default);
+      const c  =configs.find(c => c.default);
       setConfig(c);
     }
 
-  }, [wallet]);
+  }, [wallet.status]);
   const symbols = config.symbols && config.symbols.sort((s1,s2) => s1.order > s2.order ? 1 : s1.order < s2.order ? -1 : 0)  
   const bTokens = config.bTokens;
   return [bTokens,symbols];

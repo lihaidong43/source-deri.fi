@@ -32,6 +32,7 @@
     height: 14%;
     position: fixed;
     bottom: 0;
+    z-index: -1;
     background: linear-gradient(0deg, #FFFFFF -17.28%, rgba(255, 255, 255, 0) 100%);
   }
   .hide-three{
@@ -46,6 +47,31 @@
     align-items: BgClose 0.5s;
     top: 56px;
   }
+  .bg-collected{
+    animation: BgOpen 0.5s;
+  }
+  .bg-collect{
+    height: calc(100vh - 56px) ;
+    align-items: BgClose 0.5s;
+    top: 56px;
+  }
+
+@keyframes BgClose{
+  from {
+    top : 120px;
+  }
+  to {
+    top : 56px;
+  }
+}
+@keyframes BgOpen{
+  from {
+    top : 56px;
+  }
+  to {
+    top : 120px;
+  }
+}
 
 @keyframes BgClose{
   from {
