@@ -20,19 +20,22 @@ export const toErrorResponse = (error, defaultValue) => {
 
 export const toTxErrorResponse = async(err, opts) => {
   const { chainId, onReject } = opts
-  let reason = '', transactionHash = '';
+  let code = '', reason = '', transactionHash = '';
   const message = err.message || `Transaction failed: ${err.toString()}`;
   if (err.code && typeof err.code === 'number') {
     onReject()
-
-    // metamask gasPrice error
+    code = err.code
     if (err.message) {
-    const result = err.message.match(/(\{.*\})/)
+      // metamask gasPrice error
+      const result = err.message.match(/(\{.*\})/)
       if (result) {
         const data = JSON.parse(result[0])
         if (data.value && data.value.data && data.value.data.message) {
           reason = data.value.data.message
         }
+      } else {
+        // handle custom error
+        reason = err.message
       }
     }
   } else if (err.receipt) {
@@ -62,7 +65,7 @@ export const toTxErrorResponse = async(err, opts) => {
     success: false,
     response: {
       error: {
-        code: '',
+        code,
         message: reason || message,
       },
       transactionHash,

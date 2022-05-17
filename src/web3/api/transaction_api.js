@@ -5,9 +5,10 @@ import { debug } from "../utils/env"
 import { bg, fromWei, toWei } from "../utils/bignumber"
 import { checkAddress } from "../utils/chain"
 import { getBrokerAddress, getBToken, getPoolConfig, getSymbol, getSymbolList } from "../utils/config"
-import { MAX_INT256_DIV_ONE, MAX_UINT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
+import { MAX_INT256_DIV_ONE, ZERO_ADDRESS } from "../utils/constant"
 import { getSymbolsOracleInfo } from "../utils/oracle"
 import { checkToken, nativeCoinSymbols } from "../utils/symbol"
+import { ZeroTradeVolumeError } from "../error/error"
 
 const getPriceLimit = (volume) => {
   return bg(volume).gt(0) ? MAX_INT256_DIV_ONE: '0'
@@ -78,7 +79,9 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
   const margin = bg(amount).times(bTokenInfo.bTokenPrice).times(bTokenConfig.bTokenDiscount).toString()
   let volume = pool.calcMaxVolume(symbol, margin, direction)
   const normalizedVolume = bg(Math.floor(bg(volume).div(symbolInfo.minTradeVolume).toNumber())).times(symbolInfo.minTradeVolume).toString()
-
+  if (bg(normalizedVolume).eq(0)) {
+    throw new ZeroTradeVolumeError()
+  }
   const priceLimit = getPriceLimit(normalizedVolume)
   debug() && console.log(`-- pool(${poolConfig.pool}) account(${accountAddress}) symbol(${symbol}) volume(${normalizedVolume}) priceLimit: ${priceLimit}`)
 
