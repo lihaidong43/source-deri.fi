@@ -15,7 +15,6 @@ export default function BetIt({ lang, getLang }) {
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
   const [collect, setCollect] = useState(true)
-  console.log("bTokens, symbols", bTokens, symbols)
   const wallet = useWallet()
   const handler = useCallback(() => {
     let offset = collect ? 138 : 202

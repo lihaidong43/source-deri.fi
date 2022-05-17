@@ -53,11 +53,6 @@ export default function UnderlineText({bottomLine, text, id = String(new Date().
     return { top: top, left: left }
   }
 
-  const onMouseLeave = useCallback(() => {
-    showTooltip(false);
-    setTimeout(() => showTooltip(true), 50);
-  },[])
-
   return (
     <Wrapper className={className} block={block} isWin={isWindows} bottomLine={bottomLine}>
       <div className='text' data-for={id}
