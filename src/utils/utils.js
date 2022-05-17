@@ -78,7 +78,7 @@ export function importAll(r, config = {}) {
 }
 
 export function getEnv() {
-  return process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
+  return process.env.REACT_APP_NODE_ENV === 'production' ? 'prod' : 'dev';
 }
 
 
@@ -116,12 +116,13 @@ export function hasParent(parent, current) {
 }
 
 export function getMarkpriceSymbol(symbolInfo) {
+  const env = getEnv()
   if (symbolInfo.category === FUTURES) {
-    if (DeriEnv.get() === 'dev') {
+    if (env === 'dev') {
       if (/ARBI/i.test(symbolInfo.chain)) {
-        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase()
+        return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${env}net_${symbolInfo.b0Token}`.toUpperCase()
       }
-      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
+      return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_future_${env}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
     } else {
       if (/ARBI/i.test(symbolInfo.chain)) {
         return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
@@ -129,11 +130,11 @@ export function getMarkpriceSymbol(symbolInfo) {
     }
     return `MARKPRICE_${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${symbolInfo.b0Token}`.toUpperCase()
   } else if (symbolInfo.category === POWER) {
-    if (DeriEnv.get() === 'dev') {
+    if (env === 'dev') {
       if (/ARBI/i.test(symbolInfo.chain)) {
-        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${DeriEnv.get()}net_${symbolInfo.b0Token}`.toUpperCase()
+        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.name}_${env}net_${symbolInfo.b0Token}`.toUpperCase()
       } else {
-        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${DeriEnv.get()}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
+        return `MARKPRICE_m${symbolInfo.symbol}_V3_${symbolInfo.chain}_${symbolInfo.category}_${env}net_${symbolInfo.zone}_${symbolInfo.b0Token}`.toUpperCase()
       }
     } else {
       if (/ARBI/i.test(symbolInfo.chain)) {

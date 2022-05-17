@@ -42,6 +42,11 @@ const Wrapper = styled.div`
       display : flex;
       height : 44px;
       align-items: center;
+      position : relative;
+      .arrow {
+      right: 10px;
+      position: absolute;
+      }
       .name {
         white-space: nowrap;
       }
@@ -109,7 +114,7 @@ function ChainSelector({collect}){
               (<div className='nw-item' onClick={() => setIsShow(!isShow)} key={index}>
                 <Icon token={`${chain.icon}-LIGHT`} width='20'/>
                 <div className='name'>{chain.name}</div>
-                <Icon  width='16' token={'arrow-down'}/>
+                <Icon  width='16' token={'arrow-down'} className='arrow'/>
               </div>)
           : 
             (<div className={itemClass} onClick={e => onSelect(chain)} key={index}>

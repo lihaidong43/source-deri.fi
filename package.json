@@ -91,7 +91,7 @@
   },
   "scripts": {
     "start": "cross-env GENERATE_SOURCEMAP=false node scripts/start.js ",
-    "start_prod": "cross-env NODE_ENV=production node scripts/start.js",
+    "start_prod": "cross-env GENERATE_SOURCEMAP=false NODE_ENV=production node scripts/start_production.js",
     "build": "cross-env NODE_ENV=production node scripts/build.js",
     "build_testnet": "cross-env NODE_ENV=development node scripts/build_testnet.js",
     "test": "node scripts/test.js"

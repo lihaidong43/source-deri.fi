@@ -9,8 +9,10 @@ import MessageTemplate from './components/Message/MessageTemplate';
 import { USE_WALLET_OPTIONS } from './utils/Constants';
 import {HashRouter} from 'react-router-dom'
 import Intl from './model/Intl';
+import { DeriEnv } from './web3/utils/env';
+import { getEnv } from './utils/utils';
 
-
+DeriEnv.set(getEnv());
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 ReactDOM.render(
