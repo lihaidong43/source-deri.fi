@@ -11,7 +11,7 @@ import usePool from "../hooks/usePool";
 import leftBg from "../assets/img/bg-icon-left.png"
 import rightBg from "../assets/img/bg-icon-right-buttom.png"
 export default function BetIt({ lang, getLang }) {
-  const [totalPnl, setTotalPnl] = useState()
+  const [totalPnl, setTotalPnl] = useState(0)
   const [isFixed, setIsFixed] = useState(false)
   const [bTokens, symbols] = usePool();
   const [collect, setCollect] = useState(true)
