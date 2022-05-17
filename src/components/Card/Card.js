@@ -21,7 +21,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
   const [inputDisabled, setInputDisabled] = useState(true)
   const wallet = useWallet();
   const chains = useChain()
-  const chain = chains.find((item) => eqInNumber(item.chainId,wallet.chainId))
+  const chain = chains.find((item) => eqInNumber(item.chainId, wallet.chainId))
   const alert = useAlert();
   const onChange = (value) => {
     setAmount(value)
@@ -36,7 +36,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
     return false
   }
 
-  const getBetInfoTimeOut =  (action) => {
+  const getBetInfoTimeOut = (action) => {
     let timer = window.setTimeout(async () => {
       let res = await action();
       if (res) {
@@ -60,7 +60,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let params = { includeResponse: true, write: true, subject: 'CLOSE', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
-      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPowerSymbol && lang['powers']} `, {
+      alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPowerSymbol ? lang['powers'] : ""} `, {
         timeout: 8000,
         isTransaction: true,
         transactionHash: res.response.data.transactionHash,
@@ -119,7 +119,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
     let res = await ApiProxy.request("openBet", params)
     console.log(type, res)
     if (res.success) {
-      alert.success(`${+res.response.data.volume > 0 ? lang['buy'] : lang['sell']} ${res.response.data.volume} ${info.unit} ${boostedUp && lang['powers']} `, {
+      alert.success(`${+res.response.data.volume > 0 ? lang['buy'] : lang['sell']} ${res.response.data.volume} ${info.unit} ${boostedUp ? lang['powers'] : ''} `, {
         timeout: 8000,
         isTransaction: true,
         transactionHash: res.response.data.transactionHash,
@@ -166,15 +166,15 @@ export default function Card({ info, lang, bTokens, getLang }) {
     } else {
       setDisabled(true)
     }
-  }, [amount,balance])
+  }, [amount, balance])
 
   useEffect(() => {
     if (balance && +balance > 0 && betInfo.markPrice) {
       setInputDisabled(false)
-    }else{
+    } else {
       setInputDisabled(true)
     }
-  }, [balance,betInfo])
+  }, [balance, betInfo])
 
   return (
     <div className={classNames('card-box', info.unit)}>
@@ -225,7 +225,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
           : <>
             <Button label={lang['up']} onClick={() => openBet("up")} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />
             <Button label={lang['down']} onClick={() => openBet("down")} disabled={disabled} className="btn down-btn" width="299" height="60" bgColor="#FF56301A" hoverBgColor="#FF5630" borderSize={0} radius={14} fontColor="#FF5630" icon='down' hoverIcon="down-hover" disabledIcon="down-disable" />
-            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip={getLang('boosted-up-tip',{symbol:info.unit,powers:info.powerSymbol.symbol})} tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
+            {info.powerSymbol && <Button label={lang['boosted-up']} onClick={() => openBet("boostedUp")} disabled={disabled} className="btn boosted-btn" width="299" height="60" bgColor="#FFAB001A" hoverBgColor="#FFAB00" borderSize={0} radius={14} fontColor="#FFAB00" icon='boosted-up' hoverIcon="boosted-up-hover" disabledIcon="boosted-up-disable" tip={getLang('boosted-up-tip', { symbol: info.unit, powers: info.powerSymbol.symbol })} tipIcon='boosted-hint' hoverTipIcon="boosted-hint-hover" disabledTipIcon="boosted-hint-disable" />}
           </>}
       </div>
 
