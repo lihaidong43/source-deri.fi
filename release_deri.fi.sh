@@ -5,7 +5,7 @@ echo PUBLIC_URL=/ > .env.production
 echo REACT_APP_ORACLE_HTTP_URL=https://oraclemainnet.deri.io >> .env.production
 echo REACT_APP_NODE_ENV=production >> .env.production
 yarn build --nomaps 
-repo=/tmp/build/deri.fi
+repo=/tmp/build/devnet.deri.fi
 # rm -rf $repo
 
 if [ ! -d $repo ]; then
