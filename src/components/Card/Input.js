@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import Icon from '../Icon/Icon';
-import ApiProxy from '../../model/ApiProxy';
 import DeriNumberFormat from '../../utils/DeriNumberFormat';
 import './input.scss'
 export default function Input({ value, lang, onChange, inputDisabled, setBalance, balance, focus, bToken, bTokens, setBToken, onBlur, onFocus, disabled, readOnly, placeholder }) {
