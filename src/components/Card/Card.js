@@ -28,11 +28,12 @@ export default function Card({ info, lang, bTokens, getLang }) {
   }
 
   const getBetInfo = async () => {
-    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: "0x807193B15A15CfE142C89DD7135b9a3055848Dc9", symbol: info.symbol })
+    let res = await ApiProxy.request("getBetInfo", { chainId: wallet.chainId, accountAddress: wallet.account, symbol: info.symbol })
     if (res.symbol) {
       setBetInfo(res)
+      return res
     }
-    return res
+    return false
   }
 
   const getBetInfoTimeOut =  (action) => {
