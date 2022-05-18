@@ -73,7 +73,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
 
 
   const betClose = async () => {
-    let params = { includeResponse: true, write: true, subject: 'EXIT', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
+    let params = { includeResponse: true, write: true, subject: 'CLOSE', chainId: wallet.chainId, symbol: betInfo.symbol, accountAddress: wallet.account }
     let res = await ApiProxy.request("closeBet", params)
     if (res.success) {
       alert.success(`${+betInfo.volume < 0 ? lang['buy'] : lang['sell']}  ${res.response.data.volume} ${info.unit} ${betInfo.isPowerSymbol ? lang['powers'] : ""} `, {
@@ -248,7 +248,8 @@ export default function Card({ info, lang, bTokens, getLang }) {
           {info.leverage} X
         </div>
         <div className='leverage-title'>
-          {lang['leverage']} <UnderlineText tip={lang['leverage-tip']} key={info.symbol} > <Icon token="leverage" /></UnderlineText>
+          {lang['leverage']} 
+          {/* <UnderlineText tip={lang['leverage-tip']} key={info.symbol} > <Icon token="leverage" /></UnderlineText> */}
         </div>
       </div>
       <div className={betInfo.volume && betInfo.volume !== "0" ? "input-box position" : "input-box"}>
@@ -269,7 +270,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
         {betInfo.volume && betInfo.volume !== "0" ?
           <>
             <div className='line-chart'><LineChart symbol={info.markpriceSymbol} color={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} /></div>
-            <Button label={lang['exit']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
+            <Button label={lang['close']} onClick={betClose} className="btn close-btn" width="299" height="60" bgColor={+betInfo.pnl > 0 ? "#38CB891A" : "#FF56301A"} hoverBgColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} borderSize={0} radius={14} fontColor={+betInfo.pnl > 0 ? "#38CB89" : "#FF5630"} />
           </>
           : <>
             <Button label={lang['up']} onClick={() => openBet("up")} isAlert={true} disabled={disabled} className="btn up-btn" width="299" height="60" bgColor="#38CB891A" hoverBgColor="#38CB89" borderSize={0} radius={14} fontColor="#38CB89" icon='up' hoverIcon="up-hover" disabledIcon="up-disable" />

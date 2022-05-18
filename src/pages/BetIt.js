@@ -77,9 +77,9 @@ export default function BetIt({ lang, getLang }) {
               <div className='title-text'>
                 {lang['title-one']}
               </div>
-              <div className='title-text-des'>
+              {/* <div className='title-text-des'>
                 {lang['title-two']}
-              </div>
+              </div> */}
             </div>
           </div>
 
