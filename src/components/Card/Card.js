@@ -258,7 +258,7 @@ export default function Card({ info, lang, bTokens, getLang }) {
               {lang['profit']}
             </div>
             <div className={+betInfo.pnl > 0 ? "symbol-pnl-num up-pnl" : "symbol-pnl-num down-pnl"}>
-              {+betInfo.pnl > 0 ? "+" : ""}<DeriNumberFormat value={betInfo.pnl} decimalScale={2} allowZero={false} />
+              {+betInfo.pnl > 0 ? "+" : ""}{(+betInfo.pnl).toFixed(2)}
             </div>
           </div>
           :

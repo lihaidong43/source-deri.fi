@@ -56,7 +56,7 @@ export default function BetIt({ lang, getLang }) {
   }, [collect])
   useEffect(() => {
     if (wallet.chainId && wallet.account) {
-      let interval = window.setInterval(() => { getBetsPnl() }, 1000 * 3);
+      let interval = window.setInterval(() => { getBetsPnl() }, 1000 * 6);
       getBetsPnl()
       return () => clearInterval(interval);
     }
@@ -86,7 +86,7 @@ export default function BetIt({ lang, getLang }) {
           <div className='total-pnl-box'>
             <div className='total-pnl'>
               <span>{lang['total-pnl']}</span>
-              <div className='pnl-num'>$<DeriNumberFormat value={totalPnl} displayType='text' decimalScale={2} /></div>
+              <div className='pnl-num'>${(+totalPnl).toFixed(2)}</div>
             </div>
           </div>
 
