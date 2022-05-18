@@ -60,18 +60,9 @@ export const openBet = txApi(async ({ chainId, bTokenSymbol, amount, symbol, acc
   }
   const bTokenConfig = getBToken(chainId, bTokenSymbol)
   const pool = poolFactory(chainId, symbolConfig.pool)
+  await pool.init()
   const poolConfig = getPoolConfig(chainId, symbolConfig.pool)
-  const oracleSymbols = poolConfig.symbols.reduce((acc, s) => {
-    if (!!s.powerSymbol) {
-      acc.push(s.powerSymbol)
-    }
-    acc.push(s)
-    return acc
-  }, [])
-  const [oracleSignatures] = await Promise.all([
-    getSymbolsOracleInfo(chainId, oracleSymbols.map((s) => s.symbol)),
-    pool.init(),
-  ])
+  const oracleSignatures = await getSymbolsOracleInfo(chainId, pool.symbols.map((s) => s.symbol))
   const bTokenInfo = pool.bTokens.find((b) => b.bTokenSymbol === bTokenSymbol)
   const symbolInfo = pool.symbols.find((s) => s.symbol === symbol)
 
@@ -113,18 +104,11 @@ export const closeBet = txApi(async({chainId, symbol, accountAddress, isNodeEnv=
   }, [])
   const symbolConfig = symbols.find((s) => s.symbol === symbol)
   const poolConfig = getPoolConfig(chainId, symbolConfig.pool)
-  const oracleSymbols = poolConfig.symbols.reduce((acc, s) => {
-    if (!!s.powerSymbol) {
-      acc.push(s.powerSymbol)
-    }
-    acc.push(s)
-    return acc
-  }, [])
   const pool = poolFactory(chainId, symbolConfig.pool)
+  await pool.init()
   const [oracleSignatures, volumes] = await Promise.all([
-    getSymbolsOracleInfo(chainId, oracleSymbols.map((s) => s.symbol)),
+    getSymbolsOracleInfo(chainId, pool.symbols.map((s) => s.symbol)),
     broker.getBetVolumes(accountAddress, poolConfig.pool, [symbol]),
-    pool.init()
   ])
   if (bg(volumes[0]).eq(0)) {
     throw new Error(`account ${accountAddress} has no position on symbol(${symbol})`)
