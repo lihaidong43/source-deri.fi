@@ -74,9 +74,9 @@ export default function BetIt({ lang, getLang }) {
         <div className="main-body">
           <div className='title-box'>
             <div className='title-des'>
-              <div className='title-text'>
+              {/* <div className='title-text'>
                 {lang['title-one']}
-              </div>
+              </div> */}
               {/* <div className='title-text-des'>
                 {lang['title-two']}
               </div> */}
@@ -85,7 +85,7 @@ export default function BetIt({ lang, getLang }) {
 
           <div className='total-pnl-box'>
             <div className='total-pnl'>
-              <span>{lang['total-pnl']}</span>
+              <span>{lang['total-pnl']} {+totalPnl < 0 ? lang["loss"] : lang['pnl-profit']} </span>
               <div className='pnl-num'>${(+totalPnl).toFixed(2)}</div>
             </div>
           </div>

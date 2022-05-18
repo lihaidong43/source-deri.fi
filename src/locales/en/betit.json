@@ -8,6 +8,8 @@
   "leverage":"Leverage",
   "leverage-tip":"The default leverage for opening positions",
   "total-pnl":"Your total unrealized",
+  "pnl-profit":"profit",
+  "loss":"loss",
   "up":"UP",
   "down":"DOWN",
   "close":"CLOSE",
